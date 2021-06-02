@@ -1,0 +1,29 @@
+{
+  "name": "webml-meet",
+  "title": "Open WebRTC Toolkit Conference Sample",
+  "description": "A Web-based Intelligent Collaboration (Video Conference) demo",
+  "version": "0.0.1",
+  "homepage": "http://webmachionelearning.org",
+  "author": "WebML team",
+  "keywords": [
+    "webnn",
+    "webml",
+    "webrtc",
+    "library",
+    "sdk",
+    "gateway",
+    "mcu"
+  ],
+  "scripts": {
+    "start": "node meetingserver.js node > meeting.out 2>&1 </dev/null & echo $! > meeting.pid",
+    "stop": "kill `cat meeting.pid` && rm meeting.pid"
+  },
+  "dependencies": {
+    "express": "",
+    "body-parser": "",
+    "socket.io": "^2.2.0"
+  },
+  "engines": {
+    "node": ">=0.12"
+  }
+}
