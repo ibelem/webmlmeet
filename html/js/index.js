@@ -46,6 +46,7 @@ const remoteStreamMap = new Map();
 const forwardStreamMap = new Map();
 
 function login() {
+  showMain();
   const value = $('#join').val();
   if (value !== '') {
     localName = value
@@ -109,6 +110,7 @@ function userExit() {
   localStream = undefined;
   isAudioOnly = false;
   clearInterval(refreshMute);
+  location.reload();
 }
 
 function processRemoteStream(stream) {

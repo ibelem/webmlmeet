@@ -1,5 +1,6 @@
 $(document).ready(function () {
   $("#container").css("display", "none");
+  $("#login").fadeIn();
 });
 
 function loginDisableVideo() {
@@ -10,6 +11,10 @@ function loginEnableVideo() {
   $("#login-resolution").slideDown();
 }
 
+function showMain() {
+    $("#login").hide(200);
+    $("#wrapper").fadeIn(400);
+}
 
 $(document).ready(function() {
     $('.buttonset>a').click(function() {

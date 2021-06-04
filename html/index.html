@@ -24,7 +24,12 @@
         <div>
           <h2>WebML Meet</h2>
           <form action="#">
-            <input type="text" placeholder="Your Name" id="join" value="Belem" />
+            <input
+              type="text"
+              placeholder="Your Name"
+              id="join"
+              value="Belem"
+            />
             <div class="linkjoin">
               <a href="#" onclick="login()">Join</a>
             </div>
@@ -33,21 +38,20 @@
         <div id="setting">
           <h4>Video Options</h4>
           <div class="buttonset vo">
-            <a
-              onclick="loginDisableVideo()"
-              id="login-audio-only"
-              >Audio Only</a>
+            <a onclick="loginDisableVideo()" id="login-audio-only"
+              >Audio Only</a
+            >
             <a
               class="selected"
               onclick="loginEnableVideo()"
               id="login-audio-video"
-              >Video & Audio</a>
+              >Video & Audio</a
+            >
           </div>
           <div id="login-resolution">
             <h4>Video Resolution</h4>
             <div class="buttonset vr">
-              <a id="login-240">320x240</a
-              ><a id="login-480">640x480</a
+              <a id="login-240">320x240</a><a id="login-480">640x480</a
               ><a class="selected" id="login-720">1280x720</a>
             </div>
           </div>
@@ -55,55 +59,65 @@
       </div>
     </div>
 
-    <div id="container">
-      <div id="title-panel">
-        <div id="titleText">WebML Meet</div>
-        <div id="titleTime"></div>
-        <a id="exitBtn" href="#" onclick="exit()">Leave Room</a>
-        <div id="userNameDisplay"></div>
-      </div>
-      <div id="progress-panel">
-        <div id="progress" class="back-clt-0"></div>
-      </div>
-      <div id="content-panel">
-        <div id="text-panel">
-          <div id="user-list"></div>
-          <div id="text-content"></div>
-          <textarea id="text-send" placeholder="Send Message"></textarea>
-          <a href="#" id="send-btn" onclick="sendIm()"
-            ><img src="img/return.png"
-          /></a>
-        </div>
-        <div id="video-panel">
-          <div class="largest-mask"></div>
-          <div class="msgBox">
-            <div id="msgText"></div>
+    <div id="wrapper">
+      <div id="main" class="main">
+        <div class="left-bar">
+          <div id="text-panel" class="left-content">
+            <div id="user-list"></div>
+            <div id="text-content"></div>
+            <textarea id="text-send" placeholder="Send Message"></textarea>
+            <a href="#" id="send-btn" onclick="sendIm()"
+              ><img src="img/return.png"
+            /></a>
           </div>
         </div>
-      </div>
-      <div id="menu-panel" class="back-clt-0">
-        <div id="menu">
-          <a
-            href="#"
-            class="button selected"
-            onclick="toggleIm()"
-            id="im-btn"
-            title="Toggle Instant Message Panel"
-          ></a>
-          <a
-            href="#"
-            class="button"
-            onclick="shareScreen()"
-            id="screen-btn"
-            title="Share Screen"
-          ></a>
-          <div class="button-split"></div>
+
+        <div class="page-content">
+          <div class="nav">
+            <div id="titleText">WebML Meet</div>
+            <div id="titleTime"></div>
+            <a id="exitBtn" href="#" onclick="exit()">Leave Room</a>
+            <div id="userNameDisplay"></div>
+          </div>
+
+          <div id="video-panel">
+            <div class="largest-mask"></div>
+            <div class="msgBox">
+              <div id="msgText"></div>
+            </div>
+          </div>
+
+          <div id="video">Video</div>
+
+          <div id="menu-panel" class="back-clt-0">
+            <div id="menu">
+              <a
+                href="#"
+                class="button selected"
+                onclick="toggleIm()"
+                id="im-btn"
+                title="Toggle Instant Message Panel"
+              ></a>
+              <a
+                href="#"
+                class="button"
+                onclick="shareScreen()"
+                id="screen-btn"
+                title="Share Screen"
+              ></a>
+              <div class="button-split"></div>
+            </div>
+            <div id="profile">
+              <div id="promt">
+                Network condition is bad, you can pause video.
+              </div>
+              <div id="pauseVideo"></div>
+              <div id="pauseAudio"></div>
+            </div>
+          </div>
         </div>
-        <div id="profile">
-          <div id="promt">Network condition is bad, you can pause video.</div>
-          <div id="pauseVideo"></div>
-          <div id="pauseAudio"></div>
-        </div>
+
+        <div class="right-bar">Right Bar</div>
       </div>
     </div>
     <script

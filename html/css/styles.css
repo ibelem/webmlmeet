@@ -53,6 +53,7 @@ body {
   background: url("../assets/img/03.jpg") no-repeat fixed center;
   background-size:100% 100%;
   background-blend-mode: overlay, multiply, color, normal;
+  color: #fff;
 }
 
 ul {
@@ -66,24 +67,38 @@ button {
   cursor: pointer;
 }
 
-.task-manager {
+.main {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  /* width: 100%;
   max-width: 1200px;
   height: 90vh;
-  max-height: 900px;
-  background: #fff;
-  border-radius: 4px;
+  max-height: 900px; */
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
   box-shadow: 0 0.3px 2.2px rgba(0, 0, 0, 0.011), 0 0.7px 5.3px rgba(0, 0, 0, 0.016), 0 1.3px 10px rgba(0, 0, 0, 0.02), 0 2.2px 17.9px rgba(0, 0, 0, 0.024), 0 4.2px 33.4px rgba(0, 0, 0, 0.029), 0 10px 80px rgba(0, 0, 0, 0.04);
   overflow: hidden;
 }
 
+.left-bar:before {
+  background-image: url("../assets/img/03.jpg");
+  height: 100%;
+  width: 280px;
+  clip-path: inset(0px);
+  filter: blur(10px);
+  z-index: -1;
+  position: fixed;
+  left: 0;
+  right: 0;
+  content: "";
+}
+
 .left-bar {
-  background-color: var(--bg-color);
-  width: 230px;
+  width: 280px;
   border-right: 1px solid #e3e7f7;
   position: relative;
+  z-index: 0;
 }
 
 .left-content {
@@ -132,7 +147,7 @@ button {
 }
 
 .right-bar {
-  width: 320px;
+  width: 280px;
   border-left: 1px solid #e3e7f7;
   display: flex;
   flex-direction: column;
@@ -364,7 +379,7 @@ label .label-text:before {
   }
 }
 @media screen and (max-width: 700px) {
-  .task-manager {
+  .main {
     flex-direction: column;
     overflow-y: auto;
   }

@@ -1,3 +1,7 @@
+#login, #wrapper {
+    display: none;
+}
+
 #login {
   background: transparent;
   border-radius: 5px;
@@ -8,7 +12,6 @@
   width: 680px;
   color: #fff;
   height: 320px;
-  font-weight: 200;
 }
 
 #login h2 {
@@ -41,7 +44,7 @@
     background-image: url("../assets/img/03.jpg");
     background-size: cover;
     background-position: center;
-    clip-path: inset(1em);
+    clip-path: inset(20px);
     filter: blur(20px);
   }
 
@@ -63,14 +66,26 @@
     border: 1px solid rgba(255, 255, 255, 1.0);
   }
 
-
   .vo a {
       width: 120px;
       margin: 0px;
   }
+
+  .vo a:last-child {
+      margin-left: -4px;
+  }
+
   .vr a {
       width: 80px;
       margin: 0px;
+  }
+
+  #login-480 {
+    margin-left: -1px;
+  }
+
+  .vr a:last-child {
+    margin-left: -1px;
   }
 
   a.selected {
@@ -89,18 +104,23 @@
     color: rgba(255, 255, 255, 0.8);
     padding: 0.5rem;
     font-size: 1rem;
-    border-top: 0;
-    border-left: 0;
-    border-right: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
+}
+
+.join ::placeholder {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .join input:focus, 
 .join input:hover {
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 1.0);
-    border-top: 0;
-    border-left: 0;
-    border-right: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .linkjoin {
@@ -114,11 +134,11 @@
 
   .linkjoin a {
     display: inline-block;
-    width: 60%;
+    width: 50%;
     border: 1px solid rgba(255, 255, 255, 0.8);
     text-align: center;
     margin-top: 1rem;
-    padding: 0.2rem 1rem;
+    padding: 0.3rem 1rem;
     border-radius: 1rem;
     color:rgba(255, 255, 255, 0.8);
     text-decoration: none;
