@@ -76,12 +76,12 @@ function alertCert(signalingHost) {
 }
 
 
-function exit() {
-  if (confirm('Are you sure to exit?')) {
-    // window.open('', '_self').close();
-    userExit();
-  }
-}
+// function exit() {
+//   if (confirm('Are you sure to exit?')) {
+//     // window.open('', '_self').close();
+//     userExit();
+//   }
+// }
 
 function userExit() {
   if (localStream) {

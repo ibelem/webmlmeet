@@ -7,10 +7,7 @@
       content="width=device-width, minimum-scale=0.86, initial-scale=1, maximum-scale=2"
     />
     <title>WebML Meet: Web-based Intelligent Collaboration</title>
-    <link
-      href="https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" type="text/css" href="css/font.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css" />
     <link rel="stylesheet" type="text/css" href="css/login.css" />
   </head>
@@ -60,6 +57,15 @@
     </div>
 
     <div id="wrapper">
+      <header>
+        <div class="nav">
+          <div id="title"><span class="t1">WebML</span><span class="t2">Meet</span></div>
+          <div class="right">
+            <a id="exitBtn" href="#" onclick="userExit()">Leave Room</a>
+            <div id="userNameDisplay"></div>
+          </div>
+        </div>
+      </header>
       <div id="main" class="main">
         <div class="left-bar">
           <div id="text-panel" class="left-content">
@@ -73,13 +79,6 @@
         </div>
 
         <div class="page-content">
-          <div class="nav">
-            <div id="titleText">WebML Meet</div>
-            <div id="titleTime"></div>
-            <a id="exitBtn" href="#" onclick="exit()">Leave Room</a>
-            <div id="userNameDisplay"></div>
-          </div>
-
           <div id="video-panel">
             <div class="largest-mask"></div>
             <div class="msgBox">
@@ -119,6 +118,9 @@
 
         <div class="right-bar">Right Bar</div>
       </div>
+      <footer>
+        User / Time / Control Bar / User / Time / Control Bar / User / Time / Control Bar / User / Time / Control Bar
+      </footer>
     </div>
     <script
       src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -128,10 +130,7 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
       type="text/javascript"
     ></script>
-    <script
-      src="https://webrtchacks.github.io/adapter/adapter-7.0.0.js"
-      type="text/javascript"
-    ></script>
+    <script src="js/adapter-7.0.0.js" type="text/javascript"></script>
     <script src="js/owt.js" type="text/javascript"></script>
     <script src="js/index.js" type="text/javascript"></script>
     <script src="js/rest.sample.js" type="text/javascript"></script>
