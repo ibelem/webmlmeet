@@ -136,10 +136,12 @@ const toggleAudioUI = () => {
 const checkLeftBar = () => {
   if($("#participants").css("display") == "block" || $("#conversation").css("display") == "block") {
     $("#left-bar").fadeIn();
+    $("footer").addClass("moveleft");
   } 
   
   if ($("#participants").css("display") !== "block" && $("#conversation").css("display") !== "block") {
     $("#left-bar").fadeOut();
+    $("footer").removeClass("moveleft");
   }
 
   if($("#participants").css("display") == "block" && $("#conversation").css("display") !== "block") {

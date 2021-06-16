@@ -27,11 +27,12 @@
 }
 
 .control .button:hover {
-  border: 1px solid var(--m-color);
+  border-color: rgb(98, 150, 44);
+  background-color: rgb(98, 150, 44);
 }
 
 .control .button:hover svg {
-  color: var(--m-color);
+  color: white;
 }
 
 #ue.button {
@@ -60,29 +61,29 @@
   position: absolute;
   left: 10px;
   bottom: 10px;
+  font-family: "Orbitron";
 }
 
 .counter .title {
   color: rgba(255, 255, 255, 0.8);
-  font-size: 0.8rem;
-  font-weight: 500;
   background-color: rgba(255, 255, 255, 0.2);
   padding: 0.2rem 1rem;
 }
 
 .counter span {
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 11px;
 }
 
 .counter span.hd {
-  font-size: 0.7rem;
-  font-weight: bold;
-  margin-left: 0.25rem;
   border: 1px solid var(--border-color);
+  margin-left: 3px;
   padding: 1px 6px;
   display: inline-block;
   color: rgba(204, 255, 144, 1);
+}
+
+.counter span.hd:last-child {
+  margin-left: 0rem;
 }
 
 .counter span.hd:hover {
@@ -95,10 +96,12 @@
   display: inline-block;
   text-align: left;
   margin-left: -3px;
+  font-family: "Orbitron";
 }
 
 .clock {
   display: inline-block;
+  font-family: "Orbitron";
 }
 
 .outer {
@@ -118,7 +121,7 @@
   width: 12px;
   background-color: rgba(204, 255, 144, 1);
   display: inline-block;
-  margin-right: 0.75rem;
+  margin-right: 0.2rem;
   border-radius: 100%;
   cursor: default;
   transition: 1s all ease-in;

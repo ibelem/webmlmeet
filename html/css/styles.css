@@ -140,13 +140,14 @@ button {
 }
 
 #user-list.full, #text-content.full {
-  height: 92vh;
+  height: 83vh;
 }
 
 .lb .title {
   text-transform: uppercase;
   margin: 10px 0;
   font-size: 0.7rem;
+  letter-spacing: 2px;
 }
 
 #user-list::-webkit-scrollbar-track, #text-content::-webkit-scrollbar-track
@@ -241,7 +242,7 @@ button {
   grid-template-areas: 
     ". . "; 
   position: fixed;
-  bottom: 10px;
+  bottom: 20px;
   left: 10px;
   width: 230px;
 }
@@ -256,8 +257,8 @@ button {
 }
 
 #send-btn svg {
-  height: 16px;
-  color: var(--m-color);
+  height: 18px;
+  color: var(--text-color);
   transform: rotate(45deg);
 }
 
@@ -268,7 +269,7 @@ button {
 }
 
 #send-btn svg:hover {
-  height: 16px;
+  height: 18px;
   color: var(--text2-color);
 }
 
@@ -281,8 +282,8 @@ button {
   border: 1px solid var(--border-color);
   color: var(--text2-color);
   font-family: "Poppins";
-  height: 32px;
-  padding: 6px 2px 2px 2px;
+  height: 40px;
+  padding: 10px 2px 2px 2px;
 }
 
 #text-send:hover {
@@ -363,4 +364,10 @@ footer {
   bottom: 0;
   padding: 20px 10px;
   border-top: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.moveleft .control {
+  margin-left: -502px;
+  display: inline-block;
 }
