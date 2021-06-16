@@ -1,0 +1,152 @@
+.control .button {
+  border: 1px solid var(--text-color);
+  border-radius: 100%;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  position: relative;
+  margin: 0 0.5rem;
+}
+
+.control .button svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  color: var(--text-color);
+}
+
+.control .button svg {
+  display: none;
+}
+
+.control .button svg.block {
+  display: inline-block;
+}
+
+.control .button:hover {
+  border: 1px solid var(--m-color);
+}
+
+.control .button:hover svg {
+  color: var(--m-color);
+}
+
+#ue.button {
+    transform: rotate(-135deg);
+    border: 1px solid var(--han-color);
+    background-color: var(--han-color);
+}
+
+#ue.button svg {
+    color: white
+}
+
+#ue.button:hover {
+    border: 1px solid var(--han2-color);
+    background-color: var(--han2-color);
+}
+
+#left-bar {
+    display: none;
+}
+
+.counter {
+  display: inline-block;
+  text-align: center;
+  font-weight: 200;
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+}
+
+.counter .title {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8rem;
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 0.2rem 1rem;
+}
+
+.counter span {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.counter span.hd {
+  font-size: 0.7rem;
+  font-weight: bold;
+  margin-left: 0.25rem;
+  border: 1px solid var(--border-color);
+  padding: 1px 6px;
+  display: inline-block;
+  color: rgba(204, 255, 144, 1);
+}
+
+.counter span.hd:hover {
+  border-color: rgba(204, 255, 144, 1);
+  color: #fff;
+}
+
+.mill {
+  width: 24px;
+  display: inline-block;
+  text-align: left;
+  margin-left: -3px;
+}
+
+.clock {
+  display: inline-block;
+}
+
+.outer {
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  transform: scale(1);
+  border-radius: 100%;
+  position: absolute;
+  background-color: rgba(204, 255, 144, 1);
+  transition: 1.5s all ease;
+  animation: rec 1.5s infinite;
+  animation-delay: 1.5s;
+}
+
+.circle {
+  width: 12px;
+  background-color: rgba(204, 255, 144, 1);
+  display: inline-block;
+  margin-right: 0.75rem;
+  border-radius: 100%;
+  cursor: default;
+  transition: 1s all ease-in;
+  position: relative;
+}
+
+.inner {
+  color: #fff;
+  line-height: 12px;
+  display: block;
+  text-align: center;
+  transition: 0.1s all ease-in;
+  position: relative;
+}
+
+@keyframes rec {
+  0% {
+    transform: scale(1.2);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.6);
+    opacity: 0.3;
+  }
+
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}

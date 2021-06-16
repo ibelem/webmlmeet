@@ -177,7 +177,7 @@ function subscribeStream(stream) {
 }
 
 function initConference() {
-  $('#userNameDisplay').html("Logged in as: " + localName);
+  $('#navuser').html("Logged in: " + localName);
 
   var bandWidth = 100,
   localResolution = new Owt.Base.Resolution(320,240);
@@ -400,28 +400,6 @@ function stopMonitor() {
 function loadUserList() {
   for (var u in users) {
     addUserListItem(users[u], true);
-  }
-}
-
-function addUserListItem(user, muted) {
-  var muteBtn =
-    '<img src="img/mute_white.png" class="muteShow" isMuted="true"/>';
-  var unmuteBtn =
-    '<img src="img/unmute_white.png" class="muteShow" isMuted="false"/>';
-  var muteStatus = muted ? muteBtn : unmuteBtn;
-  $('#user-list').append('<li><div class="userID">' + user.id +
-    '</div><img src="img/avatar.png" class="picture"/><div class="name">' +
-    user.userId + '</div>' + muteStatus + '</li>');
-}
-
-function chgMutePic(id, muted) {
-  var line = $('li:contains(' + id + ')').children('.muteShow');
-  if (muted) {
-    line.attr('src', "img/mute_white.png");
-    line.attr('isMuted', true);
-  } else {
-    line.attr('src', "img/unmute_white.png");
-    line.attr('isMuted', false);
   }
 }
 
@@ -815,12 +793,7 @@ function toggleVideo() {
     localPublication.mute(Owt.Base.TrackKind.VIDEO).then(
       () => {
         console.info('mute video');
-        $('#pauseVideo').css({
-          backgroundImage: 'url("img/turn-video.png")',
-          backgroundColor: '#ccc'
-        });
         isPauseVideo = !isPauseVideo;
-        $('#promt').css('opacity', '0');
       }, err => {
         console.error('mute video failed');
       }
@@ -837,10 +810,6 @@ function toggleVideo() {
     localPublication.unmute(Owt.Base.TrackKind.VIDEO).then(
       () => {
         console.info('unmute video');
-        $('#pauseVideo').css({
-          backgroundImage: 'url("img/video.png")',
-          backgroundColor: '#7bff7a'
-        });
         isPauseVideo = !isPauseVideo;
       }, err => {
         console.error('unmute video failed');
