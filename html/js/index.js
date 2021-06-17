@@ -9,8 +9,6 @@ var progressTimeOut = null;
 var smallRadius = 60;
 var largeRadius = 120;
 var isMouseDown = false;
-var mouseX = null;
-var mouseY = null;
 var isScreenSharing = false;
 var isLocalScreenSharing = false;
 var remoteScreen = null;
@@ -44,15 +42,6 @@ var roomId = null;
 
 const remoteStreamMap = new Map();
 const forwardStreamMap = new Map();
-
-function login() {
-  showMain();
-  const value = $('#join').val();
-  if (value !== '') {
-    localName = value
-    initConference();
-  }
-}
 
 function alertCert(signalingHost) {
   const $d = $('#m-dialog');
@@ -93,7 +82,6 @@ function userExit() {
     localScreen.mediaStream.getTracks().forEach(track => {
       track.stop();
     });
-    $('#screen-btn').removeClass('disabled');
   }
   room.leave();
 
@@ -104,7 +92,6 @@ function userExit() {
   $("#video-panel div[id^=client-]").remove();
   $("#localScreen").remove();
   $("#screen").remove();
-  $("#container").hide();
   $("#user-list").empty();
   $('#video-panel').empty();
   localStream = undefined;
@@ -144,9 +131,6 @@ function subscribeStream(stream) {
     subList[subscription.id] = subscription;
     console.info("add success");
     streamObj[stream.id] = stream;
-    if(stream.source.video === 'mixed'){
-      remoteMixedSub = subscription;
-    }
     if(stream.source.video === 'screen-cast'){
       screenSub = subscription;
       stream.addEventListener('ended', function(event) {
@@ -177,8 +161,6 @@ function subscribeStream(stream) {
 }
 
 function initConference() {
-  $('#navuser').html("Logged in: " + localName);
-
   var bandWidth = 100,
   localResolution = new Owt.Base.Resolution(320,240);
   if ($('#login-480').hasClass('selected')) {
@@ -252,17 +234,14 @@ function initConference() {
   }
 
   createToken(roomId, localName, 'presenter', function(response) {
-    var token = response;
     if (!room) {
       room = new Owt.Conference.ConferenceClient();
       addRoomEventListener();
     }
-    room.join(token).then(resp => {
+    room.join(response).then(resp => {
         roomId = resp.id;
-        var getLoginUsers = resp.participants;
-        var streams = resp.remoteStreams;
-        console.log(resp);
-        getLoginUsers.map(function(participant){
+        console.log("----- " + resp);
+        resp.participants.map(function(participant){
           participant.addEventListener('left', () => {
             //TODO:send message for notice everyone the participant has left maybe no need
             deleteUser(participant.id);
@@ -277,14 +256,8 @@ function initConference() {
         createLocal();
         streamObj = {};
 
+        const streams = resp.remoteStreams;
         for (const stream of streams){
-          if (stream.source.audio === 'mixed' && stream.source.video === 'mixed') {
-            console.log("Mix stream id: " + stream.id);
-            stream.addEventListener('layoutChanged', function(regions) {
-              console.info('stream', stream.id, 'VideoLayoutChanged');
-              currentRegions = regions;
-            });
-          }
           console.info('stream in conference:', stream.id);
           streamObj[stream.id] = stream;
 
@@ -420,9 +393,7 @@ function addRoomEventListener() {
     }
 
     var thatId = stream.id;
-    if (stream.source.audio === 'mixed' && stream.source.video === 'mixed') {
-      thatName = "MIX Stream";
-    } else if ( stream.source.video === 'screen-cast') {
+    if ( stream.source.video === 'screen-cast') {
       thatName = "Screen Sharing";
     }
 
@@ -433,7 +404,7 @@ function addRoomEventListener() {
   });
 
   room.addEventListener('participantjoined', (event) => {
-    console.log('participantjoined', event);
+    console.log('==== participantjoined ====', event);
     if(event.participant.userId !== 'user' && getUserFromId(event.participant.id) === null){
       //new user
       users.push({
@@ -471,7 +442,7 @@ function addRoomEventListener() {
         sec = sec > 9 ? sec.toString() : '0' + sec.toString();
         var timeStr = hour + ':' + mini + ':' + sec;
         var color = getColor(user.userId);
-        $('<p class="' + color + '">').html(timeStr + ' ' + user.userId +'<br />')
+        $('<p class="' + color + '">').html('<div class="msghead"><span class="msguser">' + user.userId + '</span><span class="msgtime">' + timeStr + '</span></div>')
         .append(document.createTextNode(receivedMsg.data)).appendTo('#text-content');
         $('#text-content').scrollTop($('#text-content').prop('scrollHeight'));
       }
@@ -480,9 +451,6 @@ function addRoomEventListener() {
 }
 
 function shareScreen() {
-  if ($('#screen-btn').hasClass('disabled')) {
-    return;
-  }
   sendIm('You are sharing screen now.');
   $('#video-panel .largest').removeClass("largest");
   $('#video-panel').append(
@@ -542,12 +510,11 @@ function shareScreen() {
 function shareScreenChanged(ifToShare, ifToLocalShare) {
   isScreenSharing = ifToShare;
   isLocalScreenSharing = ifToLocalShare;
-  $('#screen-btn').removeClass('disabled selected');
   if (ifToShare) {
     if (ifToLocalShare) {
-      $('#screen-btn').addClass('selected disabled');
+      
     } else {
-      $('#screen-btn').addClass('disabled');
+      
     }
   } else {
     $('#video-panel').removeClass('screen');

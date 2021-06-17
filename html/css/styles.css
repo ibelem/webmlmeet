@@ -16,11 +16,6 @@
   --border-color: rgba(227, 231, 247, 0.1);
 }
 
-video {
-  width: 320px;
-  height: 180px;
-}
-
 * {
   box-sizing: border-box;
   outline: none;
@@ -247,6 +242,29 @@ button {
   width: 230px;
 }
 
+.msghead {
+  font-size: 0.6rem;
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  grid-template-rows: 1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". ."; 
+  justify-content: space-between; 
+  justify-items: center; 
+  align-items: center; 
+}
+
+.msguser {
+  justify-self: start;
+  max-width: 156px;
+  overflow: hidden;
+}
+
+.msgtime {
+  justify-self: end;
+}
+
 #send-btn {
   border: 1px solid var(--border-color);
   text-align: center;
@@ -321,6 +339,45 @@ div[id^="client-"] {
 
 #nav header {
   text-align: left;
+}
+
+.backendlogo {
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr 1fr 2fr; 
+  grid-template-rows: 1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". . . . ."; 
+  justify-content: space-between; 
+  justify-items: center; 
+  align-items: center; 
+}
+
+.backendwasm {
+  display: inline-block;
+  width: 55px;
+  height: 55px;
+  overflow: hidden;
+}
+
+.backendwasm svg#wasm {
+  display: inline-block;
+}
+
+.backendwasm svg#wasm path {
+  transform: scale(0.06);
+}
+
+.backendwebgl {
+  height: 55px;
+  width: 55px;
+  padding: 24px 0 0 0;
+  margin-left: -16px;
+  display: inline-block;
+}
+
+.backendwebgl svg#webgl {
+  transform: scale(1.2);
 }
 
 #navuser {

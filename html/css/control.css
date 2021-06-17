@@ -61,7 +61,7 @@
   position: absolute;
   left: 10px;
   bottom: 10px;
-  font-family: "Orbitron";
+  font-family: "Michroma";
 }
 
 .counter .title {
@@ -76,10 +76,12 @@
 
 .counter span.hd {
   border: 1px solid var(--border-color);
-  margin-left: 3px;
+  margin-left: 8px;
   padding: 1px 6px;
   display: inline-block;
   color: rgba(204, 255, 144, 1);
+  font-size: 0.6rem;
+  vertical-align: middle;
 }
 
 .counter span.hd:last-child {
@@ -96,12 +98,16 @@
   display: inline-block;
   text-align: left;
   margin-left: -3px;
-  font-family: "Orbitron";
+  font-family: "Michroma";
 }
 
 .clock {
   display: inline-block;
-  font-family: "Orbitron";
+  font-family: "Michroma";
+}
+
+#clock, #mill {
+  vertical-align: middle;
 }
 
 .outer {
@@ -125,7 +131,6 @@
   border-radius: 100%;
   cursor: default;
   transition: 1s all ease-in;
-  position: relative;
 }
 
 .inner {
@@ -134,7 +139,6 @@
   display: block;
   text-align: center;
   transition: 0.1s all ease-in;
-  position: relative;
 }
 
 @keyframes rec {
