@@ -23,6 +23,7 @@ function login() {
     $("#navuser").html("Logged in: " + localName);
     initConference();
   }
+  camera.start();
 }
 
 $(document).ready(function () {
@@ -40,7 +41,7 @@ $(document).ready(function () {
   if (window.location.protocol === "https:") {
     
   } else {
-    
+    // $('#screen-btn').addClass('disabled');
   }
 
   $(document).on("click", "#pauseVideo", function () {

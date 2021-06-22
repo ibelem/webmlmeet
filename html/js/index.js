@@ -40,8 +40,21 @@ var screenSub = null;
 var room = null;
 var roomId = null;
 
+var canvasstream = null;
+
 const remoteStreamMap = new Map();
 const forwardStreamMap = new Map();
+
+
+
+const canvasStream = () => {
+  canvasstream = document.querySelector("#outputcanvas").captureStream();
+  // const audiotrack = canvasstream.getTracks().filter((track) => {
+  //   return track.kind === 'audio';
+  // })[0];
+  // canvasstream.addTrack(audiotrack);
+}
+
 
 function alertCert(signalingHost) {
   const $d = $('#m-dialog');
@@ -195,34 +208,54 @@ function initConference() {
     isAudioOnly = true;
   }
 
+  function publishLocal(ss) {
+    
+    room.publish(localStream).then(publication => {
+      localPublication = publication;
+      isPauseAudio = false;
+      toggleAudio();
+      isPauseVideo = true;
+      toggleVideo();
+      mixStream(roomId,localPublication.id,'common');
+      console.info('publish success');
+      streamObj[localStream.id] = localStream;
+        publication.addEventListener('error', (err) => {
+        console.log('Publication error: ' + err.error.message);
+      });
+    }, err => {
+      console.log('Publish error: ' + err);
+    });
+  }
+
   function createLocal() {
-    let mediaStream;
     Owt.Base.MediaStreamFactory.createMediaStream(avTrackConstraint).then(stream => {
-        mediaStream = stream;
+
+        canvasStream()
+  
+        console.log("--- canvasstrean ")
+        console.log(canvasstream)
+        console.log("+++++++++++++++++++")
+
+        console.log("--- OWT stream")
+        console.log(stream)
+        console.log("+++++++++++++++++++")
+
         console.info('Success to create MediaStream');
         localStream = new Owt.Base.LocalStream(
-          mediaStream,new Owt.Base.StreamSourceInfo(
+          stream, new Owt.Base.StreamSourceInfo(
             'mic', 'camera')
         );
         console.log('local stream:', localStream);
         localId = localStream.id;
-        addVideo(localStream, true);
 
-        room.publish(localStream).then(publication => {
-          localPublication = publication;
-          isPauseAudio = false;
-          toggleAudio();
-          isPauseVideo = true;
-          toggleVideo();
-          mixStream(roomId,localPublication.id,'common');
-          console.info('publish success');
-          streamObj[localStream.id] = localStream;
-            publication.addEventListener('error', (err) => {
-            console.log('Publication error: ' + err.error.message);
-          });
-        }, err => {
-          console.log('Publish error: ' + err);
-        });
+        console.log("---")
+        console.log(localStream)
+        console.log("+++++++++++++++++++")
+
+
+        addVideo(localStream, true);
+        publishLocal();
+
       }, err => {
         console.error('Failed to create MediaStream, ' + err);
         if (err.name === "OverconstrainedError") {
@@ -261,9 +294,15 @@ function initConference() {
           console.info('stream in conference:', stream.id);
           streamObj[stream.id] = stream;
 
-          if (stream.source.video === 'screen-cast') {
+          // if (stream.source.video === 'screen-cast') {
+          //   subscribeStream(stream); 
+          // }
+
+          let isMixStream = (stream.source.audio === 'mixed');
+          if (!isMixStream || stream.source.video === 'screen-cast' ) {
             subscribeStream(stream); 
           }
+
         }
 
         refreshMuteState();

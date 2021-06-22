@@ -355,13 +355,14 @@ div[id^="client-"] {
 
 .backendwasm {
   display: inline-block;
-  width: 55px;
-  height: 55px;
   overflow: hidden;
+  margin-bottom: -7px;
 }
 
 .backendwasm svg#wasm {
   display: inline-block;
+  width: 35px;
+  height: 35px;
 }
 
 .backendwasm svg#wasm path {
@@ -369,15 +370,29 @@ div[id^="client-"] {
 }
 
 .backendwebgl {
-  height: 55px;
-  width: 55px;
-  padding: 24px 0 0 0;
-  margin-left: -16px;
   display: inline-block;
+  margin-bottom: -8px;
 }
 
 .backendwebgl svg#webgl {
+  height: 35px;
+  width: 50px;
   transform: scale(1.2);
+}
+
+.backendlogo svg text tspan {
+  color: #fff;
+  fill: #fff;
+}
+
+.webnnlogo {
+  height: 35px;
+  transform: scale(0.6);
+  margin-top: -5px;
+}
+
+.backendlogo .rightname {
+  font-weight: bold;
 }
 
 #navuser {
@@ -385,14 +400,12 @@ div[id^="client-"] {
   justify-self: end;
 }
 
-#video-panel {
-  margin: 10px;
+.video-panel {
   display: grid; 
   grid-template-columns: 1fr 1fr 1fr 1fr; 
-  grid-template-rows: 1fr 1fr; 
+  grid-template-rows: 1fr; 
   gap: 0px 0px; 
   grid-template-areas: 
-    ". . . ."
     ". . . ."
 }
 
@@ -403,7 +416,7 @@ div[id^="client-"] {
   gap: 0px 0px; 
   grid-template-areas: 
     ". ."; 
-  height: calc(100vh - 144px);
+  height: calc(100vh - 140px);
 }
 
 .video {
@@ -411,8 +424,9 @@ div[id^="client-"] {
 }
 
 #right-bar {
-  background-color: var(--bg-maindark-color);
+  background-color: var(--bg-lb-color);
   height: 100%;
+  padding: 10px;
 }
 
 footer {
