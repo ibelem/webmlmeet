@@ -72,7 +72,7 @@
  selfieSegmentation.onResults(onResults);
  
  // Present a control panel through which the user can manipulate the solution
- // options.
+ // options.a
  new controls
      .ControlPanel(controlsElement, {
        selfieMode: true,

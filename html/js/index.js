@@ -39,22 +39,17 @@ var screenSub = null;
 
 var room = null;
 var roomId = null;
+var vw;
+var vh;
+
+var currentstream;
+var currentProcessedStream;
 
 var canvasstream = null;
+var avTrackConstraint = {};
 
 const remoteStreamMap = new Map();
 const forwardStreamMap = new Map();
-
-
-
-const canvasStream = () => {
-  canvasstream = document.querySelector("#outputcanvas").captureStream();
-  // const audiotrack = canvasstream.getTracks().filter((track) => {
-  //   return track.kind === 'audio';
-  // })[0];
-  // canvasstream.addTrack(audiotrack);
-}
-
 
 function alertCert(signalingHost) {
   const $d = $('#m-dialog');
@@ -173,18 +168,110 @@ function subscribeStream(stream) {
   });
 }
 
+async function publishLocal() {
+
+  console.info('--- publishLocal1 ---');
+  const publication = await room.publish(localStream)
+  console.info('--- publishLocal2 ---');
+  localPublication = publication;
+  isPauseAudio = false;
+  toggleAudio();
+  isPauseVideo = true;
+  toggleVideo();
+  console.info('publishing......');
+  mixStream(roomId, localPublication.id, 'common');
+  console.info('publish success');
+
+  console.log("|||||||||| --- localStream id --- ||||||||||")
+  console.log(localId) 
+
+  streamObj[localStream.id] = localStream;
+
+  publication.addEventListener('error', (err) => {
+    console.log('createLocal: Publication error: ' + err.error.message);
+  });
+}
+
+const canvasStream = () => {
+
+  canvasstream = document.querySelector("#outputcanvas").captureStream();
+  console.log('------------ canvasStream -----------')
+  console.log(canvasstream)
+  // const audiotrack = canvasstream.getTracks().filter((track) => {
+  //   return track.kind === 'audio';
+  // })[0];
+  // canvasstream.addTrack(audiotrack);
+}
+
+async function createLocal() {
+
+  console.log('------------ createLocal -----------')
+
+  try {
+  //   currentstream = await Owt.Base.MediaStreamFactory.createMediaStream(
+  //   avTrackConstraint
+  // )
+
+  localStream = new Owt.Base.LocalStream(
+    canvasstream, new Owt.Base.StreamSourceInfo(
+      'mic', 'camera')
+  );
+
+  localId = localStream.id;
+  addVideo(localStream, true);
+
+  await publishLocal();
+
+  } catch (ex) {
+    if (ex.name === 'NotFoundError') {
+      console.error('NotFoundError - Failed to create MediaStream, ' + ex);
+      if (ex.name === "NotFoundError") {
+        if(confirm("No camera detected, please check your camera settings and rejoin the meeting.")) {
+          userExit();
+        }
+      }
+    } else if (ex.name === 'OverconstrainedError') {
+      console.error('OverconstrainedError - Failed to create MediaStream, ' + ex);
+      if (ex.name === "OverconstrainedError") {
+        if(confirm("your camrea can't support the resolution constraints, please leave room and select a lower resolution")) {
+          userExit();
+        }
+      }
+    } else {
+      console.error('CreateLocal - Failed to create MediaStream, ' + ex);
+    }
+  }
+}
+
+function startMediaPipe() {
+  const camera = new Camera(inputvideo, {
+    onFrame: async () => {
+      await selfieSegmentation.send({ image: inputvideo });
+    },
+    width: vw,
+    height: vh,
+  });
+
+  camera.start();
+}
+
 function initConference() {
   var bandWidth = 100,
   localResolution = new Owt.Base.Resolution(320,240);
+  vw = 320;
+  vh = 240;
   if ($('#login-480').hasClass('selected')) {
     bandWidth = 500;
     localResolution = new Owt.Base.Resolution(640,480);
+    vw = 640;
+    vw = 480;
   } else if ($('#login-720').hasClass('selected')) {
     bandWidth = 1000;
     localResolution = new Owt.Base.Resolution(1280,720);
+    vw = 1280;
+    vh = 720
   }
 
-  var avTrackConstraint = {};
   if ($("#login-audio-video").hasClass("selected")) {
     //TODO: maybe the room constraint,need to test a new room for more information
     avTrackConstraint = {
@@ -208,63 +295,8 @@ function initConference() {
     isAudioOnly = true;
   }
 
-  function publishLocal(ss) {
-    
-    room.publish(localStream).then(publication => {
-      localPublication = publication;
-      isPauseAudio = false;
-      toggleAudio();
-      isPauseVideo = true;
-      toggleVideo();
-      mixStream(roomId,localPublication.id,'common');
-      console.info('publish success');
-      streamObj[localStream.id] = localStream;
-        publication.addEventListener('error', (err) => {
-        console.log('Publication error: ' + err.error.message);
-      });
-    }, err => {
-      console.log('Publish error: ' + err);
-    });
-  }
-
-  function createLocal() {
-    Owt.Base.MediaStreamFactory.createMediaStream(avTrackConstraint).then(stream => {
-
-        canvasStream()
-  
-        console.log("--- canvasstrean ")
-        console.log(canvasstream)
-        console.log("+++++++++++++++++++")
-
-        console.log("--- OWT stream")
-        console.log(stream)
-        console.log("+++++++++++++++++++")
-
-        console.info('Success to create MediaStream');
-        localStream = new Owt.Base.LocalStream(
-          stream, new Owt.Base.StreamSourceInfo(
-            'mic', 'camera')
-        );
-        console.log('local stream:', localStream);
-        localId = localStream.id;
-
-        console.log("---")
-        console.log(localStream)
-        console.log("+++++++++++++++++++")
-
-
-        addVideo(localStream, true);
-        publishLocal();
-
-      }, err => {
-        console.error('Failed to create MediaStream, ' + err);
-        if (err.name === "OverconstrainedError") {
-          if(confirm("your camrea can't support the resolution constraints, please leave room and select a lower resolution")) {
-            userExit();
-          }
-        }
-      });
-  }
+  startMediaPipe();
+  canvasStream();
 
   createToken(roomId, localName, 'presenter', function(response) {
     if (!room) {
@@ -273,7 +305,8 @@ function initConference() {
     }
     room.join(response).then(resp => {
         roomId = resp.id;
-        console.log("----- " + resp);
+        console.log("----- ");
+        console.log(resp);
         resp.participants.map(function(participant){
           participant.addEventListener('left', () => {
             //TODO:send message for notice everyone the participant has left maybe no need
@@ -287,6 +320,7 @@ function initConference() {
         });
         loadUserList();
         createLocal();
+        
         streamObj = {};
 
         const streams = resp.remoteStreams;
@@ -417,7 +451,8 @@ function loadUserList() {
 
 function addRoomEventListener() {
   room.addEventListener('streamadded', (streamEvent) => {
-    console.log('streamadded', streamEvent);
+    console.log('==== room.addEventListener streamadded ====')
+    console.log(streamEvent)
     var stream = streamEvent.stream;
 
     if (localStream && localStream.id === stream.id) {

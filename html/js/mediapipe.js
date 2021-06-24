@@ -1,4 +1,4 @@
-const videoElement = $("#inputvideo")[0];
+const inputvideo = $("#inputvideo")[0];
 const cW = $("#outputcanvas")[0].width;
 const cH = $("#outputcanvas")[0].height;
 const canvasCtx = $("#outputcanvas")[0].getContext("2d");
@@ -57,12 +57,4 @@ selfieSegmentation.setOptions({
   modelSelection: 1,
 });
 selfieSegmentation.onResults(onResults);
-
-const camera = new Camera(videoElement, {
-  onFrame: async () => {
-    await selfieSegmentation.send({ image: videoElement });
-  },
-  width: 1280,
-  height: 720,
-});
 

@@ -15,15 +15,13 @@ function showMain() {
   $("#login").hide(200);
   $("#wrapper").fadeIn(400);
 }
-
-function login() {
+async function login() {
   showMain();
   localName = $("#join").val();
   if (localName !== "") {
     $("#navuser").html("Logged in: " + localName);
     initConference();
   }
-  camera.start();
 }
 
 $(document).ready(function () {
@@ -39,7 +37,6 @@ $(document).ready(function () {
   }
 
   if (window.location.protocol === "https:") {
-    
   } else {
     // $('#screen-btn').addClass('disabled');
   }
