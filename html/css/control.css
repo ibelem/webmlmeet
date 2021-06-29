@@ -35,6 +35,14 @@
   color: white;
 }
 
+.button.act {
+  border-color: rgba(204, 255, 144, 1);
+}
+
+.button.act svg path {
+  fill: rgba(204, 255, 144, 1);
+}
+
 #ue.button {
     transform: rotate(-135deg);
     border: 1px solid var(--han-color);

@@ -423,12 +423,6 @@ div[id^="client-"] {
   position: relative;
 }
 
-#right-bar {
-  background-color: var(--bg-lb-color);
-  height: 100%;
-  padding: 10px;
-}
-
 footer {
   position: fixed;
   width: 100%;

@@ -456,8 +456,13 @@ function addRoomEventListener() {
     var stream = streamEvent.stream;
 
     if (localStream && localStream.id === stream.id) {
+      console.log("============== localStream.id === stream.id ====================")
       return;
     }
+
+    console.log("============== localStream.id !=== stream.id ====================")
+
+    console.log(stream.source.video)
      
     if (stream.source.video === 'screen-cast') {
       thatName = "Screen Sharing";
@@ -466,13 +471,12 @@ function addRoomEventListener() {
       }
     }
 
-    var thatId = stream.id;
     if ( stream.source.video === 'screen-cast') {
       thatName = "Screen Sharing";
     }
 
     // add video of non-local streams
-    if (localId !== thatId && localScreenId !== thatId && localName !== getUserFromId(stream.origin).userId) {
+    if (localId !== stream.id && localScreenId !== stream.id && localName !== getUserFromId(stream.origin).userId) {
       subscribeStream(stream);
     }
   });
