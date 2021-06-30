@@ -3,25 +3,29 @@ $(document).ready(function () {
   $("#login").fadeIn()
 })
 
-function loginDisableVideo() {
+const loginDisableVideo = () => {
   $("#login-resolution").slideUp()
 }
 
-function loginEnableVideo() {
+const loginEnableVideo = () => {
   $("#login-resolution").slideDown()
 }
 
-function showMain() {
+const showMain = () => {
   $("#login").hide(200)
   $("#wrapper").fadeIn(400)
 }
-async function login() {
+const login = async () => {
   showMain()
   localName = $("#join").val()
   if (localName !== "") {
-    $("#navuser").html("Logged in: " + localName)
+    $("#navuser").html(localName)
     onewebMeet()
   }
+}
+
+const updateDocSize = () => {
+  $("#docsize").html($(document).width() + "x" + $(document).height())
 }
 
 $(document).ready(function () {
@@ -31,7 +35,8 @@ $(document).ready(function () {
     $(this).addClass("selected")
   })
 
-  // name
+  updateDocSize()
+ 
   if (window.location.search.slice(0, 6) === "?room=") {
     roomId = window.location.search.slice(6)
   }
@@ -97,7 +102,9 @@ $(document).ready(function () {
     }
   })
 
-  $(window).resize(function () {})
+  $(window).resize(function () {
+    updateDocSize()
+  })
 
   checkMobile()
 
@@ -112,7 +119,7 @@ $(window).on("unload", function () {
   userExit()
 })
 
-function checkMobile() {
+const checkMobile = () => {
   if (
     /iphone|ipod|android|ie|blackberry|fennec/.test(
       navigator.userAgent.toLowerCase()
@@ -146,15 +153,24 @@ const toggleAudioUI = () => {
   toggleAudio()
 }
 
+$("#rbclose").on("click", function() {
+  $("#bgscontainer").fadeOut()
+  $("#right-bar").fadeOut()
+})
+
 const toggleBRUI = () => {
+  $("#right-bar").fadeIn()
+
   $("#broff").toggleClass("block")
   $("#bron").toggleClass("block")
   $("#tbr").toggleClass("act")
 
-  if( $("#broff").css("display") == "block" ) {
+  if ($("#broff").css("display") == "block") {
+    $("#right-bar").fadeIn()
     $("#bgscontainer").fadeIn()
   } else {
     $("#bgscontainer").fadeOut()
+    $("#right-bar").fadeOut()
   }
   isbr = !isbr
 }

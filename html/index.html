@@ -7,6 +7,10 @@
       content="width=device-width, minimum-scale=0.86, initial-scale=1, maximum-scale=2"
     />
     <title>oneWeb Meet: Web-based Intelligent Collaboration</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="./assets/favicon/site.webmanifest" />
     <link rel="stylesheet" type="text/css" href="css/font.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css" />
     <link rel="stylesheet" type="text/css" href="css/login.css" />
@@ -460,51 +464,58 @@
                 </div>
                 <span class="hd">HD</span>
                 <span class="hd">FP32</span>
+                <span class="hd" id="docsize"></span>
               </div>
             </div>
-            <div id="right-bar">
+            <div id="right-bar" style="display: none">
               <div id="bgscontainer">
-                <div class="br">
-                  Change background
+                <div class="rb">
+                  <div class="title">Change background</div>
                   <button type="button" id="rbclose" class="button">
-                    <span class="icon is-small"
-                      ><i class="mdi mdi-close"></i
-                    ></span>
+                    <svg
+                      class="svg-inline--fa fa-times fa-w-11"
+                      viewBox="0 0 352 512"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                      ></path>
+                    </svg>
                   </button>
                 </div>
                 <div id="bgs">
                   <div class="bgselector">
-                    <img src="./img/ssbg/00.jpg" />
+                    <img src="./assets/img/ssbg/00.jpg" />
                   </div>
                   <div class="bgselector">
-                    <img src="./img/ssbg/01.jpg" />
+                    <img src="./assets/img/ssbg/01.jpg" />
                   </div>
                   <div class="bgselector">
-                    <img src="./img/ssbg/02.jpg" />
+                    <img src="./assets/img/ssbg/02.jpg" />
                   </div>
                   <div class="bgselector">
-                    <img src="./img/ssbg/03.jpg" />
+                    <img src="./assets/img/ssbg/03.jpg" />
                   </div>
                   <div class="bgselector">
-                    <img src="./img/ssbg/04.jpg" />
+                    <img src="./assets/img/ssbg/04.jpg" />
                   </div>
                   <div class="bgselector">
-                    <img src="./img/ssbg/05.jpg" />
+                    <img src="./assets/img/ssbg/05.jpg" />
                   </div>
                   <div class="bgselector">
-                    <img src="./img/ssbg/06.jpg" />
+                    <img src="./assets/img/ssbg/06.jpg" />
                   </div>
                   <div class="bgselector">
-                    <img src="./img/ssbg/07.jpg" />
+                    <img src="./assets/img/ssbg/07.jpg" />
                   </div>
                   <div class="bgselector">
-                    <img src="./img/ssbg/08.jpg" />
+                    <img src="./assets/img/ssbg/08.jpg" />
                   </div>
                   <div class="bgselector">
-                    <img src="./img/ssbg/09.jpg" />
+                    <img src="./assets/img/ssbg/09.jpg" />
                   </div>
                 </div>
-                <img id="bgdefault" src="./img/ssbg/04.jpg" />
+                <img id="bgdefault" src="./assets/img/ssbg/0.jpg" />
                 <div id="bgimage">
                   <input
                     id="bgimg"
@@ -522,8 +533,6 @@
                   </label>
                 </div>
               </div>
-
-              Performance / Indicator
             </div>
           </div>
           <footer>
@@ -706,14 +715,8 @@
         </div>
       </div>
     </div>
-    <script
-      src="https://code.jquery.com/jquery-3.6.0.min.js"
-      type="text/javascript"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
-      type="text/javascript"
-    ></script>
+    <script src="js/jquery-3.6.0.min.js" type="text/javascript"></script>
+    <script src="js/socket.io.js" type="text/javascript"></script>
     <script src="js/adapter-7.0.0.js" type="text/javascript"></script>
     <script src="js/owt.js" type="text/javascript"></script>
     <script src="js/rest.sample.js" type="text/javascript"></script>

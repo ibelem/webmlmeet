@@ -162,17 +162,12 @@ let activeEffect = "background";
 const fillColor = "rgba(204, 255, 144, 1.0)";
 const bg = document.querySelector("#bgdefault");
 const bgfilebutton = document.querySelector("#bgimg");
-const bgselector = document.querySelector(".bgselector");
  
-
-bgselector.addEventListener(
-  "click",
-  (e) => {
-    console.log(e.target);
-    console.log(e.target.img.src);
-  },
-  false
-)
+$('.bgselector').each(function() {
+    $(this).on("click", function(e) {
+        bg.src = e.target.src
+    })
+})
 
 bgfilebutton.addEventListener(
   "change",

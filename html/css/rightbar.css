@@ -1,7 +1,7 @@
 #right-bar {
   background-color: var(--bg-lb-color);
   height: 100%;
-  padding: 10px;
+  padding: 0 10px 10px 10px;
 }
 
 #bgscontainer {
@@ -22,7 +22,47 @@
 
 #right-bar img {
     width: 100%;
-    height: 56.2%;
+    height: 56.25%;
+}
+
+.bgselector {
+    margin: 0;
+    padding: 0;
+    margin-top: -5px;
+}
+
+.rb {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-template-areas: ". .";
+}
+
+.rb .title {
+    text-transform: uppercase;
+    margin: 10px 0;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+}
+
+.rb button {
+    justify-self: end;
+}
+
+.rb button svg {
+    height: 14px;
+    width: 14px;
+}
+
+.rb button svg path {
+    fill: var(--text-color); 
+}
+
+.rb button:hover svg path {
+    fill: var(--text2-color);
+}
+
+.bgselector:hover {
+    cursor: pointer;
 }
 
 #bgimage {
