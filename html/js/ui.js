@@ -173,6 +173,10 @@ const toggleBRUI = () => {
     $("#right-bar").fadeOut()
   }
   isbr = !isbr
+
+  if(isbr) {
+    isfm = false
+  }
 }
 
 const checkLeftBar = () => {
