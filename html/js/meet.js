@@ -4,7 +4,10 @@ const canvasCtx = $("#outputcanvas")[0].getContext("2d")
 let cW = $("#outputcanvas")[0].width
 let cH = $("#outputcanvas")[0].height
 let camera,
-  isbr = false, isfm = false
+  isbr = false,
+  isfd = false,
+  isfm = false,
+  ish = false
 
 let conference = new Owt.Conference.ConferenceClient()
 let room, myid
@@ -29,6 +32,11 @@ const initConference = () => {
     resolution = { width: 640, height: 480 }
   } else if ($("#login-720").hasClass("selected")) {
     resolution = { width: 1280, height: 720 }
+  }
+  if (resolution.width == 1280) {
+    $("#hd").css("display", "inline-block")
+  } else {
+    $("#hd").css("display", "none")
   }
 }
 
@@ -99,6 +107,8 @@ const publishStream = () => {
       console.log("Participants: ")
       console.log(resp.participants)
 
+      // document.querySelector("#pnumber").innerHTML = resp.participants.length
+
       localStream = new Owt.Base.LocalStream(
         processedstream,
         new Owt.Base.StreamSourceInfo("mic", "camera")
@@ -143,19 +153,28 @@ const userExit = () => {
 // }
 
 const mpfeatures = async () => {
-    if(isbr) {
-        await selfieSegmentation.send({ image: inputvideo_mp })
-    } else if(isfm) {
-        await faceMesh.send({ image: inputvideo_mp })
-    } else {
-        await faceMesh.send({ image: inputvideo_mp })
-    }
+  if (isbr) {
+    await selfieSegmentation.send({ image: inputvideo_mp })
+  }
+  // else if(isfd) {
+  //   await faceDetection.send({ image: inputvideo_mp })
+  // }
+  else if (isfm) {
+    await faceMesh.send({ image: inputvideo_mp })
+  } else if (ish) {
+    await holistic.send({ image: inputvideo_mp })
+  } else {
+    await selfieSegmentation.send({ image: inputvideo_mp })
+  }
 }
 
 const initStream = () => {
   camera = new Camera(inputvideo_mp, {
     onFrame: async () => {
-        await mpfeatures()
+      await mpfeatures()
+    },
+    onSourceChanged: () => {
+      selfieSegmentation.reset()
     },
     width: resolution.width,
     height: resolution.height,
@@ -171,11 +190,11 @@ const getProcessedStream = () => {
 let activeEffect = "background"
 const bg = document.querySelector("#bgdefault")
 const bgfilebutton = document.querySelector("#bgimg")
- 
-$('.bgselector').each(function() {
-    $(this).on("click", function(e) {
-        bg.src = e.target.src
-    })
+
+$(".bgselector").each(function () {
+  $(this).on("click", function (e) {
+    bg.src = e.target.src
+  })
 })
 
 bgfilebutton.addEventListener(
@@ -193,6 +212,7 @@ function onBRResults(results) {
   if (!isbr) {
     canvasCtx.drawImage(results.image, 0, 0, cW, cH)
   } else {
+    fpsControl.tick()
     canvasCtx.save()
     canvasCtx.clearRect(0, 0, cW, cH)
     canvasCtx.drawImage(results.segmentationMask, 0, 0, cW, cH)
@@ -226,7 +246,7 @@ function onBRResults(results) {
 const selfieSegmentation = new SelfieSegmentation({
   locateFile: (file) => {
     console.log(file)
-    return `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`
+    return `./js/mediapipe/model/selfie_segmentation/${file}`
   },
 })
 
@@ -237,34 +257,132 @@ selfieSegmentation.setOptions({
 selfieSegmentation.onResults(onBRResults)
 
 function onFMResults(results) {
-    canvasCtx.save();
-    canvasCtx.clearRect(0, 0, cW, cH);
-    canvasCtx.drawImage(
-        results.image, 0, 0, cW, cH);
-    if (results.multiFaceLandmarks) {
-      for (const landmarks of results.multiFaceLandmarks) {
-        drawConnectors(canvasCtx, landmarks, FACEMESH_TESSELATION,
-                       {color: '#C0C0C070', lineWidth: 1});
-        drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_EYE, {color: '#FF3030'});
-        drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_EYEBROW, {color: '#FF3030'});
-        drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_EYE, {color: '#30FF30'});
-        drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_EYEBROW, {color: '#30FF30'});
-        drawConnectors(canvasCtx, landmarks, FACEMESH_FACE_OVAL, {color: '#E0E0E0'});
-        drawConnectors(canvasCtx, landmarks, FACEMESH_LIPS, {color: '#E0E0E0'});
-      }
+  fpsControl.tick()
+  canvasCtx.save()
+  canvasCtx.clearRect(0, 0, cW, cH)
+  canvasCtx.drawImage(results.image, 0, 0, cW, cH)
+  if (results.multiFaceLandmarks) {
+    for (const landmarks of results.multiFaceLandmarks) {
+      drawConnectors(canvasCtx, landmarks, FACEMESH_TESSELATION, {
+        color: "#C0C0C070",
+        lineWidth: 1,
+      })
+      drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_EYE, {
+        color: "#FF3030",
+      })
+      drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_EYEBROW, {
+        color: "#FF3030",
+      })
+      drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_EYE, {
+        color: "#30FF30",
+      })
+      drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_EYEBROW, {
+        color: "#30FF30",
+      })
+      drawConnectors(canvasCtx, landmarks, FACEMESH_FACE_OVAL, {
+        color: "#E0E0E0",
+      })
+      drawConnectors(canvasCtx, landmarks, FACEMESH_LIPS, { color: "#E0E0E0" })
     }
-    canvasCtx.restore();
   }
-  
-  const faceMesh = new FaceMesh({locateFile: (file) => {
-    return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
-  }});
-  faceMesh.setOptions({
-    maxNumFaces: 1,
-    minDetectionConfidence: 0.5,
-    minTrackingConfidence: 0.5
-  });
-  faceMesh.onResults(onFMResults);
+  canvasCtx.restore()
+}
+
+const faceMesh = new FaceMesh({
+  locateFile: (file) => {
+    return `./js/mediapipe/model/face_mesh/${file}`
+  },
+})
+faceMesh.setOptions({
+  maxNumFaces: 1,
+  minDetectionConfidence: 0.5,
+  minTrackingConfidence: 0.5,
+})
+faceMesh.onResults(onFMResults)
+
+function onHResults(results) {
+  fpsControl.tick()
+  canvasCtx.save()
+  canvasCtx.clearRect(0, 0, cW, cH)
+  canvasCtx.drawImage(results.image, 0, 0, cW, cH)
+  drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
+    color: "#00FF00",
+    lineWidth: 4,
+  })
+  drawLandmarks(canvasCtx, results.poseLandmarks, {
+    color: "#FF0000",
+    lineWidth: 2,
+  })
+  drawConnectors(canvasCtx, results.faceLandmarks, FACEMESH_TESSELATION, {
+    color: "#C0C0C070",
+    lineWidth: 1,
+  })
+  drawConnectors(canvasCtx, results.leftHandLandmarks, HAND_CONNECTIONS, {
+    color: "#CC0000",
+    lineWidth: 5,
+  })
+  drawLandmarks(canvasCtx, results.leftHandLandmarks, {
+    color: "#00FF00",
+    lineWidth: 2,
+  })
+  drawConnectors(canvasCtx, results.rightHandLandmarks, HAND_CONNECTIONS, {
+    color: "#00CC00",
+    lineWidth: 5,
+  })
+  drawLandmarks(canvasCtx, results.rightHandLandmarks, {
+    color: "#FF0000",
+    lineWidth: 2,
+  })
+  canvasCtx.restore()
+}
+
+const holistic = new Holistic({
+  locateFile: (file) => {
+    return `./js/mediapipe/model/holistic/${file}`
+  },
+})
+
+holistic.setOptions({
+  modelComplexity: 1,
+  smoothLandmarks: true,
+  minDetectionConfidence: 0.5,
+  minTrackingConfidence: 0.5,
+})
+
+holistic.onResults(onHResults)
+
+// function onFDResults(results) {
+//   // Draw the overlays.
+//   canvasCtx.save()
+//   canvasCtx.clearRect(0, 0, cW, cH)
+//   canvasCtx.drawImage(
+//       results.image, 0, 0, cW, cH)
+//   if (results.detections.length > 0) {
+//     drawingUtils.drawRectangle(
+//         canvasCtx, results.detections[0].boundingBox,
+//         {color: 'blue', lineWidth: 4, fillColor: '#00000000'})
+//     drawingUtils.drawLandmarks(canvasCtx, results.detections[0].landmarks, {
+//       color: 'red',
+//       radius: 5,
+//     })
+//   }
+//   canvasCtx.restore()
+// }
+
+// const faceDetection = new FaceDetection({locateFile: (file) => {
+//   return `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection@0.4/${file}`
+// }})
+// faceDetection.setOptions({
+//   modelSelection: 0,
+//   minDetectionConfidence: 0.5
+// })
+// faceDetection.onResults(onFDResults)
+
+const controls = window
+const fpsControl = new controls.FPS()
+const controlsElement = document.querySelector("#control-panel")
+
+new controls.ControlPanel(controlsElement).add([fpsControl])
 
 const onewebMeet = async () => {
   // await createOWTStream()

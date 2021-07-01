@@ -32,3 +32,26 @@ video, canvas {
   display: none;
 }
 
+#control-panel {
+  margin-bottom: 1rem;
+  display: none;
+}
+
+#control-panel #control-panel {
+  display: none;
+}
+
+#control-panel #fps,  #control-panel #fpsnote {
+  width: 100px;
+}
+
+#control-panel #fps {
+  font-size: 40px;
+  padding-bottom: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#control-panel #fpsnote {
+  padding: 2px 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+}

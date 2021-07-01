@@ -90,6 +90,7 @@
   color: rgba(204, 255, 144, 1);
   font-size: 0.6rem;
   vertical-align: middle;
+  text-transform: uppercase;
 }
 
 .counter span.hd:last-child {

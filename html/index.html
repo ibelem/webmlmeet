@@ -22,6 +22,10 @@
       crossorigin="anonymous"
     ></script>
     <script
+    src="./js/mediapipe/control_utils_local.js"
+    crossorigin="anonymous"
+  ></script>
+    <script
       src="./js/mediapipe/drawing_utils.js"
       crossorigin="anonymous"
     ></script>
@@ -30,6 +34,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="./js/mediapipe/face_mesh.js" crossorigin="anonymous"></script>
+    <script src="./js/mediapipe/holistic.js" crossorigin="anonymous"></script>
   </head>
 
   <body>
@@ -74,6 +79,7 @@
           </div>
         </div>
       </div>
+      <div id="banner">An Intelligent Collaboration POC of</div>
     </div>
 
     <div id="wrapper">
@@ -81,8 +87,8 @@
         <div id="left-bar">
           <div id="text-panel" class="content">
             <div id="participants" class="lb">
-              <div class="title">Participants</div>
-              <div id="presenters">Presenters (0)</div>
+              <div class="title">Participants <span id="pnumber"></span></div>
+              <!-- <div id="presenters">Presenters (0)</div> -->
               <div id="user-list" class="bg"></div>
             </div>
 
@@ -456,6 +462,10 @@
                 </div>
               </div>
               <div class="counter">
+                <div id="control-panel">
+                  <div id="fps"></div>
+                  <div id="fpsnote">FPS</div>
+                </div>
                 <div class="circle">
                   <div class="outer"></div>
                   <div class="inner">&nbsp;</div>
@@ -463,9 +473,12 @@
                 <div class="clock">
                   <span id="clock"></span> <span id="mill" class="mill"></span>
                 </div>
-                <span class="hd">HD</span>
+                <span class="hd" id="hd">HD</span>
                 <span class="hd">FP32</span>
                 <span class="hd" id="docsize"></span>
+                <!-- <a id="mpfd" href="#"><span class="hd">Face Detection</span></a> -->
+                <a id="mpfm" href="#"><span class="hd">Face Mesh</span></a>
+                <a id="mph" href="#" title="Face Landmarks, Human Pose, Hand Tracking"><span class="hd">Holistic</span></a>
               </div>
             </div>
             <div id="right-bar" style="display: none">
@@ -542,6 +555,7 @@
                 type="button"
                 class="button"
                 id="tv"
+                title="Video"
                 onclick="toggleVideoUI()"
               >
                 <svg
@@ -571,6 +585,7 @@
                 type="button"
                 class="button"
                 id="ta"
+                title="Audio"
                 onclick="toggleAudioUI()"
               >
                 <svg
@@ -600,6 +615,7 @@
                 type="button"
                 class="button"
                 id="ss"
+                title="Share screen"
                 onclick="shareScreen()"
               >
                 <svg
@@ -617,6 +633,7 @@
                 type="button"
                 class="button"
                 id="tul"
+                title="Show/hide users"
                 onclick="toggleUserList()"
               >
                 <svg
@@ -646,6 +663,7 @@
                 type="button"
                 class="button"
                 id="tm"
+                title="Show/hide text message"
                 onclick="toggleMessage()"
               >
                 <svg
@@ -675,6 +693,8 @@
                 type="button"
                 class="button"
                 id="tbr"
+                title="Enable"
+                title="Change background"
                 onclick="toggleBRUI()"
               >
                 <svg

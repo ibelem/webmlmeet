@@ -176,8 +176,37 @@ const toggleBRUI = () => {
 
   if(isbr) {
     isfm = false
+    ifh = false
+    $("#control-panel").fadeIn()
+  }
+  if(!isbr && !isfm && !ish) {
+    $("#control-panel").fadeOut()
   }
 }
+
+$("#mpfm").click(() => {
+  isfm = !isfm
+  if(isfm) {
+    isbr = false
+    ish = false
+    $("#control-panel").fadeIn()
+  }
+  if(!isbr && !isfm && !ish) {
+    $("#control-panel").fadeOut()
+  }
+})
+
+$("#mph").click(() => {
+  ish = !ish 
+  if(ish) {
+    isbr = false
+    isfm = false
+    $("#control-panel").fadeIn()
+  }
+  if(!isbr && !isfm && !ish) {
+    $("#control-panel").fadeOut()
+  }
+})
 
 const checkLeftBar = () => {
   if (

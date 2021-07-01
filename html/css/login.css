@@ -11,11 +11,23 @@
     0 10px 80px rgba(0, 0, 0, 0.04);
   width: 680px;
   color: #fff;
-  height: 320px;
+  height: 350px;
 }
 
 #login h2 {
   font-weight: 200;
+}
+
+
+#banner { 
+  position: absolute; 
+  bottom: 40px;
+  right: 50px;
+  background: url(../assets/img/oneapi.png) no-repeat right;
+  background-size: 40px 40px;
+  height: 40px;
+  line-height: 40px;
+  padding-right: 40px;
 }
 
 .join {
