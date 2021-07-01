@@ -51,10 +51,15 @@ const subscribeVideo = (remotestream) => {
   conference.subscribe(remotestream, subscribeOption).then(
     (subscription) => {
       let $video = $(
-        `<video autoplay id=${remotestream.id} style="display:block" >this browser does not supported video tag</video>`
+        `
+        <div class="vslot" id=${"div" + remotestream.id}>
+          <video autoplay id=${"v" + remotestream.id} style="display:block" >this browser does not supported video tag</video>
+        </div>
+        `
       )
-      $video.get(0).srcObject = remotestream.mediaStream
       $("#video-panel").append($video)
+      let vid = "#v" + remotestream.id
+      document.querySelector(vid).srcObject = remotestream.mediaStream
     },
     (err) => {
       console.log("subscribe failed", err)
@@ -62,8 +67,7 @@ const subscribeVideo = (remotestream) => {
   )
 
   remotestream.addEventListener("ended", () => {
-    $(`#${remotestream.id}`).remove()
-    $(`#${remotestream.id}resolutions`).remove()
+    $(`#div${remotestream.id}`).remove()
   })
 
   remotestream.addEventListener("updated", () => {

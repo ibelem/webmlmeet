@@ -8,8 +8,8 @@
 
 @media only screen and (max-width: 812px) {
   .video-panel {
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: ". .";
+    grid-template-columns: 1fr;
+    grid-template-areas: ".";
   }
 }
 
@@ -24,17 +24,92 @@ video, canvas {
     height: 180px;
   }  
 
-#inputvideo_mp {
+.inputvideo_mp {
   display: none;
 }
 
-#inputvideo_owt {
+.inputvideo_owt {
   display: none;
+}
+
+.vslot {
+  display: inline-block;
+  position: relative;
+}
+
+.bar {
+  position: absolute;
+  text-align: center;
+  bottom: 6px;
+  height: 30px;
+  line-height: 30px;
+  width: 100%;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.1);
+  width: 320px;
+}
+
+.x4 canvas {
+  width: 640px !important;
+  height: 360px;
+}
+
+.x4 .bar {
+  width: 640px;
+}
+
+.spx4 {
+  width: 60px;
+  display: inline-block;
+}
+
+.spx4:hover {
+  cursor: pointer;
+}
+
+.bar:hover {
+  color: rgba(255, 255, 255, 1.0);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 #control-panel {
-  margin-bottom: 1rem;
+  height: 74px;
+}
+
+.cp-wasm, .cp-fps {
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.cp-wasm {
+  width: 68px;
+  height: 68px;
+}
+
+.cp-wasm svg {
+  width: 68px;
+  height: 68px;
+}
+
+.cp-wasm svg path {
+  transform: scale(0.11);
+}
+
+.cp-fps {
+  margin-left: 8px;
+}
+
+.counter .hd {
+  margin-left: 8px !important;
+}
+
+#hd {
+  margin-left: 16px !important;
+}
+
+#control-panel {
   display: none;
+  text-align: left;
 }
 
 #control-panel #control-panel {
@@ -42,16 +117,19 @@ video, canvas {
 }
 
 #control-panel #fps,  #control-panel #fpsnote {
-  width: 100px;
+  width: 74px;
 }
 
 #control-panel #fps {
-  font-size: 40px;
+  font-size: 30px;
   padding-bottom: 6px;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
 }
 
 #control-panel #fpsnote {
   padding: 2px 10px;
   background-color: rgba(255, 255, 255, 0.2);
+  font-size: 0.6rem;
+  text-align: center;
 }
