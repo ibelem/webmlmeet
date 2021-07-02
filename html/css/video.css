@@ -120,16 +120,32 @@ video, canvas {
   width: 74px;
 }
 
-#control-panel #fps {
+#control-panel #inference,  #control-panel #inferencenote {
+  width: 180px;
+}
+
+#control-panel #fps, #control-panel #inference {
   font-size: 30px;
   padding-bottom: 6px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
 }
 
-#control-panel #fpsnote {
+#control-panel #inference {
+  text-transform: lowercase;
+}
+
+#control-panel #inference span {
+  font-size: 30px;
+}
+
+#control-panel #fpsnote, #control-panel #inferencenote {
   padding: 2px 10px;
   background-color: rgba(255, 255, 255, 0.2);
   font-size: 0.6rem;
   text-align: center;
+}
+
+#control-panel #inferencenote {
+  text-transform: uppercase;
 }

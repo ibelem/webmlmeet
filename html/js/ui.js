@@ -17,7 +17,7 @@ const showMain = () => {
 }
 const login = async () => {
   showMain()
-  localName = $("#join").val()
+  localName = $("#inputjoin").val()
   if (localName !== "") {
     $("#navuser").html(localName)
     onewebMeet()
@@ -36,7 +36,7 @@ $(document).ready(function () {
   })
 
   updateDocSize()
- 
+
   if (window.location.search.slice(0, 6) === "?room=") {
     roomId = window.location.search.slice(6)
   }
@@ -153,7 +153,7 @@ const toggleAudioUI = () => {
   toggleAudio()
 }
 
-$("#rbclose").on("click", function() {
+$("#rbclose").on("click", function () {
   $("#bgscontainer").fadeOut()
   $("#right-bar").fadeOut()
 })
@@ -174,48 +174,67 @@ const toggleBRUI = () => {
   }
   isbr = !isbr
 
-  if(isbr) {
+  if (isbr) {
     isfm = false
     ifh = false
     $("#control-panel").fadeIn()
   }
-  if(!isbr && !isfm && !ish) {
+  if (!isbr && !isfm && !ish) {
     $("#control-panel").fadeOut()
   }
 }
 
 $("#mpfm").click(() => {
   isfm = !isfm
-  if(isfm) {
+  if (isfm) {
     isbr = false
     ish = false
     $("#control-panel").fadeIn()
   }
-  if(!isbr && !isfm && !ish) {
+  if (!isbr && !isfm && !ish) {
     $("#control-panel").fadeOut()
   }
 })
 
 $("#mph").click(() => {
-  ish = !ish 
-  if(ish) {
+  ish = !ish
+  if (ish) {
     isbr = false
     isfm = false
     $("#control-panel").fadeIn()
   }
-  if(!isbr && !isfm && !ish) {
+  if (!isbr && !isfm && !ish) {
     $("#control-panel").fadeOut()
   }
 })
 
 $("#ocbar").click(() => {
-  if($("#opcanvasdiv").hasClass("x4")) {
-    $("#opcanvasdiv").removeClass("x4"); 
-    $("#ocbar").html("4x");
+  if ($("#opcanvasdiv").hasClass("x4")) {
+    $("#opcanvasdiv").removeClass("x4")
+    $("#ocbar").html("4x")
   } else {
-    $("#opcanvasdiv").addClass("x4"); 
-    $("#ocbar").html("1x");
+    $("#opcanvasdiv").addClass("x4")
+    $("#ocbar").html("1x")
   }
+})
+
+const userLogin = () => {
+  let value = $("#inputjoin").val()
+  if (value.length <= 3) {
+    console.log("Please enter your user name of at least 3 characters.")
+  } else {
+    login()
+  }
+}
+
+$("#inputjoin").on('keypress', function (e) {
+  if(e.which === 13){
+    userLogin()
+  }
+})
+
+$("#btnjoin").click(() => {
+  userLogin()
 })
 
 const checkLeftBar = () => {

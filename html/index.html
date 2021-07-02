@@ -30,7 +30,7 @@
       crossorigin="anonymous"
     ></script>
     <script
-      src="./js/mediapipe/selfie_segmentation.js"
+      src="./js/mediapipe/selfie_segmentation_local.js"
       crossorigin="anonymous"
     ></script>
     <script src="./js/mediapipe/face_mesh.js" crossorigin="anonymous"></script>
@@ -49,11 +49,11 @@
             <input
               type="text"
               placeholder="Your Name"
-              id="join"
-              value="Belem"
+              id="inputjoin"
+              value="ABCD"
             />
             <div class="linkjoin">
-              <a href="#" onclick="login()">Join</a>
+              <a href="#" id="btnjoin">Join</a>
             </div>
           </form>
         </div>
@@ -484,6 +484,10 @@
                   <div class="cp-fps">
                     <div id="fps"></div>
                     <div id="fpsnote">FPS</div>
+                  </div>
+                  <div class="cp-fps">
+                    <div id="inference"><span id="spaninference"></span> ms</div>
+                    <div id="inferencenote">Inference Time</div>
                   </div>
                 </div>
                 <div class="circle">

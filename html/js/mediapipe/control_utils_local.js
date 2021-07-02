@@ -761,8 +761,16 @@
         ++this.counter
     };
 
+    var divfps
+
+    document.addEventListener('DOMContentLoaded', function(){
+        divfps = document.querySelector("#fps")
+    }, false)
+
     function qa(a, b) {
-        document.querySelector("#fps").innerHTML = b.toFixed(0);
+        if(divfps) {
+            divfps.innerHTML = b.toFixed(0);
+        }
     }
 
     // function qa(a, b) {
