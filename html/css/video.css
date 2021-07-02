@@ -132,6 +132,7 @@ video, canvas {
 }
 
 #control-panel #inference {
+  font-size: 18px;
   text-transform: lowercase;
 }
 
