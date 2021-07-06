@@ -42,6 +42,10 @@ body {
   color: var(--text-color);
 }
 
+.dnone {
+  display: none
+}
+
 #setting h4 {
   margin: 0.6rem 0;
 }
@@ -396,7 +400,7 @@ div[id^="client-"] {
 }
 
 #navuser {
-  align-self: center;
+  align-self:flex-end;
   justify-self: end;
 }
 

@@ -177,7 +177,10 @@ const toggleBRUI = () => {
   if (isbr) {
     isfm = false
     ifh = false
+    $('#ebeauty').css("display", "inline-block")
     $("#control-panel").fadeIn()
+  } else {
+    $('#ebeauty').fadeOut()
   }
   if (!isbr && !isfm && !ish) {
     $("#control-panel").fadeOut()
@@ -206,6 +209,11 @@ $("#mph").click(() => {
   if (!isbr && !isfm && !ish) {
     $("#control-panel").fadeOut()
   }
+})
+
+$("#ebeauty").click(() => {
+  isb = !isb
+  console.log(isb)
 })
 
 $("#ocbar").click(() => {

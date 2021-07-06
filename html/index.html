@@ -117,7 +117,7 @@
           <div id="nav">
             <header class="title">oneweb<span class="meet">meet</span></header>
             <div class="backendlogo">
-              <div class="backendwasm">
+              <!-- <div class="backendwasm">
                 <svg id="wasm">
                   <path
                     d="m376 0c0 1.08 0 2.16 0 3.3 0 38.76-31.42 70.17-70.17 70.17-38.76 0-70.17-31.42-70.17-70.17l0 0c0-1.14 0-2.22 0-3.3L0 0l0 612 612 0 0-612z"
@@ -433,8 +433,9 @@
                     </g>
                   </g>
                 </svg>
-              </div>
+              </div> -->
 
+              <div></div><div></div><div></div><div></div>
               <div id="navuser"></div>
             </div>
           </div>
@@ -442,7 +443,7 @@
             <div class="video">
               <!-- <video id="inputvideo_owt" class="input_video"></video> -->
               <div class="inputvideo_mp">
-                <video id="inputvideo_mp" class="input_video"></video>
+                <video id="inputvideo_mp" class="input_video" muted="muted"></video>
               </div>
               <div id="video-panel" class="video-panel">
 
@@ -461,7 +462,7 @@
                 <div id="menu">
                   <div class="button-split"></div>
                 </div>
-                <div id="profile" style="display: none">
+                <div id="profile" class="dnone">
                   <div id="promt">
                     Network condition is bad, you can pause video.
                   </div>
@@ -503,9 +504,10 @@
                 <!-- <a id="mpfd" href="#"><span class="hd">Face Detection</span></a> -->
                 <a id="mpfm" href="#"><span class="hd">Face Mesh</span></a>
                 <a id="mph" href="#" title="Face Landmarks, Human Pose, Hand Tracking"><span class="hd">Holistic</span></a>
+                <a id="ebeauty" href="#" class="dnone"><span class="hd">Face Beauty</span></a>
               </div>
             </div>
-            <div id="right-bar" style="display: none">
+            <div id="right-bar" class="dnone">
               <div id="bgscontainer">
                 <div class="rb">
                   <div class="title">Change background</div>
@@ -584,7 +586,7 @@
               >
                 <svg
                   id="tvb"
-                  class="svg-inline--fa fa-video fa-w-18"
+                  class="block svg-inline--fa fa-video fa-w-18"
                   viewBox="0 0 576 512"
                 >
                   <path
@@ -595,7 +597,7 @@
 
                 <svg
                   id="tvn"
-                  class="block svg-inline--fa fa-video-slash fa-w-20"
+                  class="svg-inline--fa fa-video-slash fa-w-20"
                   viewBox="0 0 640 512"
                 >
                   <path
@@ -614,7 +616,7 @@
               >
                 <svg
                   id="tab"
-                  class="block svg-inline--fa fa-microphone-alt fa-w-11"
+                  class="svg-inline--fa fa-microphone-alt fa-w-11"
                   viewBox="0 0 352 512"
                 >
                   <path
@@ -625,7 +627,7 @@
 
                 <svg
                   id="tan"
-                  class="svg-inline--fa fa-microphone-alt-slash fa-w-20"
+                  class="block svg-inline--fa fa-microphone-alt-slash fa-w-20"
                   viewBox="0 0 640 512"
                 >
                   <path
@@ -765,6 +767,7 @@
     <script src="js/adapter-7.0.0.js" type="text/javascript"></script>
     <script src="js/owt.js" type="text/javascript"></script>
     <script src="js/rest.sample.js" type="text/javascript"></script>
+    <script src="js/effect/beauty.js" type="text/javascript"></script>
     <script src="js/meet.js" type="text/javascript"></script>
     <script src="js/ui.js" type="text/javascript"></script>
   </body>

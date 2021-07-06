@@ -1,13 +1,14 @@
 // const inputvideo_owt = $("#inputvideo_owt")[0]
 const inputvideo_mp = $("#inputvideo_mp")[0];
-const canvasCtx = $("#outputcanvas")[0].getContext("2d");
+const ctx = $("#outputcanvas")[0].getContext("2d");
 let cW = $("#outputcanvas")[0].width;
 let cH = $("#outputcanvas")[0].height;
 let camera,
   isbr = false,
   isfd = false,
   isfm = false,
-  ish = false;
+  ish = false,
+  isb = false;
 
 let conference = new Owt.Conference.ConferenceClient();
 let room, myid;
@@ -72,8 +73,6 @@ const toggleVideo = () => {
       subList[temp].mute(Owt.Base.TrackKind.VIDEO);
     }
     localStream.mediaStream.getVideoTracks()[0].enabled = false;
-    console.log(localStream.mediaStream.getVideoTracks()[0])
-    console.log(processedstream)
     publicationGlobal.mute(Owt.Base.TrackKind.VIDEO).then(
       () => {
         console.info("mute video");
@@ -99,6 +98,45 @@ const toggleVideo = () => {
       },
       (err) => {
         console.error("unmute video failed");
+      }
+    );
+  }
+}
+
+const toggleAudio = () => {
+  if (!publicationGlobal) {
+    return;
+  }
+
+  if (!isPauseAudio) {
+    publicationGlobal.mute(Owt.Base.TrackKind.AUDIO).then(
+      () => {
+        console.info('mute successfully');
+        $('#pauseAudio').css({
+          backgroundImage: 'url("img/mute-voice.png")',
+          backgroundColor: '#ccc'
+        });
+        isPauseAudio = !isPauseAudio;
+      },err => {
+        console.error('mute failed');
+        $('#pauseAudio').css({
+          backgroundImage: 'url("img/audio.png")',
+          backgroundColor: '#7bff7a'
+        });
+      }
+    );
+  } else {
+    publicationGlobal.unmute(Owt.Base.TrackKind.AUDIO).then(
+      () => {
+        console.info('unmute successfully');
+        $('#pauseAudio').css({
+          backgroundImage: 'url("img/audio.png")',
+          backgroundColor: '#7bff7a'
+        });
+        isPauseAudio = !isPauseAudio;
+      },err => {
+        console.error('unmute failed');
+        $('#pauseAudio').text("Unmute me");
       }
     );
   }
@@ -188,7 +226,7 @@ const publishStream = () => {
       conference.publish(localStream).then((publication) => {
         publicationGlobal = publication;
         isPauseAudio = false;
-        // toggleAudio();
+        toggleAudio();
         isPauseVideo = true;
         toggleVideo();
         mixStream(room, publication.id, "common");
@@ -286,9 +324,25 @@ bgfilebutton.addEventListener(
   false
 );
 
+var ToBeauty = function (obj, ctx, cW, cH) {
+  var fc = 5;
+  var imgData = ctx.getImageData(0, 0, cW, cH);
+  window.FaceEffect.Beauty(imgData, fc);
+  ctx.putImageData(imgData, 0, 0);
+  ctx.globalCompositeOperation="destination-over";
+  ctx.drawImage(obj, 0, 0, cW, cH);
+};
+
+
 function onBRResults(results) {
   if (!isbr) {
-    canvasCtx.drawImage(results.image, 0, 0, cW, cH);
+    ctx.drawImage(results.image, 0, 0, cW, cH);    
+    if(isb) {
+      new ToBeauty(results.image, ctx, cW, cH);
+    } else {
+      ctx.clearRect(0, 0, cW, cH);
+      ctx.drawImage(results.image, 0, 0, cW, cH);
+    }
   } else {
     end = performance.now()
     if(start) {
@@ -297,33 +351,35 @@ function onBRResults(results) {
     }
 
     fpsControl.tick();
-    canvasCtx.save();
-    canvasCtx.clearRect(0, 0, cW, cH);
-    canvasCtx.drawImage(results.segmentationMask, 0, 0, cW, cH);
+    ctx.save();
+    ctx.clearRect(0, 0, cW, cH);
+    ctx.drawImage(results.segmentationMask, 0, 0, cW, cH);
 
     // Only overwrite existing pixels.
-    // Only overwrite existing pixels.
-    canvasCtx.globalCompositeOperation = "source-in";
+    ctx.globalCompositeOperation = "source-in";
     if (activeEffect === "mask" || activeEffect === "both") {
       // This can be a color or a texture or whatever...
-      canvasCtx.fillStyle = fillColor;
-      canvasCtx.fillRect(0, 0, cW, cH);
+      ctx.fillStyle = fillColor;
+      ctx.fillRect(0, 0, cW, cH);
     } else {
-      canvasCtx.drawImage(results.image, 0, 0, cW, cH);
+      ctx.drawImage(results.image, 0, 0, cW, cH);
     }
 
     // Only overwrite missing pixels.
-    canvasCtx.globalCompositeOperation = "destination-atop";
+    ctx.globalCompositeOperation = "destination-atop";
     if (activeEffect === "background" || activeEffect === "both") {
       // This can be a color or a texture or whatever...
-      //   canvasCtx.fillStyle = fillColor
-      //   canvasCtx.fillRect(0, 0, cW, cH)
-      canvasCtx.drawImage(bg, 0, 0, cW, cH);
+      //   ctx.fillStyle = fillColor
+      //   ctx.fillRect(0, 0, cW, cH)
+      ctx.drawImage(bg, 0, 0, cW, cH);
+      if(isb) {
+        new ToBeauty(results.image, ctx, cW, cH);
+      }
     } else {
-      canvasCtx.drawImage(results.image, 0, 0, cW, cH);
+      ctx.drawImage(results.image, 0, 0, cW, cH);
     }
-
-    canvasCtx.restore();
+    
+    ctx.restore();
     start = performance.now()
   }
 }
@@ -349,34 +405,34 @@ function onFMResults(results) {
   }
 
   fpsControl.tick();
-  canvasCtx.save();
-  canvasCtx.clearRect(0, 0, cW, cH);
-  canvasCtx.drawImage(results.image, 0, 0, cW, cH);
+  ctx.save();
+  ctx.clearRect(0, 0, cW, cH);
+  ctx.drawImage(results.image, 0, 0, cW, cH);
   if (results.multiFaceLandmarks) {
     for (const landmarks of results.multiFaceLandmarks) {
-      drawConnectors(canvasCtx, landmarks, FACEMESH_TESSELATION, {
+      drawConnectors(ctx, landmarks, FACEMESH_TESSELATION, {
         color: "#C0C0C070",
         lineWidth: 1,
       });
-      drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_EYE, {
+      drawConnectors(ctx, landmarks, FACEMESH_RIGHT_EYE, {
         color: "#FF3030",
       });
-      drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_EYEBROW, {
+      drawConnectors(ctx, landmarks, FACEMESH_RIGHT_EYEBROW, {
         color: "#FF3030",
       });
-      drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_EYE, {
+      drawConnectors(ctx, landmarks, FACEMESH_LEFT_EYE, {
         color: "#30FF30",
       });
-      drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_EYEBROW, {
+      drawConnectors(ctx, landmarks, FACEMESH_LEFT_EYEBROW, {
         color: "#30FF30",
       });
-      drawConnectors(canvasCtx, landmarks, FACEMESH_FACE_OVAL, {
+      drawConnectors(ctx, landmarks, FACEMESH_FACE_OVAL, {
         color: "#E0E0E0",
       });
-      drawConnectors(canvasCtx, landmarks, FACEMESH_LIPS, { color: "#E0E0E0" });
+      drawConnectors(ctx, landmarks, FACEMESH_LIPS, { color: "#E0E0E0" });
     }
   }
-  canvasCtx.restore();
+  ctx.restore();
   start = performance.now()
 }
 
@@ -400,38 +456,38 @@ function onHResults(results) {
   }
 
   fpsControl.tick();
-  canvasCtx.save();
-  canvasCtx.clearRect(0, 0, cW, cH);
-  canvasCtx.drawImage(results.image, 0, 0, cW, cH);
-  drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
+  ctx.save();
+  ctx.clearRect(0, 0, cW, cH);
+  ctx.drawImage(results.image, 0, 0, cW, cH);
+  drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS, {
     color: "#00FF00",
     lineWidth: 4,
   });
-  drawLandmarks(canvasCtx, results.poseLandmarks, {
+  drawLandmarks(ctx, results.poseLandmarks, {
     color: "#FF0000",
     lineWidth: 2,
   });
-  drawConnectors(canvasCtx, results.faceLandmarks, FACEMESH_TESSELATION, {
+  drawConnectors(ctx, results.faceLandmarks, FACEMESH_TESSELATION, {
     color: "#C0C0C070",
     lineWidth: 1,
   });
-  drawConnectors(canvasCtx, results.leftHandLandmarks, HAND_CONNECTIONS, {
+  drawConnectors(ctx, results.leftHandLandmarks, HAND_CONNECTIONS, {
     color: "#CC0000",
     lineWidth: 5,
   });
-  drawLandmarks(canvasCtx, results.leftHandLandmarks, {
+  drawLandmarks(ctx, results.leftHandLandmarks, {
     color: "#00FF00",
     lineWidth: 2,
   });
-  drawConnectors(canvasCtx, results.rightHandLandmarks, HAND_CONNECTIONS, {
+  drawConnectors(ctx, results.rightHandLandmarks, HAND_CONNECTIONS, {
     color: "#00CC00",
     lineWidth: 5,
   });
-  drawLandmarks(canvasCtx, results.rightHandLandmarks, {
+  drawLandmarks(ctx, results.rightHandLandmarks, {
     color: "#FF0000",
     lineWidth: 2,
   });
-  canvasCtx.restore();
+  ctx.restore();
   start = performance.now()
 }
 
@@ -452,20 +508,20 @@ holistic.onResults(onHResults);
 
 // function onFDResults(results) {
 //   // Draw the overlays.
-//   canvasCtx.save()
-//   canvasCtx.clearRect(0, 0, cW, cH)
-//   canvasCtx.drawImage(
+//   ctx.save()
+//   ctx.clearRect(0, 0, cW, cH)
+//   ctx.drawImage(
 //       results.image, 0, 0, cW, cH)
 //   if (results.detections.length > 0) {
 //     drawingUtils.drawRectangle(
-//         canvasCtx, results.detections[0].boundingBox,
+//         ctx, results.detections[0].boundingBox,
 //         {color: 'blue', lineWidth: 4, fillColor: '#00000000'})
-//     drawingUtils.drawLandmarks(canvasCtx, results.detections[0].landmarks, {
+//     drawingUtils.drawLandmarks(ctx, results.detections[0].landmarks, {
 //       color: 'red',
 //       radius: 5,
 //     })
 //   }
-//   canvasCtx.restore()
+//   ctx.restore()
 // }
 
 // const faceDetection = new FaceDetection({locateFile: (file) => {
