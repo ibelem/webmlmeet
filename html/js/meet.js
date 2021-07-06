@@ -305,6 +305,7 @@ const getProcessedStream = () => {
 
 let activeEffect = "background";
 const bg = document.querySelector("#bgdefault");
+const bgpause = document.querySelector("#bgpause");
 const bgfilebutton = document.querySelector("#bgimg");
 
 $(".bgselector").each(function () {
@@ -335,52 +336,56 @@ var ToBeauty = function (obj, ctx, cW, cH) {
 
 
 function onBRResults(results) {
-  if (!isbr) {
-    ctx.drawImage(results.image, 0, 0, cW, cH);    
-    if(isb) {
-      new ToBeauty(results.image, ctx, cW, cH);
-    } else {
-      ctx.clearRect(0, 0, cW, cH);
-      ctx.drawImage(results.image, 0, 0, cW, cH);
-    }
+  if(isPauseVideo) {
+    ctx.drawImage(bgpause, 0, 0, cW, cH);
   } else {
-    end = performance.now()
-    if(start) {
-      delta = end - start
-      spaninference.html(delta.toFixed(1))
-    }
-
-    fpsControl.tick();
-    ctx.save();
-    ctx.clearRect(0, 0, cW, cH);
-    ctx.drawImage(results.segmentationMask, 0, 0, cW, cH);
-
-    // Only overwrite existing pixels.
-    ctx.globalCompositeOperation = "source-in";
-    if (activeEffect === "mask" || activeEffect === "both") {
-      // This can be a color or a texture or whatever...
-      ctx.fillStyle = fillColor;
-      ctx.fillRect(0, 0, cW, cH);
-    } else {
-      ctx.drawImage(results.image, 0, 0, cW, cH);
-    }
-
-    // Only overwrite missing pixels.
-    ctx.globalCompositeOperation = "destination-atop";
-    if (activeEffect === "background" || activeEffect === "both") {
-      // This can be a color or a texture or whatever...
-      //   ctx.fillStyle = fillColor
-      //   ctx.fillRect(0, 0, cW, cH)
-      ctx.drawImage(bg, 0, 0, cW, cH);
+    if (!isbr) {
+      ctx.drawImage(results.image, 0, 0, cW, cH);    
       if(isb) {
         new ToBeauty(results.image, ctx, cW, cH);
+      } else {
+        ctx.clearRect(0, 0, cW, cH);
+        ctx.drawImage(results.image, 0, 0, cW, cH);
       }
     } else {
-      ctx.drawImage(results.image, 0, 0, cW, cH);
+      end = performance.now()
+      if(start) {
+        delta = end - start
+        spaninference.html(delta.toFixed(1))
+      }
+
+      fpsControl.tick();
+      ctx.save();
+      ctx.clearRect(0, 0, cW, cH);
+      ctx.drawImage(results.segmentationMask, 0, 0, cW, cH);
+
+      // Only overwrite existing pixels.
+      ctx.globalCompositeOperation = "source-in";
+      if (activeEffect === "mask" || activeEffect === "both") {
+        // This can be a color or a texture or whatever...
+        ctx.fillStyle = fillColor;
+        ctx.fillRect(0, 0, cW, cH);
+      } else {
+        ctx.drawImage(results.image, 0, 0, cW, cH);
+      }
+
+      // Only overwrite missing pixels.
+      ctx.globalCompositeOperation = "destination-atop";
+      if (activeEffect === "background" || activeEffect === "both") {
+        // This can be a color or a texture or whatever...
+        //   ctx.fillStyle = fillColor
+        //   ctx.fillRect(0, 0, cW, cH)
+        ctx.drawImage(bg, 0, 0, cW, cH);
+        if(isb) {
+          new ToBeauty(results.image, ctx, cW, cH);
+        }
+      } else {
+        ctx.drawImage(results.image, 0, 0, cW, cH);
+      }
+      
+      ctx.restore();
+      start = performance.now()
     }
-    
-    ctx.restore();
-    start = performance.now()
   }
 }
 

@@ -122,6 +122,8 @@ p.prototype.start = function () {
       },
       audio: {
         source: "mic",
+        echoCancellation: true,
+        noiseSuppression: true
       }
     })
     .then(function (c) {
