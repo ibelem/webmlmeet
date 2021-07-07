@@ -325,15 +325,6 @@ bgfilebutton.addEventListener(
   false
 );
 
-var ToBeauty = function (obj, ctx, cW, cH) {
-  var fc = 5;
-  var imgData = ctx.getImageData(0, 0, cW, cH);
-  window.FaceEffect.Beauty(imgData, fc);
-  ctx.putImageData(imgData, 0, 0);
-  ctx.globalCompositeOperation="destination-over";
-  ctx.drawImage(obj, 0, 0, cW, cH);
-};
-
 function onBRResults(results) {
   if(isPauseVideo) {
     ctx.drawImage(bgpause, 0, 0, cW, cH);

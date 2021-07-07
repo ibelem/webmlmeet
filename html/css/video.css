@@ -73,7 +73,7 @@ video, canvas {
 }
 
 #control-panel {
-  height: 74px;
+  height: 68px;
 }
 
 .cp-wasm, .cp-fps {
@@ -82,17 +82,17 @@ video, canvas {
 }
 
 .cp-wasm {
-  width: 68px;
-  height: 68px;
+  width: 60px;
+  height: 60px;
 }
 
 .cp-wasm svg {
-  width: 68px;
-  height: 68px;
+  width: 60px;
+  height: 60px;
 }
 
 .cp-wasm svg path {
-  transform: scale(0.11);
+  transform: scale(0.095);
 }
 
 .cp-fps {
@@ -125,7 +125,7 @@ video, canvas {
 }
 
 #control-panel #fps, #control-panel #inference {
-  font-size: 30px;
+  font-size: 24px;
   padding-bottom: 6px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
@@ -137,7 +137,7 @@ video, canvas {
 }
 
 #control-panel #inference span {
-  font-size: 30px;
+  font-size: 24px;
 }
 
 #control-panel #fpsnote, #control-panel #inferencenote {
