@@ -5,10 +5,11 @@ let cW = $("#outputcanvas")[0].width;
 let cH = $("#outputcanvas")[0].height;
 let camera,
   isbr = false,
+  isbb = false,
   isfd = false,
   isfm = false,
   ish = false,
-  isb = false;
+  isbeauty = false;
 
 let conference = new Owt.Conference.ConferenceClient();
 let room, myid;
@@ -269,7 +270,7 @@ const userExit = () => {
 // }
 
 const mpfeatures = async () => {
-  if (isbr) {
+  if (isbr || isbb) {
     await selfieSegmentation.send({ image: inputvideo_mp });
   }
   // else if(isfd) {
@@ -303,7 +304,6 @@ const getProcessedStream = () => {
   processedstream.addTrack(audiotrack);
 };
 
-let activeEffect = "background";
 const bg = document.querySelector("#bgdefault");
 const bgpause = document.querySelector("#bgpause");
 const bgfilebutton = document.querySelector("#bgimg");
@@ -334,20 +334,20 @@ var ToBeauty = function (obj, ctx, cW, cH) {
   ctx.drawImage(obj, 0, 0, cW, cH);
 };
 
-
 function onBRResults(results) {
   if(isPauseVideo) {
     ctx.drawImage(bgpause, 0, 0, cW, cH);
   } else {
-    if (!isbr) {
-      ctx.drawImage(results.image, 0, 0, cW, cH);    
-      if(isb) {
-        new ToBeauty(results.image, ctx, cW, cH);
+
+    if(!isbb && !isbr) {
+      ctx.drawImage(results.image, 0, 0, cW, cH);
+      if(isbeauty) {
+        ctx.filter = "saturate(110%) brightness(130%) contrast(110%) blur(1px)"
       } else {
-        ctx.clearRect(0, 0, cW, cH);
-        ctx.drawImage(results.image, 0, 0, cW, cH);
+        ctx.filter = "saturate(100%) brightness(100%) contrast(100%) blur(0px)"
       }
     } else {
+
       end = performance.now()
       if(start) {
         delta = end - start
@@ -355,34 +355,31 @@ function onBRResults(results) {
       }
 
       fpsControl.tick();
+
       ctx.save();
       ctx.clearRect(0, 0, cW, cH);
       ctx.drawImage(results.segmentationMask, 0, 0, cW, cH);
 
       // Only overwrite existing pixels.
       ctx.globalCompositeOperation = "source-in";
-      if (activeEffect === "mask" || activeEffect === "both") {
-        // This can be a color or a texture or whatever...
-        ctx.fillStyle = fillColor;
-        ctx.fillRect(0, 0, cW, cH);
-      } else {
-        ctx.drawImage(results.image, 0, 0, cW, cH);
-      }
 
-      // Only overwrite missing pixels.
-      ctx.globalCompositeOperation = "destination-atop";
-      if (activeEffect === "background" || activeEffect === "both") {
-        // This can be a color or a texture or whatever...
-        //   ctx.fillStyle = fillColor
-        //   ctx.fillRect(0, 0, cW, cH)
-        ctx.drawImage(bg, 0, 0, cW, cH);
-        if(isb) {
-          new ToBeauty(results.image, ctx, cW, cH);
-        }
-      } else {
-        ctx.drawImage(results.image, 0, 0, cW, cH);
+      if(isbeauty) {
+        ctx.filter = "saturate(110%) brightness(150%) contrast(110%) blur(1px)"
       }
       
+      ctx.drawImage(results.image, 0, 0, cW, cH);
+      ctx.globalCompositeOperation = "destination-atop";
+
+      if(isbb && isbr) {
+        ctx.filter = "blur(10px)"
+        ctx.drawImage(bg, 0, 0, cW, cH);
+      } else if (isbb) {
+        ctx.filter = "blur(10px)"
+        ctx.drawImage(results.image, 0, 0, cW, cH);
+      } else if (isbr) {
+        ctx.drawImage(bg, 0, 0, cW, cH);
+      }
+
       ctx.restore();
       start = performance.now()
     }

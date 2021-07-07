@@ -158,6 +158,24 @@ $("#rbclose").on("click", function () {
   $("#right-bar").fadeOut()
 })
 
+const toggleBBUI = () => {
+
+  $("#bboff").toggleClass("block")
+  $("#bbon").toggleClass("block")
+  $("#tbb").toggleClass("act")
+
+  isbb = !isbb
+
+  if (isbb) {
+    isfm = false
+    ifh = false
+    $("#control-panel").fadeIn()
+  } 
+  if (!isbr && !isbb && !ish && !ish) {
+    $("#control-panel").fadeOut()
+  }
+}
+
 const toggleBRUI = () => {
   $("#right-bar").fadeIn()
 
@@ -177,12 +195,9 @@ const toggleBRUI = () => {
   if (isbr) {
     isfm = false
     ifh = false
-    $('#ebeauty').css("display", "inline-block")
     $("#control-panel").fadeIn()
-  } else {
-    $('#ebeauty').fadeOut()
-  }
-  if (!isbr && !isfm && !ish) {
+  } 
+  if (!isbr && !isbb && !ish && !ish) {
     $("#control-panel").fadeOut()
   }
 }
@@ -212,8 +227,7 @@ $("#mph").click(() => {
 })
 
 $("#ebeauty").click(() => {
-  isb = !isb
-  console.log(isb)
+  isbeauty = !isbeauty
 })
 
 $("#ocbar").click(() => {
