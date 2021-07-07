@@ -144,7 +144,7 @@
       width: 100%;
   }
 
-  .linkjoin a {
+  .linkjoin button {
     display: inline-block;
     width: 50%;
     border: 1px solid rgba(255, 255, 255, 0.8);
@@ -157,7 +157,7 @@
     text-transform: uppercase;
   }
 
-  .linkjoin a:hover {
+  .linkjoin button:hover {
     background: rgba(255, 255, 255, 1.0);
     color: rgba(0, 0, 0, 1.0);
     border: 1px solid rgba(255, 255, 255, 1.0);

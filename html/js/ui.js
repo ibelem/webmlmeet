@@ -1,3 +1,13 @@
+const parseSearchParams = (key) => {
+  let searchParams = new URLSearchParams(location.search)
+  return searchParams.get(key)
+}
+
+const hasSearchParam = (key) => {
+  let searchParams = new URLSearchParams(location.search)
+  return searchParams.has(key)
+}
+
 $(document).ready(function () {
   $("#container").css("display", "none")
   $("#login").fadeIn()
@@ -45,6 +55,16 @@ $(document).ready(function () {
   } else {
     // $('#screen-btn').addClass('disabled')
   }
+
+  if(hasSearchParam("ss")) {
+    ss = parseInt(parseSearchParams("ss"))
+  } else {
+    ss = 0
+  }
+
+  selfieSegmentation.setOptions({
+    modelSelection: ss,
+  });
 
   $(document).on("click", "#pauseVideo", function () {
     toggleVideo()
@@ -158,6 +178,16 @@ $("#rbclose").on("click", function () {
   $("#right-bar").fadeOut()
 })
 
+const showModelInfo = () => {
+  let modelindex = ssmodelinfo[ss]
+  let modelinfo = `
+    ${modelindex.inputsize}<br/>
+    ${modelindex.format} / ${modelindex.size}<br/>
+    ${modelindex.name}
+  `
+  $('#model').html(modelinfo)
+}
+
 const toggleBBUI = () => {
 
   $("#bboff").toggleClass("block")
@@ -170,6 +200,7 @@ const toggleBBUI = () => {
     isfm = false
     ifh = false
     $("#control-panel").fadeIn()
+    showModelInfo()
   } 
   if (!isbr && !isbb && !ish && !ish) {
     $("#control-panel").fadeOut()
@@ -196,6 +227,7 @@ const toggleBRUI = () => {
     isfm = false
     ifh = false
     $("#control-panel").fadeIn()
+    showModelInfo()
   } 
   if (!isbr && !isbb && !ish && !ish) {
     $("#control-panel").fadeOut()

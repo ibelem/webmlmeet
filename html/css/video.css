@@ -120,21 +120,14 @@ video, canvas {
   width: 74px;
 }
 
-#control-panel #inference,  #control-panel #inferencenote {
-  width: 180px;
-}
-
 #control-panel #fps, #control-panel #inference {
   font-size: 24px;
-  padding-bottom: 6px;
+  padding: 2px 10px 4px 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
 }
 
-#control-panel #inference {
-  font-size: 18px;
-  text-transform: lowercase;
-}
+
 
 #control-panel #inference span {
   font-size: 24px;
@@ -148,5 +141,16 @@ video, canvas {
 }
 
 #control-panel #inferencenote {
+  text-transform: uppercase;
+}
+
+#control-panel #inference {
+  font-size: 18px;
+  text-transform: lowercase;
+  min-width: 140px;
+}
+
+#model {
+  font-size: 0.6rem;
   text-transform: uppercase;
 }

@@ -10,6 +10,25 @@ let camera,
   isfm = false,
   ish = false,
   isbeauty = false;
+let ss = 0
+let ssmodelinfo = [{
+  id: 0,
+  name: 'Selfie Segmentation',
+  inputsize: '256x256x3 (HWC)',
+  outputsize: '256x256x1',
+  size: '249.0kB',
+  basedon: 'MobileNetV3',
+  format: 'TFLite'
+},{
+  id: 1,
+  name: 'Selfie Segmentation Landscape',
+  inputsize: '144x256x3 (HWC)',
+  outputsize: '256x256x1',
+  size: '249.8kB',
+  basedon: 'MobileNetV3',
+  format: 'TFLite'
+}
+]
 
 let conference = new Owt.Conference.ConferenceClient();
 let room, myid;
@@ -379,13 +398,8 @@ function onBRResults(results) {
 
 const selfieSegmentation = new SelfieSegmentation({
   locateFile: (file) => {
-    console.log(file);
     return `./js/mediapipe/model/selfie_segmentation/${file}`;
   },
-});
-
-selfieSegmentation.setOptions({
-  modelSelection: 1,
 });
 
 selfieSegmentation.onResults(onBRResults);
