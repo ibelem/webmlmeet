@@ -39,7 +39,7 @@ video, canvas {
 
 .bar {
   position: absolute;
-  text-align: center;
+  text-align: right;
   bottom: 6px;
   height: 30px;
   line-height: 30px;
@@ -59,7 +59,7 @@ video, canvas {
 }
 
 .spx4 {
-  width: 60px;
+  width: 30px;
   display: inline-block;
 }
 
@@ -153,4 +153,33 @@ video, canvas {
 #model {
   font-size: 0.6rem;
   text-transform: uppercase;
+}
+
+.btnfullscreen {
+  display: inline-block;
+  line-height: 30px;
+  width: 30px;
+  margin: 0 0.5rem;
+}
+
+.btnfullscreen svg {
+  margin-bottom: -5px;
+  width: 18px;
+  height: 18px;
+}
+
+.btnfullscreen svg path {
+  fill: rgba(255, 255, 255, 0.8);
+}
+
+.btnfullscreen:hover svg path {
+  color: rgba(255, 255, 255, 1.0);
+}
+
+.btnfullscreen svg {
+  display: none;
+}
+
+.btnfullscreen svg.block {
+  display: inline-block;
 }

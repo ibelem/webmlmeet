@@ -12,23 +12,25 @@ let camera,
   isbeauty = false;
 let ss = 0
 let ssmodelinfo = [{
-  id: 0,
-  name: 'Selfie Segmentation',
-  inputsize: '256x256x3 (HWC)',
-  outputsize: '256x256x1',
-  size: '249.0kB',
-  basedon: 'MobileNetV3',
-  format: 'TFLite'
-},{
-  id: 1,
-  name: 'Selfie Segmentation Landscape',
-  inputsize: '144x256x3 (HWC)',
-  outputsize: '256x256x1',
-  size: '249.8kB',
-  basedon: 'MobileNetV3',
-  format: 'TFLite'
-}
+    id: 0,
+    name: 'Selfie Segmentation',
+    inputsize: '256x256x3 (HWC)',
+    outputsize: '256x256x1',
+    size: '249.0kB',
+    basedon: 'MobileNetV3',
+    format: 'TFLite'
+  },{
+    id: 1,
+    name: 'Selfie Segmentation Landscape',
+    inputsize: '144x256x3 (HWC)',
+    outputsize: '256x256x1',
+    size: '249.8kB',
+    basedon: 'MobileNetV3',
+    format: 'TFLite'
+  }
 ]
+
+let isfullscreen = false
 
 let conference = new Owt.Conference.ConferenceClient();
 let room, myid;
@@ -82,8 +84,6 @@ const toggleVideo = () => {
   }
 
   if (!isPauseVideo) {
-
-    console.log(isPauseVideo)
     //TODO: pause all video?
     //remoteMixedSub.mute(Owt.Base.TrackKind.VIDEO);
     for (var temp in subList) {
@@ -269,7 +269,6 @@ const userExit = () => {
   conference.leave();
   subList = {};
   isAudioOnly = false;
-  console.log("-- publicationGlobal --");
   console.log(publicationGlobal);
   publicationGlobal.stop();
   location.reload();

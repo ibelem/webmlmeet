@@ -423,6 +423,12 @@ div[id^="client-"] {
   height: calc(100vh - 140px);
 }
 
+.norightbar {
+  grid-template-columns: 5fr !important; 
+  grid-template-areas: 
+    "." !important; 
+}
+
 .video {
   position: relative;
 }

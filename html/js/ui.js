@@ -34,27 +34,35 @@ const login = async () => {
   }
 }
 
+const doc = window.document
+
+const fullscreen = () => {
+  isfullscreen = document.fullscreenElement && document.fullscreenElement !== null
+
+  var docElm = document.documentElement;
+  if (!isfullscreen) {
+    if (docElm.requestFullscreen) {
+        docElm.requestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+        document.exitFullscreen()
+    }
+  }
+  isfullscreen = !isfullscreen
+}
+
 const updateDocSize = () => {
   $("#docsize").html($(document).width() + "x" + $(document).height())
 }
 
 $(document).ready(function () {
   $(".buttonset>a").click(function () {
-    console.log($(this))
     $(this).siblings("a").removeClass("selected")
     $(this).addClass("selected")
   })
 
   updateDocSize()
-
-  if (window.location.search.slice(0, 6) === "?room=") {
-    roomId = window.location.search.slice(6)
-  }
-
-  if (window.location.protocol === "https:") {
-  } else {
-    // $('#screen-btn').addClass('disabled')
-  }
 
   if(hasSearchParam("ss")) {
     ss = parseInt(parseSearchParams("ss"))
@@ -65,6 +73,20 @@ $(document).ready(function () {
   selfieSegmentation.setOptions({
     modelSelection: ss,
   });
+
+  $(".btnfullscreen").click(function () {
+    $("#svgfull").toggleClass("block")
+    $("#svgnotfull").toggleClass("block")
+    fullscreen()    
+    $(this).parent().prev().addClass("streamfull")
+    $('body').addClass("fullscreen")
+  })
+
+  $("#btnexitfullscreen").click(function(){
+    fullscreen()
+    $("#video-panel .vslot canvas").removeClass("streamfull")
+    $('body').removeClass("fullscreen")
+  })
 
   $(document).on("click", "#pauseVideo", function () {
     toggleVideo()
@@ -176,6 +198,7 @@ const toggleAudioUI = () => {
 $("#rbclose").on("click", function () {
   $("#bgscontainer").fadeOut()
   $("#right-bar").fadeOut()
+  $("#ic").addClass('norightbar')
 })
 
 const showModelInfo = () => {
@@ -189,7 +212,6 @@ const showModelInfo = () => {
 }
 
 const toggleBBUI = () => {
-
   $("#bboff").toggleClass("block")
   $("#bbon").toggleClass("block")
   $("#tbb").toggleClass("act")
@@ -216,9 +238,11 @@ const toggleBRUI = () => {
 
   if ($("#broff").css("display") == "block") {
     $("#right-bar").fadeIn()
+    $("#ic").removeClass('norightbar')
     $("#bgscontainer").fadeIn()
   } else {
     $("#bgscontainer").fadeOut()
+    $("#ic").addClass('norightbar')
     $("#right-bar").fadeOut()
   }
   isbr = !isbr

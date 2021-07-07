@@ -1,0 +1,96 @@
+
+body.fullscreen {
+    background: transparent;
+} 
+
+.fullscreen .main {
+    margin: 50px;
+}
+
+.fullscreen #text-content, .fullscreen #user-list {
+    height: 33vh;
+}
+
+.fullscreen #message {
+    left: 60px;
+    bottom: 150px;
+}
+
+.fullscreen .counter {
+    bottom: 70px;
+}
+
+.fullscreen #ic {
+    margin-right: 200px;
+    height: calc(100vh - 190px);
+}
+
+.fullscreen footer {
+    bottom: 50px;
+}
+
+.fullscreen #wrapper, .fullscreen #left-bar, .fullscreen #right-bar, .fullscreen .main, .fullscreen #text-send {
+    background: transparent;
+}
+
+.fullscreen #left-bar {
+    border-right: transparent;
+}
+
+.fullscreen #ic {
+    border: 3px solid red;
+}
+
+.fullscreen footer {
+    border-top: transparent;
+}
+
+.fullscreen #left-bar, .fullscreen #right-bar, .fullscreen .main {
+    z-index: 100;
+}
+
+.fullscreen .video-panel {
+    display: grid; 
+    grid-template-columns: 1fr; 
+    grid-template-rows: 1fr 1fr 1fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "."
+      "."
+      "."; 
+    justify-content: end; 
+    justify-items: end; 
+    align-items: center; 
+    margin-top: -123px;
+}
+
+.fullscreen .video-panel video, .fullscreen .video-panel canvas {
+    width: 220px;
+    height: 123px;
+}
+
+.streamfull {
+    position: fixed;
+    margin: 0;
+    left: 0;
+    bottom: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    object-fit: fill;
+    border: 0px;
+    display: block;
+    z-index: -1000px;
+}
+
+.fullscreen #opcanvasdiv {
+    width: 0;
+    height: 0;
+}
+
+.fullscreen .bar {
+    display: none;
+}
+
+.fullscreen #btnexitfullscreen {
+    display: inline-block;
+}
