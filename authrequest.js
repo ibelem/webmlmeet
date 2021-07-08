@@ -10,7 +10,7 @@ const https = require('https');
 
 function signWithKey(data, key) {
   const hex = crypto.createHmac('sha256', key).update(data).digest('hex')
-  return Buffer(hex).toString('base64');
+  return Buffer.from(hex).toString('base64');
 }
 
 // Send REST request to owt-server with auth
