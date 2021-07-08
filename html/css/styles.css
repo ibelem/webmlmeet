@@ -404,18 +404,9 @@ div[id^="client-"] {
   justify-self: end;
 }
 
-.video-panel {
-  display: grid; 
-  grid-template-columns: 1fr 1fr 1fr 1fr; 
-  grid-template-rows: 1fr; 
-  gap: 0px 0px; 
-  grid-template-areas: 
-    ". . . ."
-}
-
 #ic {
   display: grid; 
-  grid-template-columns: 4fr 1fr; 
+  grid-template-columns: 5fr 1fr; 
   grid-template-rows: 1fr; 
   gap: 0px 0px; 
   grid-template-areas: 
@@ -424,7 +415,7 @@ div[id^="client-"] {
 }
 
 .norightbar {
-  grid-template-columns: 5fr !important; 
+  grid-template-columns: 6fr !important; 
   grid-template-areas: 
     "." !important; 
 }

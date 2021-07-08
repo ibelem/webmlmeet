@@ -1,9 +1,14 @@
 .video-panel {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
   gap: 0px 0px;
-  grid-template-areas: ". . . .";
+  grid-template-areas: ". . . . . ";
+}
+
+.norightbar .video-panel {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas: ". . . . . .";
 }
 
 @media only screen and (max-width: 812px) {
@@ -50,12 +55,12 @@ video, canvas {
 }
 
 .x4 canvas {
-  width: 640px !important;
-  height: 360px;
+  width: 960px !important;
+  height: 622px;
 }
 
 .x4 .bar {
-  width: 640px;
+  width: 960px;
 }
 
 .spx4 {
@@ -174,12 +179,4 @@ video, canvas {
 
 .btnfullscreen:hover svg path {
   color: rgba(255, 255, 255, 1.0);
-}
-
-.btnfullscreen svg {
-  display: none;
-}
-
-.btnfullscreen svg.block {
-  display: inline-block;
 }

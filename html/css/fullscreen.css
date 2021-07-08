@@ -17,36 +17,39 @@ body.fullscreen {
 }
 
 .fullscreen .counter {
-    bottom: 70px;
+    bottom: 10px;
 }
 
 .fullscreen #ic {
-    margin-right: 200px;
-    height: calc(100vh - 190px);
-}
-
-.fullscreen footer {
-    bottom: 50px;
+    margin-right: 100px;
+    height: calc(100vh - 100px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .fullscreen #wrapper, .fullscreen #left-bar, .fullscreen #right-bar, .fullscreen .main, .fullscreen #text-send {
     background: transparent;
 }
 
+.fullscreen #nav {
+    display: none;
+}
+
 .fullscreen #left-bar {
     border-right: transparent;
 }
 
-.fullscreen #ic {
-    border: 3px solid red;
-}
-
 .fullscreen footer {
     border-top: transparent;
+    bottom: 100px;
+    padding: 0 10px;
 }
 
-.fullscreen #left-bar, .fullscreen #right-bar, .fullscreen .main {
-    z-index: 100;
+.fullscreen footer .control {
+    margin-left: -50px;
+}
+
+.fullscreen #left-bar, .fullscreen #right-bar, .fullscreen .main, .fullscreen .counter, .fullscreen footer {
+    z-index: 1;
 }
 
 .fullscreen .video-panel {
@@ -61,15 +64,25 @@ body.fullscreen {
     justify-content: end; 
     justify-items: end; 
     align-items: center; 
-    margin-top: -123px;
+    /* margin-top: -123px; */
+    padding: 10px;
+}
+
+.fullscreen .norightbar {
+    margin-right: 100px;
+}
+
+.fullscreen .vslot, .fullscreen .vslot canvas, .fullscreen .vslot video {
+    z-index: 1;
 }
 
 .fullscreen .video-panel video, .fullscreen .video-panel canvas {
     width: 220px;
     height: 123px;
+    cursor: pointer;
 }
 
-.streamfull {
+.fullscreen .streamfull, .fullscreen .streamfull canvas, .fullscreen .streamfull video {
     position: fixed;
     margin: 0;
     left: 0;
@@ -79,10 +92,10 @@ body.fullscreen {
     object-fit: fill;
     border: 0px;
     display: block;
-    z-index: -1000px;
+    z-index: -1000 !important;
 }
 
-.fullscreen #opcanvasdiv {
+.fullscreen .zerosize {
     width: 0;
     height: 0;
 }

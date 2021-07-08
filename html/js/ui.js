@@ -34,8 +34,6 @@ const login = async () => {
   }
 }
 
-const doc = window.document
-
 const fullscreen = () => {
   isfullscreen = document.fullscreenElement && document.fullscreenElement !== null
 
@@ -50,10 +48,27 @@ const fullscreen = () => {
     }
   }
   isfullscreen = !isfullscreen
+  console.log("Fullscren :" + isfullscreen)
 }
 
 const updateDocSize = () => {
   $("#docsize").html($(document).width() + "x" + $(document).height())
+}
+
+const remotefullscreen = (e) => {
+  fullscreen()    
+  $("#video-panel .vslot").removeClass("streamfull")
+  $(e).parent().parent().addClass("streamfull")
+  $("#video-panel .vslot").removeClass("zerosize")
+  $(e).parent().parent().addClass("zerosize")
+  $('body').addClass("fullscreen")
+}
+
+const switchfullscreen = (e) => {
+  $("#video-panel .vslot").removeClass("streamfull")
+  $(e).parent().addClass("streamfull")
+  $("#video-panel .vslot").removeClass("zerosize")
+  $(e).parent().addClass("zerosize")
 }
 
 $(document).ready(function () {
@@ -75,16 +90,19 @@ $(document).ready(function () {
   });
 
   $(".btnfullscreen").click(function () {
-    $("#svgfull").toggleClass("block")
-    $("#svgnotfull").toggleClass("block")
     fullscreen()    
-    $(this).parent().prev().addClass("streamfull")
+    $("#video-panel .vslot").removeClass("streamfull")
+    $(this).parent().parent().addClass("streamfull")
+    $("#video-panel .vslot").removeClass("zerosize")
+    $(this).parent().parent().addClass("zerosize")
     $('body').addClass("fullscreen")
   })
 
   $("#btnexitfullscreen").click(function(){
     fullscreen()
-    $("#video-panel .vslot canvas").removeClass("streamfull")
+    $("#video-panel .vslot").removeClass("streamfull")
+    $("#video-panel .vslot").removeClass("streamfull")
+    $("#video-panel .vslot").removeClass("zerosize")
     $('body').removeClass("fullscreen")
   })
 
@@ -196,8 +214,8 @@ const toggleAudioUI = () => {
 }
 
 $("#rbclose").on("click", function () {
-  $("#bgscontainer").fadeOut()
-  $("#right-bar").fadeOut()
+  $("#bgscontainer").hide()
+  $("#right-bar").hide()
   $("#ic").addClass('norightbar')
 })
 
@@ -241,9 +259,9 @@ const toggleBRUI = () => {
     $("#ic").removeClass('norightbar')
     $("#bgscontainer").fadeIn()
   } else {
-    $("#bgscontainer").fadeOut()
+    $("#bgscontainer").hide()
     $("#ic").addClass('norightbar')
-    $("#right-bar").fadeOut()
+    $("#right-bar").hide()
   }
   isbr = !isbr
 
