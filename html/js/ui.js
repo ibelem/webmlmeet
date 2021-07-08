@@ -114,42 +114,6 @@ $(document).ready(function () {
     toggleAudio()
   })
 
-  $(document).on("click", ".mute", function () {
-    // unmute
-    var id = parseInt($(this).parent().parent().attr("id").slice(7))
-    toggleMute(id, false)
-    $(this).addClass("unmute").removeClass("mute")
-  })
-
-  $(document).on("click", ".unmute", function () {
-    // mute
-    var id = parseInt($(this).parent().parent().attr("id").slice(7))
-    toggleMute(id, true)
-    $(this).addClass("mute").removeClass("unmute")
-  })
-
-  //TODO:mute others
-  $(document).on("dblclick", ".muteShow", function () {
-    // mute others
-    var muteId = $(this).siblings(".userID").text()
-    var msg = {
-      type: "force",
-    }
-    forwardStreamMap.forEach((stream, key) => {
-      if (stream.info.owner === muteId && stream.media.audio) {
-        if (stream.media.audio.status === "active") {
-          pauseStream(roomId, stream.id, "audio", () =>
-            chgMutePic(muteId, true)
-          )
-        } else {
-          playStream(roomId, stream.id, "audio", () =>
-            chgMutePic(muteId, false)
-          )
-        }
-      }
-    })
-  })
-
   $("#text-send").keypress(function (event) {
     if ($(this)[0].scrollHeight > $(this)[0].clientHeight) {
       $(this).height($(this)[0].scrollHeight)
@@ -166,8 +130,6 @@ $(document).ready(function () {
     updateDocSize()
   })
 
-  checkMobile()
-
   setInterval(() => {
     const d = new Date()
     $("#clock").html(getTime() + ":")
@@ -178,18 +140,7 @@ $(document).ready(function () {
 $(window).on("unload", function () {
   userExit()
 })
-
-const checkMobile = () => {
-  if (
-    /iphone|ipod|android|ie|blackberry|fennec/.test(
-      navigator.userAgent.toLowerCase()
-    )
-  ) {
-    isMobile = true
-    $("#im-btn").hide()
-  }
-}
-
+ 
 const getTime = () => {
   const time = new Date()
   let hour = time.getHours()
@@ -283,7 +234,7 @@ $("#mpfm").click(() => {
     ish = false
     $("#control-panel").fadeIn()
   }
-  if (!isbr && !isfm && !ish) {
+  if (!isbr && !isbb && !ish && !ish) {
     $("#control-panel").fadeOut()
   }
 })
@@ -295,7 +246,7 @@ $("#mph").click(() => {
     isfm = false
     $("#control-panel").fadeIn()
   }
-  if (!isbr && !isfm && !ish) {
+  if (!isbr && !isbb && !ish && !ish) {
     $("#control-panel").fadeOut()
   }
 })

@@ -54,9 +54,8 @@ let isPauseAudio = true;
 let isPauseVideo = false;
 let isAudioOnly = false;
 
-let localScreen, localScreenPubliction;
+let localScreen, localScreenId, localScreenPubliction;
 let isScreenSharing = false;
-let isLocalScreenSharing = false;
 let remoteScreen = null;
 let remoteScreenName = null;
 
@@ -164,15 +163,24 @@ const toggleAudio = () => {
 
 const subscribeVideo = (remotestream) => {
   console.log(remotestream.id);
+  console.log("-- remotestream.source.video -- 1 --")
+  console.log(remotestream.source.video)
 
-  const subscribeOption = {
-    audio: true,
-    video: resolution,
-  };
+  let videoOption = !isAudioOnly;
 
-  conference.subscribe(remotestream, subscribeOption).then(
+  conference.subscribe(remotestream, {video: videoOption}).then(
     (subscription) => {
       subList[subscription.id] = subscription;
+      console.log("-- remotestream.source.video -- 2 --")
+      console.log(remotestream.source.video)
+
+      if(remotestream.source.video === 'screen-cast'){
+        screenSub = subscription;
+        remotestream.addEventListener('ended', function(event) {
+          //
+        });
+      }
+
       let $video = $(
         `
         <div class="vslot" id=${"div" + remotestream.id}>
@@ -198,7 +206,8 @@ const subscribeVideo = (remotestream) => {
       document.querySelector(vid).srcObject = remotestream.mediaStream;
     },
     (err) => {
-      console.log("subscribe failed", err);
+      console.log("subscribe failed:");
+      console.log(err);
     }
   );
 
@@ -223,7 +232,7 @@ conference.addEventListener("streamadded", (event) => {
   console.log(publicationGlobal.id);
 
   isSelf && subscribeVideo(event.stream);
-  mixStream(room, event.stream.id, "common");
+  // mixStream(room, event.stream.id, "common");
   event.stream.addEventListener("ended", () => {
     console.log(event.stream.id + " is ended.");
   });
@@ -238,7 +247,9 @@ const publishStream = () => {
 
       let streams = resp.remoteStreams;
       for (const stream of streams) {
-        if (stream.source.audio !== "mixed") {
+        console.log('dddddddddddddddd')
+        console.log(stream.source.video)
+        if (stream.source.audio !== "mixed" || stream.source.video === 'screen-cast' ) {
           subscribeVideo(stream);
         }
       }
@@ -270,9 +281,53 @@ const publishStream = () => {
   });
 };
 
+const shareScreen = () => {
+  let width = screen.width,
+  height = screen.height;
+
+  let screenSharingConfig = {
+    audio: {
+      source: "screen-cast"
+    },
+    video:{
+      resolution:{
+        "width": width,
+        "height": height
+      },
+      frameRate: 20,
+      source:'screen-cast'
+    }
+  }
+
+  Owt.Base.MediaStreamFactory.createMediaStream(screenSharingConfig).then(stream => {
+    localScreen = new Owt.Base.LocalStream(stream, new Owt.Base.StreamSourceInfo('screen-cast','screen-cast'));
+    console.info(localScreen);
+    localScreenId = localScreen.id;
+    let screenVideoTracks = localScreen.mediaStream.getVideoTracks();
+    for (const screenVideoTrack of screenVideoTracks) {
+      screenVideoTrack.addEventListener('ended', function(e) {
+        localScreenPubliction.stop();
+      });
+    }
+    conference.publish(localScreen).then((publication) => {
+      console.info('-- sharescreen: publish success --');
+      localScreenPubliction = publication;
+    }, (err) => {
+      console.error('localsreen publish failed');
+    })
+  }, err => {
+    console.error('create localscreen failed');
+  });
+}
+
 const userExit = () => {
   if (localStream) {
     localStream.mediaStream.getTracks().forEach((track) => {
+      track.stop();
+    });
+  }
+  if (localScreen) {
+    localScreen.mediaStream.getTracks().forEach((track) => {
       track.stop();
     });
   }
@@ -321,6 +376,8 @@ const initStream = () => {
     },
     onSourceChanged: () => {
       selfieSegmentation.reset();
+      faceMesh.reset();
+      holistic.reset();
     },
     width: resolution.width,
     height: resolution.height,
