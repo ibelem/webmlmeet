@@ -1,9 +1,5 @@
-# oneWeb Meet
+# oneWeb Meet (Intelligent Collaboration)
 A Web-based Intelligent Collaboration (Video Conference) demo with AI features based on up to date W3C Web Neural Network API and powered by Intel Open WebRTC Toolkit (OWT).
-
-# WebNN Meeting (Intelligent Collaboration)
-
-A Web-based Intelligent Collaboration (Video Conference) example with AI features based on W3C Web Neural Network API and powered by Intel Open WebRTC Toolkit (OWT).
 
 > [Web Neural Network (WebNN) API](https://webmachinelearning.github.io/webnn/) is a dedicated low-level API for neural network inference hardware acceleration. It is published by the [W3C Machine Learning for the Web Community Group](https://www.w3.org/community/webmachinelearning/).
 
@@ -59,7 +55,6 @@ Update `config.js` with correct info:
 
 
 ```
-
 module.exports = {
   id: '5df9ca6f7415937c7a91d774',
   key: 'rGtTQokQM/OeG/9oDzK9TtFjd+OOeUmFN2dZl52mvaI4cSj1waduIJB8x21Wa9MaGqtZzV1KTWBvr7heBIgSjQjQyeBWI0RFzCTSyhFtd9jmZ994xE50Gkmb2zxkQYALef8oj8do3gT/cWfOfgq1zPooCkRtbMK1xm44Avduyj4=',
@@ -68,14 +63,13 @@ module.exports = {
   httpsPort: 8080,
 };
 
-
 ```
 
 Update `meetingserver.js`:
 
 ```
-  cert: fs.readFileSync('cert/webmlmeet.crt'),
-  key: fs.readFileSync('cert/webmlmeet.key'),
+cert: fs.readFileSync('cert/webmlmeet.crt'),
+key: fs.readFileSync('cert/webmlmeet.key'),
 ```
 
 
