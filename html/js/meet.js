@@ -32,14 +32,13 @@ let ssmodelinfo = [{
 
 let isfullscreen = false
 
-let conference = new Owt.Conference.ConferenceClient();
-let room, myid;
+let room = new Owt.Conference.ConferenceClient();
+let roomid, myid;
 let processedstream;
 let localStream;
-let publicationGlobal = null;
+let localPublication = null;
 let subList = {};
 let screenSub = null
-let isSelf;
 let avTrackConstraint = {
   audio: {
     source: "mic",
@@ -58,6 +57,9 @@ let localScreen, localScreenId, localScreenPubliction;
 let isScreenSharing = false;
 let remoteScreen = null;
 let remoteScreenName = null;
+
+let localId = null;
+let users = [];
 
 let localName = "user";
 let start, end, delta;
@@ -78,7 +80,7 @@ const initConference = () => {
 };
 
 const toggleVideo = () => {
-  if (!publicationGlobal || isAudioOnly) {
+  if (!localPublication || isAudioOnly) {
     return;
   }
 
@@ -92,7 +94,7 @@ const toggleVideo = () => {
       subList[temp].mute(Owt.Base.TrackKind.VIDEO);
     }
     localStream.mediaStream.getVideoTracks()[0].enabled = false;
-    publicationGlobal.mute(Owt.Base.TrackKind.VIDEO).then(
+    localPublication.mute(Owt.Base.TrackKind.VIDEO).then(
       () => {
         console.info("mute video");
         isPauseVideo = !isPauseVideo;
@@ -110,7 +112,7 @@ const toggleVideo = () => {
       subList[temp].unmute(Owt.Base.TrackKind.VIDEO);
     }
     localStream.mediaStream.getVideoTracks()[0].enabled = true;
-    publicationGlobal.unmute(Owt.Base.TrackKind.VIDEO).then(
+    localPublication.unmute(Owt.Base.TrackKind.VIDEO).then(
       () => {
         console.info("unmute video");
         isPauseVideo = !isPauseVideo;
@@ -123,12 +125,12 @@ const toggleVideo = () => {
 }
 
 const toggleAudio = () => {
-  if (!publicationGlobal) {
+  if (!localPublication) {
     return;
   }
 
   if (!isPauseAudio) {
-    publicationGlobal.mute(Owt.Base.TrackKind.AUDIO).then(
+    localPublication.mute(Owt.Base.TrackKind.AUDIO).then(
       () => {
         console.info('mute successfully');
         $('#pauseAudio').css({
@@ -145,7 +147,7 @@ const toggleAudio = () => {
       }
     );
   } else {
-    publicationGlobal.unmute(Owt.Base.TrackKind.AUDIO).then(
+    localPublication.unmute(Owt.Base.TrackKind.AUDIO).then(
       () => {
         console.info('unmute successfully');
         $('#pauseAudio').css({
@@ -161,14 +163,13 @@ const toggleAudio = () => {
   }
 }
 
-const subscribeVideo = (remotestream) => {
-  console.log(remotestream.id);
+const subscribeStream = (remotestream) => {
   console.log("-- remotestream.source.video -- 1 --")
   console.log(remotestream.source.video)
 
   let videoOption = !isAudioOnly;
 
-  conference.subscribe(remotestream, {video: videoOption}).then(
+  room.subscribe(remotestream, {video: videoOption}).then(
     (subscription) => {
       subList[subscription.id] = subscription;
       console.log("-- remotestream.source.video -- 2 --")
@@ -181,29 +182,8 @@ const subscribeVideo = (remotestream) => {
         });
       }
 
-      let $video = $(
-        `
-        <div class="vslot" id=${"div" + remotestream.id}>
-          <video autoplay id=${
-            "v" + remotestream.id
-          } style="display:block" onclick="switchfullscreen(this)">this browser does not supported video tag
-          </video>
-          <div class="bar">
-            <button type="button" class="btnfullscreen" onclick="remotefullscreen(this)">
-              <svg viewBox="0 0 448 512">
-                <path
-                  fill="currentColor"
-                  d="M0 180V56c0-13.3 10.7-24 24-24h124c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H64v84c0 6.6-5.4 12-12 12H12c-6.6 0-12-5.4-12-12zM288 44v40c0 6.6 5.4 12 12 12h84v84c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12V56c0-13.3-10.7-24-24-24H300c-6.6 0-12 5.4-12 12zm148 276h-40c-6.6 0-12 5.4-12 12v84h-84c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h124c13.3 0 24-10.7 24-24V332c0-6.6-5.4-12-12-12zM160 468v-40c0-6.6-5.4-12-12-12H64v-84c0-6.6-5.4-12-12-12H12c-6.6 0-12 5.4-12 12v124c0 13.3 10.7 24 24 24h124c6.6 0 12-5.4 12-12z"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-        `
-      );
-      $("#video-panel").append($video);
-      let vid = "#v" + remotestream.id;
-      document.querySelector(vid).srcObject = remotestream.mediaStream;
+      addVideo(remotestream)
+
     },
     (err) => {
       console.log("subscribe failed:");
@@ -220,37 +200,204 @@ const subscribeVideo = (remotestream) => {
   });
 };
 
-conference.addEventListener("streamadded", (event) => {
-  console.log("A new stream is added ", event.stream.id);
-  isSelf = isSelf ? isSelf : event.stream.id != publicationGlobal.id;
+function addVideo(remotestream) {
+  let $video = $(
+    `
+    <div class="vslot" id=${"div" + remotestream.id}>
+      <video autoplay id=${
+        "v" + remotestream.id
+      } style="display:block" onclick="switchfullscreen(this)">this browser does not supported video tag
+      </video>
+      <div class="bar">
+        <button type="button" class="btnfullscreen" onclick="remotefullscreen(this)">
+          <svg viewBox="0 0 448 512">
+            <path
+              fill="currentColor"
+              d="M0 180V56c0-13.3 10.7-24 24-24h124c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H64v84c0 6.6-5.4 12-12 12H12c-6.6 0-12-5.4-12-12zM288 44v40c0 6.6 5.4 12 12 12h84v84c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12V56c0-13.3-10.7-24-24-24H300c-6.6 0-12 5.4-12 12zm148 276h-40c-6.6 0-12 5.4-12 12v84h-84c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h124c13.3 0 24-10.7 24-24V332c0-6.6-5.4-12-12-12zM160 468v-40c0-6.6-5.4-12-12-12H64v-84c0-6.6-5.4-12-12-12H12c-6.6 0-12 5.4-12 12v124c0 13.3 10.7 24 24 24h124c6.6 0 12-5.4 12-12z"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    `
+  );
+  $("#video-panel").append($video);
+  let vid = "#v" + remotestream.id;
+  document.querySelector(vid).srcObject = remotestream.mediaStream;
+}
 
-  console.log(isSelf);
-  console.log("---- event.stream.id ----");
-  console.log(event.stream.id);
+function getUserFromName(name) {
+  for (var i = 0; i < users.length; ++i) {
+    if (users[i] && users[i].userId === name) {
+      return users[i];
+    }
+  }
+  return null;
+}
 
-  console.log("---- publicationGlobal.id ----");
-  console.log(publicationGlobal.id);
+function getUserFromId(id) {
+  for (var i = 0; i < users.length; ++i) {
+    if (users[i] && users[i].id === id) {
+      console.log(users)
+      return users[i];
+    }
+  }
+  return null;
+}
 
-  isSelf && subscribeVideo(event.stream);
-  // mixStream(room, event.stream.id, "common");
-  event.stream.addEventListener("ended", () => {
-    console.log(event.stream.id + " is ended.");
+function deleteUser(id) {
+  var index = 0;
+  for (var i = 0; i < users.length; ++i) {
+    if (users[i] && users[i].id === id) {
+      index = i;
+      break;
+    }
+  }
+  users.splice(index, 1);
+  // $('li').remove(":contains(" + id + ")");  
+}
+
+function loadUserList() {
+  for (var u in users) {
+    addUserListItem(users[u], true);
+  }
+}
+
+function addUserListItem(user, muted) {
+  var muteBtn =
+    '<img src="img/mute_white.png" class="muteShow" isMuted="true"/>';
+  var unmuteBtn =
+    '<img src="img/unmute_white.png" class="muteShow" isMuted="false"/>';
+  var muteStatus = muted ? muteBtn : unmuteBtn;
+  $('#user-list').append('<li><div class="userID">' + user.id +
+    '</div><img src="img/avatar.png" class="picture"/><div class="name">' +
+    user.userId + '</div>' + muteStatus + '</li>');
+}
+
+const addRoomEventListener = () => {
+  room.addEventListener("streamadded", (streamEvent) => {
+    console.log("Stream added ", streamEvent);
+    let stream = streamEvent.stream;
+
+    if (localStream && localStream.id === stream.id) {
+      return;
+    }
+
+    console.log('localId: ' + localId)
+    console.log('stream.id: ' + stream.id)
+    console.log('localScreenId: '+ localScreenId)
+    console.log('localName: '+ localName)
+    console.log('getUserFromId(stream.origin).userId: ' + getUserFromId(stream.origin).userId)
+
+    
+    if (localId !== stream.id && localScreenId !== stream.id && localName !== getUserFromId(stream.origin).userId) {
+      console.log('add video')
+      subscribeStream(stream);
+    }
+  
+    // mixStream(room, stream.id, "common");
+    stream.addEventListener("ended", () => {
+      console.log(stream.id + " is ended.");
+    });
   });
-});
+
+  room.addEventListener('participantjoined', (event) => {
+    console.log('participantjoined', event);
+    if(event.participant.userId !== 'user' && getUserFromId(event.participant.id) === null){
+      //new user
+      users.push({
+        id: event.participant.id,
+        userId: event.participant.userId,
+        role: event.participant.role
+      });
+      event.participant.addEventListener('left', () => {
+        if(event.participant.id !== null && event.participant.userId !== undefined){
+          // sendIm(event.participant.userId + ' has left the room ', 'System');
+          deleteUser(event.participant.id);
+        } else {
+          // sendIm('Anonymous has left the room.', 'System');
+        }
+      });
+      console.log("join user: " + event.participant.userId);
+      addUserListItem(event.participant,true);
+      //no need: send message to all for initId
+    }
+  });
+
+  room.addEventListener('messagereceived', (event) => {
+    console.log('messagereceived', event);
+    var user = getUserFromId(event.origin);
+    if (!user) return;
+    var receivedMsg = JSON.parse(event.message);
+    if(receivedMsg.type == 'msg'){
+      if(receivedMsg.data != undefined) {
+        var time = new Date();
+        var hour = time.getHours();
+        hour = hour > 9 ? hour.toString() : '0' + hour.toString();
+        var mini = time.getMinutes();
+        mini = mini > 9 ? mini.toString() : '0' + mini.toString();
+        var sec = time.getSeconds();
+        sec = sec > 9 ? sec.toString() : '0' + sec.toString();
+        var timeStr = hour + ':' + mini + ':' + sec;
+        var color = getColor(user.userId);
+        $('<p class="' + color + '">').html(timeStr + ' ' + user.userId +'<br />')
+        .append(document.createTextNode(receivedMsg.data)).appendTo('#text-content');
+        $('#text-content').scrollTop($('#text-content').prop('scrollHeight'));
+      }
+    }
+  }); 
+}
+
+let createLocal = () => {
+  localStream = new Owt.Base.LocalStream(
+    processedstream,
+    new Owt.Base.StreamSourceInfo("mic", "camera")
+  );
+
+  localId = localStream.id;
+  addVideo(localStream)
+  room.publish(localStream).then((publication) => {
+    localPublication = publication;
+    isPauseAudio = false;
+    toggleAudio();
+    isPauseVideo = true;
+    toggleVideo();
+    mixStream(roomid, publication.id, "common");
+    console.info('publish success');
+    publication.addEventListener("error", (err) => {
+      console.log("Publication error: " + err.error.message);
+    });
+  });
+}
 
 const publishStream = () => {
-  createToken(room, localName, "presenter", function (response) {
+  createToken(roomid, localName, "presenter", function (response) {
     let token = response;
-    conference.join(token).then((resp) => {
-      // myid = resp.self.id
-      room = resp.id;
+    addRoomEventListener();
 
+    room.join(token).then((resp) => {
+      // myid = resp.self.id
+      roomid = resp.id;
+      let getLoginUsers = resp.participants;
       let streams = resp.remoteStreams;
+      getLoginUsers.map(function(participant){
+        participant.addEventListener('left', () => {
+          //TODO:send message for notice everyone the participant has left maybe no need
+          deleteUser(participant.id);
+        });
+        users.push({
+          id: participant.id,
+          userId: participant.userId,
+          role: participant.role
+        });
+      });
+      loadUserList();
+      createLocal();
+
       for (const stream of streams) {
-        console.log('dddddddddddddddd')
-        console.log(stream.source.video)
+        console.log("stream.source.video: " + stream.source.video)
         if (stream.source.audio !== "mixed" || stream.source.video === 'screen-cast' ) {
-          subscribeVideo(stream);
+          subscribeStream(stream);
         }
       }
       console.log("Streams in conference:", streams.length);
@@ -259,24 +406,6 @@ const publishStream = () => {
       console.log(resp.participants);
 
       // document.querySelector("#pnumber").innerHTML = resp.participants.length
-
-      localStream = new Owt.Base.LocalStream(
-        processedstream,
-        new Owt.Base.StreamSourceInfo("mic", "camera")
-      );
-
-      conference.publish(localStream).then((publication) => {
-        publicationGlobal = publication;
-        isPauseAudio = false;
-        toggleAudio();
-        isPauseVideo = true;
-        toggleVideo();
-        mixStream(room, publication.id, "common");
-        console.info('publish success');
-        publication.addEventListener("error", (err) => {
-          console.log("Publication error: " + err.error.message);
-        });
-      });
     });
   });
 };
@@ -309,7 +438,7 @@ const shareScreen = () => {
         localScreenPubliction.stop();
       });
     }
-    conference.publish(localScreen).then((publication) => {
+    room.publish(localScreen).then((publication) => {
       console.info('-- sharescreen: publish success --');
       localScreenPubliction = publication;
     }, (err) => {
@@ -332,11 +461,10 @@ const userExit = () => {
     });
   }
   localStream = undefined;
-  conference.leave();
+  room.leave();
+  users = [];
   subList = {};
   isAudioOnly = false;
-  console.log(publicationGlobal);
-  publicationGlobal.stop();
   location.reload();
 };
 
