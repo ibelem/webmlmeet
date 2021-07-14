@@ -32,8 +32,8 @@ let ssmodelinfo = [{
 
 let isfullscreen = false
 
-let room = new Owt.Conference.ConferenceClient();
-let roomid, myid;
+let room = null;
+let roomId, myid;
 let processedstream;
 let localStream;
 let localPublication = null;
@@ -77,6 +77,85 @@ const initConference = () => {
   } else {
     $("#hd").css("display", "none");
   }
+
+  let createLocal = () => {
+    console.log('dddd')
+
+    localStream = new Owt.Base.LocalStream(
+      processedstream,
+      new Owt.Base.StreamSourceInfo("mic", "camera")
+    );
+  
+    localId = localStream.id;
+    room.publish(localStream).then((publication) => {
+      localPublication = publication;
+      isPauseAudio = false;
+      toggleAudio();
+      isPauseVideo = true;
+      toggleVideo();
+      mixStream(roomId, localPublication.id, "common");
+      console.info('publish success');
+      publication.addEventListener("error", (err) => {
+        console.log("Publication error: " + err.error.message);
+      });
+    });
+  }
+
+  createToken(roomId, localName, "presenter", function (response) {
+    console.log('createToken0')
+    let token = response;
+    if (!room) {
+      room = new Owt.Conference.ConferenceClient();
+      addRoomEventListener();
+    }
+    console.log('createToken1')
+    room.join(token).then((resp) => {
+      // myid = resp.self.id
+      console.log('createToken2')
+      roomId = resp.id;
+      let getLoginUsers = resp.participants;
+      let streams = resp.remoteStreams;
+      console.log(users)
+      getLoginUsers.map(function(participant){
+        participant.addEventListener('left', () => {
+          //TODO:send message for notice everyone the participant has left maybe no need
+          deleteUser(participant.id);
+        });
+        users.push({
+          id: participant.id,
+          userId: participant.userId,
+          role: participant.role
+        });
+        console.log(users)
+      });
+      loadUserList();
+      createLocal();
+
+      console.log(streams)
+
+      for (const stream of streams) {
+        console.log("stream.source.video: " + stream.source.video)
+        if (stream.source.audio !== "mixed" || stream.source.video === 'screen-cast' ) {
+          
+          console.log("stream.source.video:" + stream.source.video)
+          subscribeStream(stream);
+        }
+      }
+
+      // console.log("Streams in conference:", streams.length);
+      // console.log("Participants in conference: " + resp.participants.length);
+      // console.log("Participants: ");
+      // console.log(resp.participants);
+
+      // document.querySelector("#pnumber").innerHTML = resp.participants.length
+    }, err => {
+      console.log("server connect failed: " + err);
+      if (err.message.indexOf('connect_error:') >= 0) {
+        const signalingHost = err.message.replace('connect_error:', '');
+        alertCert(signalingHost);
+      }
+    });
+  });
 };
 
 const toggleVideo = () => {
@@ -236,9 +315,10 @@ function getUserFromName(name) {
 }
 
 function getUserFromId(id) {
+  console.log("id: " + id)
   for (var i = 0; i < users.length; ++i) {
     if (users[i] && users[i].id === id) {
-      console.log(users)
+      console.log(users[i].id + ': ' + users[i].userId + ' ' + users[i].role)
       return users[i];
     }
   }
@@ -258,6 +338,8 @@ function deleteUser(id) {
 }
 
 function loadUserList() {
+  console.log('loadUserList: ')
+  console.log(users)
   for (var u in users) {
     addUserListItem(users[u], true);
   }
@@ -274,27 +356,26 @@ function addUserListItem(user, muted) {
     user.userId + '</div>' + muteStatus + '</li>');
 }
 
-const addRoomEventListener = () => {
+function addRoomEventListener() {
   room.addEventListener("streamadded", (streamEvent) => {
     console.log("Stream added ", streamEvent);
+
     let stream = streamEvent.stream;
+    console.log(stream);
 
     if (localStream && localStream.id === stream.id) {
       return;
     }
 
-    console.log('localId: ' + localId)
-    console.log('stream.id: ' + stream.id)
-    console.log('localScreenId: '+ localScreenId)
-    console.log('localName: '+ localName)
-    console.log('getUserFromId(stream.origin).userId: ' + getUserFromId(stream.origin).userId)
-
+    console.log('localId: ' + localId + '!=='  + 'stream.id: ' + stream.id)
+    console.log('localScreenId: '+ localScreenId  + '!=='  + stream.id)
+    console.log('localName: '+ localName + ' !== getUserFromId(stream.origin).userId: ' + getUserFromId(stream.origin).userId)
     
     if (localId !== stream.id && localScreenId !== stream.id && localName !== getUserFromId(stream.origin).userId) {
       console.log('add video')
       subscribeStream(stream);
     }
-  
+
     // mixStream(room, stream.id, "common");
     stream.addEventListener("ended", () => {
       console.log(stream.id + " is ended.");
@@ -303,6 +384,7 @@ const addRoomEventListener = () => {
 
   room.addEventListener('participantjoined', (event) => {
     console.log('participantjoined', event);
+    console.log(event.participant.userId)
     if(event.participant.userId !== 'user' && getUserFromId(event.participant.id) === null){
       //new user
       users.push({
@@ -348,67 +430,6 @@ const addRoomEventListener = () => {
   }); 
 }
 
-let createLocal = () => {
-  localStream = new Owt.Base.LocalStream(
-    processedstream,
-    new Owt.Base.StreamSourceInfo("mic", "camera")
-  );
-
-  localId = localStream.id;
-  addVideo(localStream)
-  room.publish(localStream).then((publication) => {
-    localPublication = publication;
-    isPauseAudio = false;
-    toggleAudio();
-    isPauseVideo = true;
-    toggleVideo();
-    mixStream(roomid, publication.id, "common");
-    console.info('publish success');
-    publication.addEventListener("error", (err) => {
-      console.log("Publication error: " + err.error.message);
-    });
-  });
-}
-
-const publishStream = () => {
-  createToken(roomid, localName, "presenter", function (response) {
-    let token = response;
-    addRoomEventListener();
-
-    room.join(token).then((resp) => {
-      // myid = resp.self.id
-      roomid = resp.id;
-      let getLoginUsers = resp.participants;
-      let streams = resp.remoteStreams;
-      getLoginUsers.map(function(participant){
-        participant.addEventListener('left', () => {
-          //TODO:send message for notice everyone the participant has left maybe no need
-          deleteUser(participant.id);
-        });
-        users.push({
-          id: participant.id,
-          userId: participant.userId,
-          role: participant.role
-        });
-      });
-      loadUserList();
-      createLocal();
-
-      for (const stream of streams) {
-        console.log("stream.source.video: " + stream.source.video)
-        if (stream.source.audio !== "mixed" || stream.source.video === 'screen-cast' ) {
-          subscribeStream(stream);
-        }
-      }
-      console.log("Streams in conference:", streams.length);
-      console.log("Participants in conference: " + resp.participants.length);
-      console.log("Participants: ");
-      console.log(resp.participants);
-
-      // document.querySelector("#pnumber").innerHTML = resp.participants.length
-    });
-  });
-};
 
 const shareScreen = () => {
   let width = screen.width,
@@ -547,7 +568,7 @@ function onBRResults(results) {
     if(!isbb && !isbr) {
       ctx.drawImage(results.image, 0, 0, cW, cH);
       if(isbeauty) {
-        ctx.filter = "saturate(110%) brightness(130%) contrast(110%) blur(1px)"
+        ctx.filter = "saturate(105%) brightness(120%) contrast(110%) blur(1px)"
       } else {
         ctx.filter = "saturate(100%) brightness(100%) contrast(100%) blur(0px)"
       }
@@ -743,9 +764,8 @@ new controls.ControlPanel(controlsElement).add([fpsControl]);
 
 const onewebMeet = async () => {
   // await createOWTStream()
-  initConference();
   initStream();
   await camera.start();
   getProcessedStream();
-  publishStream();
+  initConference();
 };
