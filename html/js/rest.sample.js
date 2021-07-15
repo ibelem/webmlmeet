@@ -76,6 +76,8 @@ var createToken = function (room, user, role, callback, host) {
         user: user,
         role: role
     };
+    console.log(body)
+    console.log(room)
     if (room) {
         send('POST', '/rooms/' + room + '/tokens/', body, callback, host);
     } else {

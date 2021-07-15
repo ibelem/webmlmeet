@@ -104,12 +104,14 @@ const initConference = () => {
   createToken(roomId, localName, "presenter", function (response) {
     console.log('createToken0')
     let token = response;
+    console.log(token)
     if (!room) {
       room = new Owt.Conference.ConferenceClient();
       addRoomEventListener();
     }
     console.log('createToken1')
-    room.join(token).then((resp) => {
+    console.log(room)
+    room.join(token).then(resp => {
       // myid = resp.self.id
       console.log('createToken2')
       roomId = resp.id;
@@ -365,15 +367,17 @@ function addRoomEventListener() {
 
     if (localStream && localStream.id === stream.id) {
       return;
-    }
+    } else {
 
-    console.log('localId: ' + localId + '!=='  + 'stream.id: ' + stream.id)
-    console.log('localScreenId: '+ localScreenId  + '!=='  + stream.id)
-    console.log('localName: '+ localName + ' !== getUserFromId(stream.origin).userId: ' + getUserFromId(stream.origin).userId)
-    
-    if (localId !== stream.id && localScreenId !== stream.id && localName !== getUserFromId(stream.origin).userId) {
-      console.log('add video')
-      subscribeStream(stream);
+      console.log('localId: ' + localId + '!=='  + 'stream.id: ' + stream.id)
+      console.log('localScreenId: '+ localScreenId  + '!=='  + stream.id)
+      console.log('localName: '+ localName + ' !== getUserFromId(stream.origin).userId: ' + getUserFromId(stream.origin).userId)
+
+      if (localId !== stream.id && localScreenId !== stream.id && localName !== getUserFromId(stream.origin).userId) {
+        console.log('add video')
+        subscribeStream(stream);
+      }
+
     }
 
     // mixStream(room, stream.id, "common");
@@ -383,10 +387,13 @@ function addRoomEventListener() {
   });
 
   room.addEventListener('participantjoined', (event) => {
+    console.log('-----------------');
     console.log('participantjoined', event);
     console.log(event.participant.userId)
     if(event.participant.userId !== 'user' && getUserFromId(event.participant.id) === null){
       //new user
+      console.log(users)
+      console.log('---- new user ----')
       users.push({
         id: event.participant.id,
         userId: event.participant.userId,
@@ -402,6 +409,8 @@ function addRoomEventListener() {
       });
       console.log("join user: " + event.participant.userId);
       addUserListItem(event.participant,true);
+      console.log(users)
+      console.log('-----------------');
       //no need: send message to all for initId
     }
   });
