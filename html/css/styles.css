@@ -126,15 +126,14 @@ button {
 #user-list {
   height: 36vh;
   overflow-y: auto;
-  max-width: 230px;
+  max-width: 243px;
   overflow-x: hidden;
 }
 
 #text-content {
   height: 36vh;
   overflow-y: auto;
-  padding-right: 10px;
-  max-width: 230px;
+  max-width: 243px;
   overflow-x: hidden;
 }
 
@@ -151,26 +150,26 @@ button {
 
 #user-list::-webkit-scrollbar-track, #text-content::-webkit-scrollbar-track
 {
-	box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+	box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 	background-color: var(--bg-lb-color);
-	border-radius: 6px;
+	border-radius: 5px;
 }
 
 #user-list::-webkit-scrollbar, #text-content::-webkit-scrollbar
 {
-	width: 6px;
+	width: 5px;
 	background-color: var(--bg-lb-color);
 }
 
 #user-list::-webkit-scrollbar-thumb, #text-content::-webkit-scrollbar-thumb
 {
-	border-radius: 6px;
+	border-radius: 5px;
 	background-color: var(--bg-textbg-color);
 }
 
 #text-send::-webkit-scrollbar-track
 {
-	box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+	box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 	background-color: var(--bg-lb-color);
 	border-radius: 2px;
 }
@@ -203,8 +202,8 @@ button {
 }
 
 #user-list svg {
-  height: 14px;
-  width: 14px;
+  height: 20px;
+  width: 20px;
   color: var(--text-color);
   display: inline-block;
 }
@@ -213,6 +212,7 @@ button {
   display: inline-block;
   max-width: 156px;
   overflow-x: hidden;
+  margin-left: 0.2rem;
 }
 
 #user-list li {
@@ -226,8 +226,9 @@ button {
 }
 
 .muteShow, .muteShow svg {
-  width: 14px;
-  text-align: right;
+  width: 20px;
+  align-self:center;
+  justify-self:flex-end;
 }
 
 #participants, #conversation {
@@ -243,7 +244,7 @@ button {
   position: fixed;
   bottom: 20px;
   left: 10px;
-  width: 230px;
+  width: 236px;
 }
 
 .msghead {

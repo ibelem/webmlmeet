@@ -5,12 +5,14 @@
   gap: 0px 0px;
   grid-template-areas: 
   ". . . . . "
+  ". . . . . "
   ". . . . . ";
 }
 
 .norightbar .video-panel {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-areas: 
+  ". . . . . ."
   ". . . . . ."
   ". . . . . .";
 }

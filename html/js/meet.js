@@ -214,31 +214,18 @@ const toggleAudio = () => {
     localPublication.mute(Owt.Base.TrackKind.AUDIO).then(
       () => {
         console.info('mute successfully');
-        $('#pauseAudio').css({
-          backgroundImage: 'url("img/mute-voice.png")',
-          backgroundColor: '#ccc'
-        });
         isPauseAudio = !isPauseAudio;
       },err => {
         console.error('mute failed');
-        $('#pauseAudio').css({
-          backgroundImage: 'url("img/audio.png")',
-          backgroundColor: '#7bff7a'
-        });
       }
     );
   } else {
     localPublication.unmute(Owt.Base.TrackKind.AUDIO).then(
       () => {
         console.info('unmute successfully');
-        $('#pauseAudio').css({
-          backgroundImage: 'url("img/audio.png")',
-          backgroundColor: '#7bff7a'
-        });
         isPauseAudio = !isPauseAudio;
       },err => {
         console.error('unmute failed');
-        $('#pauseAudio').text("Unmute me");
       }
     );
   }
@@ -347,15 +334,89 @@ function loadUserList() {
   }
 }
 
+function chgMutePic(id, muted) {
+  var line = $('li:contains(' + id + ')').children('.muteShow');
+  if (muted) {
+    line.attr('src', "img/mute_white.png");
+    line.attr('isMuted', true);
+  } else {
+    line.attr('src', "img/unmute_white.png");
+    line.attr('isMuted', false);
+  }
+}
+
 function addUserListItem(user, muted) {
   var muteBtn =
-    '<img src="img/mute_white.png" class="muteShow" isMuted="true"/>';
+    `<div class="muteShow" isMuted="true">
+      <svg viewBox="0 0 24 24">
+        <path fill="currentColor" d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z" />
+      </svg> 
+    </div>`;
   var unmuteBtn =
-    '<img src="img/unmute_white.png" class="muteShow" isMuted="false"/>';
+    `<div class="muteShow" isMuted="true">
+      <svg viewBox="0 0 24 24">
+        <path fill="currentColor" d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z" />
+      </svg>
+    </div>`;
   var muteStatus = muted ? muteBtn : unmuteBtn;
   $('#user-list').append('<li><div class="userID">' + user.id +
-    '</div><img src="img/avatar.png" class="picture"/><div class="name">' +
-    user.userId + '</div>' + muteStatus + '</li>');
+    `</div>
+    <svg viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6M12,13C14.67,13 20,14.33 20,17V20H4V17C4,14.33 9.33,13 12,13M12,14.9C9.03,14.9 5.9,16.36 5.9,17V18.1H18.1V17C18.1,16.36 14.97,14.9 12,14.9Z" />
+    </svg>
+    <div class="name">`
+    + user.userId + '</div>' + muteStatus + '</li>');
+}
+
+function sendIm(msg, sender) {
+  var time = new Date();
+  var hour = time.getHours();
+  hour = hour > 9 ? hour.toString() : '0' + hour.toString();
+  var mini = time.getMinutes();
+  mini = mini > 9 ? mini.toString() : '0' + mini.toString();
+  var sec = time.getSeconds();
+  sec = sec > 9 ? sec.toString() : '0' + sec.toString();
+  var timeStr = hour + ':' + mini + ':' + sec;
+  if (msg === undefined) {
+    // send local msg
+    if ($('#text-send').val()) {
+      msg = $('#text-send').val();
+      var sendMsgInfo = JSON.stringify({
+        type: "msg",
+        data: msg
+      })
+      $('#text-send').val('').height('18px');
+      $('#text-content').css('bottom', '30px');
+      sender = localId;
+      console.info('ready to send message');
+      // send to server
+      if (localName !== null) {
+        room.send(sendMsgInfo).then(() => {
+          console.info('begin to send message');
+          console.info(localName + 'send message: ' + msg);
+        }, err => {
+          console.error(localName + 'sned failed: ' + err);
+        });
+      }
+    } else {
+      return;
+    }
+  }
+
+  var user = getUserFromId(sender);
+  var name = user ? user['userId'] : 'System';
+  if (name !== 'System') {
+    $('<p>').html(
+      `
+      <div class="msghead">
+      <div class="msguser">${user.userId }</div><div class="msgtime">${timeStr}</div>
+      </div>
+      `
+      )
+      .append(document.createTextNode(msg)).appendTo('#text-content');
+    // scroll to bottom of text content
+    $('#text-content').scrollTop($('#text-content').prop('scrollHeight'));
+  }
 }
 
 function addRoomEventListener() {
@@ -401,10 +462,10 @@ function addRoomEventListener() {
       });
       event.participant.addEventListener('left', () => {
         if(event.participant.id !== null && event.participant.userId !== undefined){
-          // sendIm(event.participant.userId + ' has left the room ', 'System');
+          sendIm(event.participant.userId + ' has left the room ', 'System');
           deleteUser(event.participant.id);
         } else {
-          // sendIm('Anonymous has left the room.', 'System');
+          sendIm('Anonymous has left the room.', 'System');
         }
       });
       console.log("join user: " + event.participant.userId);
@@ -430,8 +491,13 @@ function addRoomEventListener() {
         var sec = time.getSeconds();
         sec = sec > 9 ? sec.toString() : '0' + sec.toString();
         var timeStr = hour + ':' + mini + ':' + sec;
-        var color = getColor(user.userId);
-        $('<p class="' + color + '">').html(timeStr + ' ' + user.userId +'<br />')
+        $('<p>').html(
+          `
+          <div class="msghead">
+          <div class="msguser">${user.userId }</div><div class="msgtime">${timeStr}</div>
+          </div>
+          `
+          )
         .append(document.createTextNode(receivedMsg.data)).appendTo('#text-content');
         $('#text-content').scrollTop($('#text-content').prop('scrollHeight'));
       }

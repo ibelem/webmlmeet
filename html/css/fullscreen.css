@@ -55,9 +55,11 @@ body.fullscreen {
 .fullscreen .video-panel {
     display: grid; 
     grid-template-columns: 1fr; 
-    grid-template-rows: 1fr 1fr 1fr; 
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr; 
     gap: 0px 0px; 
     grid-template-areas: 
+      "."
+      "."
       "."
       "."
       "."; 
@@ -77,8 +79,14 @@ body.fullscreen {
 }
 
 .fullscreen .video-panel video, .fullscreen .video-panel canvas {
-    width: 220px;
-    height: 123px;
+    width: 160px;
+    height: 90px;
+    cursor: pointer;
+}
+
+.fullscreen .norightbar .video-panel video, .fullscreen .norightbar .video-panel canvas {
+    width: 200px;
+    height: 112px;
     cursor: pointer;
 }
 
@@ -106,4 +114,40 @@ body.fullscreen {
 
 .fullscreen #btnexitfullscreen {
     display: inline-block;
+}
+
+.fullscreen .main {
+    box-shadow: none;
+}
+
+.fullscreen #user-list::-webkit-scrollbar-track, .fullscreen #text-content::-webkit-scrollbar-track
+{
+	box-shadow: inset 0 0 5px rgba(255, 255, 255,0.1);
+	background-color: rgba(255, 255, 255, 0);
+}
+
+.fullscreen #user-list::-webkit-scrollbar, .fullscreen #text-content::-webkit-scrollbar
+{
+	background-color: rgba(255, 255, 255,0.1);
+}
+
+.fullscreen #user-list::-webkit-scrollbar-thumb, .fullscreen #text-content::-webkit-scrollbar-thumb
+{
+	background-color: rgba(255, 255, 255,0.1);
+}
+
+.fullscreen #text-send::-webkit-scrollbar-track
+{
+	box-shadow: inset 0 0 5px rgba(255, 255, 255,0.1);
+	background-color: rgba(255, 255, 255, 0);
+}
+
+.fullscreen #text-send::-webkit-scrollbar
+{
+	background-color: rgba(255, 255, 255,0.1);
+}
+
+.fullscreen #text-send::-webkit-scrollbar-thumb
+{
+	background-color: rgba(255, 255, 255,0.1);
 }

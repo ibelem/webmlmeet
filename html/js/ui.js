@@ -258,7 +258,7 @@ $("#ebeauty").click(() => {
 $("#ocbar").click(() => {
   if ($("#opcanvasdiv").hasClass("x4")) {
     $("#opcanvasdiv").removeClass("x4")
-    $("#ocbar").html("4x")
+    $("#ocbar").html("9x")
   } else {
     $("#opcanvasdiv").addClass("x4")
     $("#ocbar").html("1x")
