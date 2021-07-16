@@ -101,6 +101,10 @@ Once you are using macOS and it says "Your connection is not private", click som
 
 The License of oneWebMeet is Apache 2.0.
 
+## Code Hacks
+
+There are some code hacks in Intel Open WebRTC Toolkit (OWT), please refer to [code hacks](doc/CodeHacks.md).
+
 ## Error Handling
 
 If you encounter the error `ENOSPC: System limit for number of file watchers reached, watch`  when build the project on Ubuntu, please try: 
