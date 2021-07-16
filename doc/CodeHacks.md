@@ -2,7 +2,7 @@ There are some code hacks for running the app better.
 
 ## Intel Open WebRTC Toolkit (OWT)
 
-Update `assets/js/owt/conference/channel.js` code
+Updated `js/owt/conference/channel.js` code
 
 ```
   if (options.audio === undefined) {
