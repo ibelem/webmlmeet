@@ -1,6 +1,6 @@
 /*
  * Intel WebRTC SDK version 5.0.0
- * Copyright (c) 2020 Intel <http://webrtc.intel.com>
+ * Copyright (c) 2021 Intel <http://webrtc.intel.com>
  * Homepage: http://webrtc.intel.com
  */
 
