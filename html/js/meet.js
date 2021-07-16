@@ -10,6 +10,7 @@ let camera,
   isfm = false,
   ish = false,
   isbeauty = false;
+  isbeautycv = false;
 let ss = 0
 let ssmodelinfo = [{
     id: 0,
@@ -635,18 +636,73 @@ bgfilebutton.addEventListener(
   false
 );
 
+function face2(image, value1, value2)
+  {
+
+    let dst = new cv.Mat();
+    if(value1 == null || value1 == undefined)	value1 = 3;//磨皮系数
+    if(value2 == null || value2 == undefined)	value2 = 1;//细节系数 0.5 - 2
+
+    var dx = value1 * 5;//双边滤波参数
+    var fc = value1 * 12.5;//参数
+    var p = 0.1;//透明度
+
+    let temp1 = new cv.Mat(), temp2 = new cv.Mat(), temp3 = new cv.Mat(), temp4 = new cv.Mat();
+
+    cv.cvtColor(image, image, cv.COLOR_RGBA2RGB, 0);
+
+    cv.bilateralFilter(image, temp1, dx, fc, fc);//bilateralFilter(Src)
+
+    let temp22 = new cv.Mat();
+    cv.subtract(temp1, image, temp22);//bilateralFilter(Src) - Src
+
+    cv.add(temp22, new cv.Mat(image.rows, image.cols, image.type(), new cv.Scalar(128, 128, 128, 128)), temp2);//bilateralFilter(Src) - Src + 128
+
+    cv.GaussianBlur(temp2, temp3, new cv.Size(2 * value2 - 1, 2 * value2 - 1), 0, 0);
+    //2 * GuassBlur(bilateralFilter(Src) - Src + 128) - 1
+
+    let temp44 = new cv.Mat();
+    temp3.convertTo(temp44, temp3.type(), 2, -255);
+    //2 * GuassBlur(bilateralFilter(Src) - Src + 128) - 256
+
+    cv.add(image, temp44, temp4);
+    cv.addWeighted(image, p, temp4, 1-p, 0.0, dst);
+    //Src * (100 - Opacity)
+
+    cv.add(dst, new cv.Mat(image.rows, image.cols, image.type(), new cv.Scalar(10, 10, 10, 0)), dst);
+    //(Src * (100 - Opacity) + (Src + 2 * GuassBlur(bilateralFilter(Src) - Src + 128) - 256) * Opacity) /100
+
+    return dst;
+  }
+
+let ocanvas = document.querySelector("#cvcanvas");
+
 function onBRResults(results) {
   if(isPauseVideo) {
     ctx.drawImage(bgpause, 0, 0, cW, cH);
   } else {
 
     if(!isbb && !isbr) {
+
       ctx.drawImage(results.image, 0, 0, cW, cH);
       if(isbeauty) {
         ctx.filter = "saturate(105%) brightness(120%) contrast(110%) blur(1px)"
       } else {
         ctx.filter = "saturate(100%) brightness(100%) contrast(100%) blur(0px)"
       }
+
+      if(isbeautycv) {
+        start = performance.now()
+        let imageData = ctx.getImageData(0, 0, cW, cH);
+        let mat =  new cv.matFromImageData(imageData);
+        mat = face2(mat, 4, 3);
+        cv.imshow(ocanvas, mat);
+        mat.delete();
+        end = performance.now()
+        delta = end - start
+        $("#ebeautycv span").html('Face Beauty (OpenCV.js) ' + delta.toFixed(1) + 'ms')
+      }
+
     } else {
 
       end = performance.now()

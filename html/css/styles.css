@@ -43,7 +43,11 @@ body {
 }
 
 .dnone {
-  display: none
+  display: none;
+}
+
+.dnonecv {
+  display: none !important;
 }
 
 #setting h4 {
