@@ -30,7 +30,7 @@ const login = async () => {
   localName = $("#inputjoin").val()
   if (localName !== "") {
     $("#navuser").html(localName)
-    onewebMeet()
+    onewebMeetMediaPipe()
   }
 }
 
@@ -80,13 +80,13 @@ $(document).ready(function () {
   updateDocSize()
 
   if(hasSearchParam("ss")) {
-    ss = parseInt(parseSearchParams("ss"))
+    selfie_segmentation_landscape = parseInt(parseSearchParams("ss"))
   } else {
-    ss = 0
+    selfie_segmentation_landscape = 0
   }
 
   selfieSegmentation.setOptions({
-    modelSelection: ss,
+    modelSelection: selfie_segmentation_landscape,
   });
 
   $(".btnfullscreen").click(function () {
@@ -171,7 +171,7 @@ $("#rbclose").on("click", function () {
 })
 
 const showModelInfo = () => {
-  let modelindex = ssmodelinfo[ss]
+  let modelindex = ssmodelinfo[selfie_segmentation_landscape]
   let modelinfo = `
     ${modelindex.inputsize}<br/>
     ${modelindex.format} / ${modelindex.size}<br/>
