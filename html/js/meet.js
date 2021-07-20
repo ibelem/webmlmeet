@@ -677,6 +677,15 @@ function face2(image, value1, value2)
 
 let ocanvas = document.querySelector("#cvcanvas");
 
+function openCvReady(ctx) {
+  console.log(ctx)
+  let imageData = ctx.getImageData(0, 0, cW, cH);
+  let mat = cv.matFromImageData(imageData);
+  mat = face2(mat, 5, 5);
+  cv.imshow(ocanvas, mat);
+  mat.delete();
+}
+
 function onBRResults(results) {
   if(isPauseVideo) {
     ctx.drawImage(bgpause, 0, 0, cW, cH);
@@ -693,14 +702,12 @@ function onBRResults(results) {
 
       if(isbeautycv) {
         start = performance.now()
-        let imageData = ctx.getImageData(0, 0, cW, cH);
-        let mat =  new cv.matFromImageData(imageData);
-        mat = face2(mat, 4, 3);
-        cv.imshow(ocanvas, mat);
-        mat.delete();
+
+        openCvReady(ctx)
+
         end = performance.now()
         delta = end - start
-        $("#ebeautycv span").html('Face Beauty (OpenCV.js) ' + delta.toFixed(1) + 'ms')
+        $("#ebeautycv span").html('Beauty (OpenCV.js) ' + delta.toFixed(1) + 'ms')
       }
 
     } else {
