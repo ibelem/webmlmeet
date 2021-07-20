@@ -6,9 +6,6 @@ let cH = $("#outputcanvas")[0].height;
 let camera,
   isbr = false,
   isbb = false,
-  isfd = false,
-  isfm = false,
-  ish = false,
   isbeauty = false;
 let ss = 0
 let ssmodelinfo = [{
@@ -578,19 +575,7 @@ const userExit = () => {
 // }
 
 const mpfeatures = async () => {
-  if (isbr || isbb) {
-    await selfieSegmentation.send({ image: inputvideo_mp });
-  }
-  // else if(isfd) {
-  //   await faceDetection.send({ image: inputvideo_mp })
-  // }
-  else if (isfm) {
-    await faceMesh.send({ image: inputvideo_mp });
-  } else if (ish) {
-    await holistic.send({ image: inputvideo_mp });
-  } else {
-    await selfieSegmentation.send({ image: inputvideo_mp });
-  }
+  await selfieSegmentation.send({ image: inputvideo_mp });
 };
 
 const initStream = () => {
@@ -600,8 +585,6 @@ const initStream = () => {
     },
     onSourceChanged: () => {
       selfieSegmentation.reset();
-      faceMesh.reset();
-      holistic.reset();
     },
     width: resolution.width,
     height: resolution.height,
@@ -695,142 +678,6 @@ const selfieSegmentation = new SelfieSegmentation({
 });
 
 selfieSegmentation.onResults(onBRResults);
-
-function onFMResults(results) {
-  end = performance.now()
-  if(start) {
-    delta = end - start
-    spaninference.html(delta.toFixed(1))
-  }
-
-  fpsControl.tick();
-  ctx.save();
-  ctx.clearRect(0, 0, cW, cH);
-  ctx.drawImage(results.image, 0, 0, cW, cH);
-  if (results.multiFaceLandmarks) {
-    for (const landmarks of results.multiFaceLandmarks) {
-      drawConnectors(ctx, landmarks, FACEMESH_TESSELATION, {
-        color: "#C0C0C070",
-        lineWidth: 1,
-      });
-      drawConnectors(ctx, landmarks, FACEMESH_RIGHT_EYE, {
-        color: "#FF3030",
-      });
-      drawConnectors(ctx, landmarks, FACEMESH_RIGHT_EYEBROW, {
-        color: "#FF3030",
-      });
-      drawConnectors(ctx, landmarks, FACEMESH_LEFT_EYE, {
-        color: "#30FF30",
-      });
-      drawConnectors(ctx, landmarks, FACEMESH_LEFT_EYEBROW, {
-        color: "#30FF30",
-      });
-      drawConnectors(ctx, landmarks, FACEMESH_FACE_OVAL, {
-        color: "#E0E0E0",
-      });
-      drawConnectors(ctx, landmarks, FACEMESH_LIPS, { color: "#E0E0E0" });
-    }
-  }
-  ctx.restore();
-  start = performance.now()
-}
-
-const faceMesh = new FaceMesh({
-  locateFile: (file) => {
-    return `./js/mediapipe/model/face_mesh/${file}`;
-  },
-});
-faceMesh.setOptions({
-  maxNumFaces: 1,
-  minDetectionConfidence: 0.5,
-  minTrackingConfidence: 0.5,
-});
-faceMesh.onResults(onFMResults);
-
-function onHResults(results) {
-  end = performance.now()
-  if(start) {
-    delta = end - start
-    spaninference.html(delta.toFixed(1))
-  }
-
-  fpsControl.tick();
-  ctx.save();
-  ctx.clearRect(0, 0, cW, cH);
-  ctx.drawImage(results.image, 0, 0, cW, cH);
-  drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS, {
-    color: "#00FF00",
-    lineWidth: 4,
-  });
-  drawLandmarks(ctx, results.poseLandmarks, {
-    color: "#FF0000",
-    lineWidth: 2,
-  });
-  drawConnectors(ctx, results.faceLandmarks, FACEMESH_TESSELATION, {
-    color: "#C0C0C070",
-    lineWidth: 1,
-  });
-  drawConnectors(ctx, results.leftHandLandmarks, HAND_CONNECTIONS, {
-    color: "#CC0000",
-    lineWidth: 5,
-  });
-  drawLandmarks(ctx, results.leftHandLandmarks, {
-    color: "#00FF00",
-    lineWidth: 2,
-  });
-  drawConnectors(ctx, results.rightHandLandmarks, HAND_CONNECTIONS, {
-    color: "#00CC00",
-    lineWidth: 5,
-  });
-  drawLandmarks(ctx, results.rightHandLandmarks, {
-    color: "#FF0000",
-    lineWidth: 2,
-  });
-  ctx.restore();
-  start = performance.now()
-}
-
-const holistic = new Holistic({
-  locateFile: (file) => {
-    return `./js/mediapipe/model/holistic/${file}`;
-  },
-});
-
-holistic.setOptions({
-  modelComplexity: 1,
-  smoothLandmarks: true,
-  minDetectionConfidence: 0.5,
-  minTrackingConfidence: 0.5,
-});
-
-holistic.onResults(onHResults);
-
-// function onFDResults(results) {
-//   // Draw the overlays.
-//   ctx.save()
-//   ctx.clearRect(0, 0, cW, cH)
-//   ctx.drawImage(
-//       results.image, 0, 0, cW, cH)
-//   if (results.detections.length > 0) {
-//     drawingUtils.drawRectangle(
-//         ctx, results.detections[0].boundingBox,
-//         {color: 'blue', lineWidth: 4, fillColor: '#00000000'})
-//     drawingUtils.drawLandmarks(ctx, results.detections[0].landmarks, {
-//       color: 'red',
-//       radius: 5,
-//     })
-//   }
-//   ctx.restore()
-// }
-
-// const faceDetection = new FaceDetection({locateFile: (file) => {
-//   return `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection@0.4/${file}`
-// }})
-// faceDetection.setOptions({
-//   modelSelection: 0,
-//   minDetectionConfidence: 0.5
-// })
-// faceDetection.onResults(onFDResults)
 
 const controls = window;
 const fpsControl = new controls.FPS();

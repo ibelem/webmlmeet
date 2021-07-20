@@ -188,12 +188,10 @@ const toggleBBUI = () => {
   isbb = !isbb
 
   if (isbb) {
-    isfm = false
-    ifh = false
     $("#control-panel").fadeIn()
     showModelInfo()
   } 
-  if (!isbr && !isbb && !ish && !ish) {
+  if (!isbr && !isbb) {
     $("#control-panel").fadeOut()
   }
 }
@@ -217,39 +215,13 @@ const toggleBRUI = () => {
   isbr = !isbr
 
   if (isbr) {
-    isfm = false
-    ifh = false
     $("#control-panel").fadeIn()
     showModelInfo()
   } 
-  if (!isbr && !isbb && !ish && !ish) {
+  if (!isbr && !isbb) {
     $("#control-panel").fadeOut()
   }
 }
-
-$("#mpfm").click(() => {
-  isfm = !isfm
-  if (isfm) {
-    isbr = false
-    ish = false
-    $("#control-panel").fadeIn()
-  }
-  if (!isbr && !isbb && !ish && !ish) {
-    $("#control-panel").fadeOut()
-  }
-})
-
-$("#mph").click(() => {
-  ish = !ish
-  if (ish) {
-    isbr = false
-    isfm = false
-    $("#control-panel").fadeIn()
-  }
-  if (!isbr && !isbb && !ish && !ish) {
-    $("#control-panel").fadeOut()
-  }
-})
 
 $("#ebeauty").click(() => {
   isbeauty = !isbeauty
