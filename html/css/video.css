@@ -110,6 +110,19 @@ video, canvas {
   margin-left: 8px;
 }
 
+.cp-fps svg {
+  width: 120px;
+  height: 60px;
+}
+
+.mplogo {
+  margin-bottom: -10px;
+}
+
+.cleft {
+  text-align: left;
+}
+
 .counter .hd {
   margin-left: 8px !important;
 }

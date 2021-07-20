@@ -7,7 +7,7 @@ let camera,
   isbr = false,
   isbb = false,
   isbeauty = false;
-let selfie_segmentation_landscape = 0
+let selfie_segmentation_landscape = 0, ismediapipe = 0
 let ssmodelinfo = [{
     id: 0,
     name: 'Selfie Segmentation',
