@@ -255,15 +255,6 @@ $("#ebeauty").click(() => {
   isbeauty = !isbeauty
 })
 
-$("#ebeautycv").click(() => {
-  isbeautycv = !isbeautycv
-  if(isbeautycv) {
-    $("#cvcanvasdiv").removeClass("dnonecv");
-  } else {
-    $("#cvcanvasdiv").addClass("dnonecv");
-  }
-})
-
 $("#ocbar").click(() => {
   if ($("#opcanvasdiv").hasClass("x4")) {
     $("#opcanvasdiv").removeClass("x4")
@@ -271,16 +262,6 @@ $("#ocbar").click(() => {
   } else {
     $("#opcanvasdiv").addClass("x4")
     $("#ocbar").html("1x")
-  }
-})
-
-$("#ocbarcv").click(() => {
-  if ($("#cvcanvasdiv").hasClass("x4")) {
-    $("#cvcanvasdiv").removeClass("x4")
-    $("#ocbarcv").html("9x")
-  } else {
-    $("#cvcanvasdiv").addClass("x4")
-    $("#ocbarcv").html("1x")
   }
 })
 
