@@ -1,37 +1,45 @@
 let path;
 
+const checkMP = () => {
+  if(mediapipe === "1") {
+    $("#mplogo").removeClass("dnoneimp");
+    $('#opcanvasdiv2').addClass("dnoneimp")
+    $('#opcanvasdiv').removeClass("dnone")
+  } else {
+    $("#mplogo").addClass("dnoneimp");
+    $('#opcanvasdiv').addClass("dnoneimp")
+    $('#opcanvasdiv2').removeClass("dnone")
+  }
+}
+
 $(document).ready(function () {
   $("#container").css("display", "none")
   $("#login").fadeIn()
 
   if(parseSearchParams("mediapipe") === "1") {
+    mediapipe = "1";
+    checkMP();
     $('#wi-mp').addClass("selected")
     $('#wo-mp').removeClass("selected")
-    $('#opcanvasdiv2').addClass("dnone")
-    $('#opcanvasdiv2').removeClass("vslot")
-    $('#opcanvasdiv').removeClass("dnone")
+
   } else  {
+    mediapipe = "0";
+    checkMP();
     $('#wi-mp').removeClass("selected")
     $('#wo-mp').addClass("selected")
-    $('#opcanvasdiv').addClass("dnone")
-    $('#opcanvasdiv').removeClass("vslot")
-    $('#opcanvasdiv2').removeClass("dnone")
+
   } 
 
   $('#wi-mp').click(function(){
     mediapipe = "1";
-    $('#opcanvasdiv2').addClass("dnone")
-    $('#opcanvasdiv2').removeClass("vslot")
-    $('#opcanvasdiv').removeClass("dnone")
+    checkMP();
     path = `?backend=${backend}&mediapipe=1&model=${model}`
     window.history.pushState(null, null, path);
   })
 
   $('#wo-mp').click(function(){
     mediapipe = "0";
-    $('#opcanvasdiv').addClass("dnone")
-    $('#opcanvasdiv').removeClass("vslot")
-    $('#opcanvasdiv2').removeClass("dnone")
+    checkMP();
     path = `?backend=${backend}&mediapipe=0&model=${model}`
     window.history.pushState(null, null, path);
   })

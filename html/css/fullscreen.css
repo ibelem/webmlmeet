@@ -7,6 +7,10 @@ body.fullscreen {
     margin: 50px;
 }
 
+.fullscreen .inputvideo {
+    left: -10000px !important;
+}
+
 .fullscreen #text-content, .fullscreen #user-list {
     height: 33vh;
 }

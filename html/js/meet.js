@@ -37,7 +37,7 @@ let ssmodelinfo = [{
     format: 'TFLite'
   },{
     id: 2,
-    name: 'DeebLab',
+    name: 'DeepLabV3',
     inputsize: '513x513x1',
     outputsize: '',
     size: '8.4mB',
