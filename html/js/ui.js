@@ -1,16 +1,105 @@
-const parseSearchParams = (key) => {
-  let searchParams = new URLSearchParams(location.search)
-  return searchParams.get(key)
-}
-
-const hasSearchParam = (key) => {
-  let searchParams = new URLSearchParams(location.search)
-  return searchParams.has(key)
-}
+let path;
 
 $(document).ready(function () {
   $("#container").css("display", "none")
   $("#login").fadeIn()
+
+  if(parseSearchParams("mediapipe") === "1") {
+    $('#wi-mp').addClass("selected")
+    $('#wo-mp').removeClass("selected")
+    $('#opcanvasdiv2').addClass("dnone")
+    $('#opcanvasdiv2').removeClass("vslot")
+    $('#opcanvasdiv').removeClass("dnone")
+  } else  {
+    $('#wi-mp').removeClass("selected")
+    $('#wo-mp').addClass("selected")
+    $('#opcanvasdiv').addClass("dnone")
+    $('#opcanvasdiv').removeClass("vslot")
+    $('#opcanvasdiv2').removeClass("dnone")
+  } 
+
+  $('#wi-mp').click(function(){
+    mediapipe = "1";
+    $('#opcanvasdiv2').addClass("dnone")
+    $('#opcanvasdiv2').removeClass("vslot")
+    $('#opcanvasdiv').removeClass("dnone")
+    path = `?backend=${backend}&mediapipe=1&model=${model}`
+    window.history.pushState(null, null, path);
+  })
+
+  $('#wo-mp').click(function(){
+    mediapipe = "0";
+    $('#opcanvasdiv').addClass("dnone")
+    $('#opcanvasdiv').removeClass("vslot")
+    $('#opcanvasdiv2').removeClass("dnone")
+    path = `?backend=${backend}&mediapipe=0&model=${model}`
+    window.history.pushState(null, null, path);
+  })
+
+  if(parseSearchParams("backend").toLowerCase() === "webgl") {
+    $('#btnwasm').removeClass("selected")
+    $('#btnwebgl').addClass("selected")
+    $('#btnwebnn').removeClass("selected")
+  } else if(parseSearchParams("backend").toLowerCase() === "webnn") {
+    $('#btnwasm').removeClass("selected")
+    $('#btnwebgl').removeClass("selected")
+    $('#btnwebnn').addClass("selected")
+  } else {
+    $('#btnwasm').addClass("selected")
+    $('#btnwebgl').removeClass("selected")
+    $('#btnwebnn').removeClass("selected")
+  }
+
+  $('#btnwasm').click(function(){
+    backend = "wasm"
+    path = `?backend=wasm&mediapipe=${mediapipe}&model=${model}`
+    window.history.pushState(null, null, path);
+  })
+
+  $('#btnwebgl').click(function(){
+    backend = "webgl"
+    path = `?backend=webgl&mediapipe=${mediapipe}&model=${model}`
+    window.history.pushState(null, null, path);
+  })
+
+  $('#btnwebnn').click(function(){
+    backend = "webnn"
+    path = `?backend=webnn&mediapipe=${mediapipe}&model=${model}`
+    window.history.pushState(null, null, path);
+  })
+
+if(parseSearchParams("model").toLowerCase() === "0") {
+    $('#btndl').removeClass("selected")
+    $('#btnss').addClass("selected")
+    $('#btnssl').removeClass("selected")
+  } else if (parseSearchParams("model").toLowerCase() === "1") {
+    $('#btndl').removeClass("selected")
+    $('#btnss').removeClass("selected")
+    $('#btnssl').addClass("selected")
+  } else {
+    $('#btndl').addClass("selected")
+    $('#btnss').removeClass("selected")
+    $('#btnssl').removeClass("selected")
+  }
+
+  $('#btndl').click(function(){
+    model = "2"
+    path = `?backend=${backend}&mediapipe=${mediapipe}&model=2`
+    window.history.pushState(null, null, path);
+  })
+
+  $('#btnss').click(function(){
+    model = "0"
+    path = `?backend=${backend}&mediapipe=${mediapipe}&model=0`
+    window.history.pushState(null, null, path);
+  })
+
+  $('#btnssl').click(function(){
+    model = "1"
+    path = `?backend=${backend}&mediapipe=${mediapipe}&model=1`
+    window.history.pushState(null, null, path);
+  })
+
 })
 
 const loginDisableVideo = () => {
@@ -30,7 +119,12 @@ const login = async () => {
   localName = $("#inputjoin").val()
   if (localName !== "") {
     $("#navuser").html(localName)
-    onewebMeetMediaPipe()
+    console.log(mediapipe)
+    if(mediapipe === "1") {
+      oneWebMeetMediaPipe()
+    } else {
+      oneWebMeetOWT()
+    }
   }
 }
 
@@ -79,14 +173,8 @@ $(document).ready(function () {
 
   updateDocSize()
 
-  if(hasSearchParam("ss")) {
-    selfie_segmentation_landscape = parseInt(parseSearchParams("ss"))
-  } else {
-    selfie_segmentation_landscape = 0
-  }
-
   selfieSegmentation.setOptions({
-    modelSelection: selfie_segmentation_landscape,
+    modelSelection: parseInt(model),
   });
 
   $(".btnfullscreen").click(function () {
@@ -171,7 +259,8 @@ $("#rbclose").on("click", function () {
 })
 
 const showModelInfo = () => {
-  let modelindex = ssmodelinfo[selfie_segmentation_landscape]
+  
+  let modelindex = ssmodelinfo[parseInt(model)]
   let modelinfo = `
     ${modelindex.inputsize}<br/>
     ${modelindex.format} / ${modelindex.size}<br/>

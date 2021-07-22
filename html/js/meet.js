@@ -1,13 +1,24 @@
-// const inputvideo_owt = $("#inputvideo_owt")[0]
-const inputvideo_mp = $("#inputvideo_mp")[0];
+
+const inputvideo = $("#inputvideo")[0];
+const outputcanvas = $("#outputcanvas")[0];
+const outputcanvas2 = $("#outputcanvas2")[0];
+const ctx2 = $("#outputcanvas2")[0].getContext("2d");
 const ctx = $("#outputcanvas")[0].getContext("2d");
 let cW = $("#outputcanvas")[0].width;
 let cH = $("#outputcanvas")[0].height;
+let isSS = false;
+
+let renderer;
 let camera,
   isbr = false,
   isbb = false,
   isbeauty = false;
-let selfie_segmentation_landscape = 0, ismediapipe = 0
+let selfie_segmentation_landscape = 0
+
+let backend = parseSearchParams("backend") 
+let mediapipe = parseSearchParams("mediapipe") 
+let model = parseSearchParams("model") 
+
 let ssmodelinfo = [{
     id: 0,
     name: 'Selfie Segmentation',
@@ -23,6 +34,14 @@ let ssmodelinfo = [{
     outputsize: '256x256x1',
     size: '249.8kB',
     basedon: 'MobileNetV3',
+    format: 'TFLite'
+  },{
+    id: 2,
+    name: 'DeebLab',
+    inputsize: '513x513x1',
+    outputsize: '',
+    size: '8.4mB',
+    basedon: '',
     format: 'TFLite'
   }
 ]
@@ -542,17 +561,25 @@ const shareScreen = () => {
   });
 }
 
-const userExit = () => {
+const stopStream = () => {
   if (localStream) {
     localStream.mediaStream.getTracks().forEach((track) => {
-      track.stop();
+      if (track.readyState === 'live' && track.kind === 'video') {
+        track.stop();
+      }
     });
   }
   if (localScreen) {
     localScreen.mediaStream.getTracks().forEach((track) => {
-      track.stop();
+      if (track.readyState === 'live' && track.kind === 'video') {
+        track.stop();
+      }
     });
   }
+}
+
+const userExit = () => {
+  stopStream();
   localStream = undefined;
   room.leave();
   users = [];
@@ -562,7 +589,11 @@ const userExit = () => {
 };
 
 const getProcessedStream = () => {
-  processedstream = document.querySelector("#outputcanvas").captureStream();
+  if(mediapipe === "1") {
+    processedstream = document.querySelector("#outputcanvas").captureStream();
+  } else {
+    processedstream = document.querySelector("#outputcanvas2").captureStream();
+  }
   const audiotrack = stream.getAudioTracks()[0];
   processedstream.addTrack(audiotrack);
 };

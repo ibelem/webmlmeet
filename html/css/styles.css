@@ -72,6 +72,10 @@ header .meet {
   font-weight: bolder;
 }
 
+.join h4 {
+  margin: 6px 0px;
+}
+
 ul {
   list-style-type: none;
   padding: 0;

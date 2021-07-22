@@ -35,11 +35,7 @@ video, canvas {
     height: 180px;
   }  
 
-.inputvideo_mp {
-  display: none;
-}
-
-.inputvideo_owt {
+.inputvideo {
   display: none;
 }
 

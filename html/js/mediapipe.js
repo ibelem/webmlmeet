@@ -1,10 +1,10 @@
 
 const mpfeatures = async () => {
-    await selfieSegmentation.send({ image: inputvideo_mp });
+    await selfieSegmentation.send({ image: inputvideo });
   };
   
-  const initStream = () => {
-    camera = new Camera(inputvideo_mp, {
+  const initMediaPipeStream = () => {
+    camera = new Camera(inputvideo, {
       onFrame: async () => {
         await mpfeatures();
       },
@@ -83,9 +83,9 @@ const onBRResults = (results) => {
   
   new controls.ControlPanel(controlsElement).add([fpsControl]);
   
-  const onewebMeetMediaPipe = async () => {
+  const oneWebMeetMediaPipe = async () => {
     // await createOWTStream()
-    initStream();
+    initMediaPipeStream();
     await camera.start();
     getProcessedStream();
     initConference();
