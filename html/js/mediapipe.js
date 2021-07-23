@@ -84,7 +84,6 @@ const onBRResults = (results) => {
   new controls.ControlPanel(controlsElement).add([fpsControl]);
   
   const oneWebMeetMediaPipe = async () => {
-    // await createOWTStream()
     initMediaPipeStream();
     await camera.start();
     getProcessedStream();

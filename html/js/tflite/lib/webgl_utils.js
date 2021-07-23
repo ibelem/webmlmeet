@@ -1,11 +1,8 @@
 class WebGLUtils {
   constructor(context) {
-
-    console.log(context)
     this._gl = context;
     this._fbo = {};
     this._tex = {};
-
   }
 
   setTexture(name, tex) {
@@ -18,6 +15,7 @@ class WebGLUtils {
 
   setup2dQuad() {
     const quad = new Float32Array([-1, -1, 1, -1, 1, 1, 1, 1, -1, 1, -1, -1]);
+    console.log(this._gl)
     const vbo = this._gl.createBuffer();
     this._gl.bindBuffer(this._gl.ARRAY_BUFFER, vbo);
     this._gl.bufferData(this._gl.ARRAY_BUFFER, quad, this._gl.STATIC_DRAW);

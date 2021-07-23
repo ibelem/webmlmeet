@@ -287,9 +287,14 @@ const toggleBBUI = () => {
   if (isbb) {
     $("#control-panel").fadeIn()
     showModelInfo()
+    isSS = true
+    effect = "blur"
+    ssConfig(isSS, effect)
   } 
   if (!isbr && !isbb) {
     $("#control-panel").fadeOut()
+    isSS = false
+    ssConfig(isSS, effect)
   }
 }
 
@@ -314,9 +319,14 @@ const toggleBRUI = () => {
   if (isbr) {
     $("#control-panel").fadeIn()
     showModelInfo()
+    isSS = true
+    effect = "image"
+    ssConfig(isSS, effect)
   } 
   if (!isbr && !isbb) {
     $("#control-panel").fadeOut()
+    isSS = false
+    ssConfig(isSS, effect)
   }
 }
 

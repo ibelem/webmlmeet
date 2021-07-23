@@ -3,9 +3,7 @@
 let modelName ='deeplabv3mnv2';
 let layout = 'nchw';
 let instanceType = modelName + layout;
-let rafReq;
 let isFirstTimeLoad = true;
-let inputType = 'image';
 let netInstance = null;
 let labels = null;
 let loadTime = 0;
@@ -46,10 +44,19 @@ async function renderCamStream() {
   outputBuffer = netInstance.compute(modelRunner, inputBuffer);
   computeTime = (performance.now() - start).toFixed(2);
   console.log(`  done in ${computeTime} ms.`);
-  showPerfResult();
   await drawOutput(outputBuffer, inputvideo);
-  rafReq = requestAnimationFrame(renderCamStream);
+
+  // rafReq = requestAnimationFrame(renderCamStream);
+ 
+  if(continueAnimating)
+  {
+    requestAnimationFrame(renderCamStream); 
+    spaninference.html(computeTime)
+    let ct = parseInt(computeTime)
+    $("#fps").html((1000/ct).toFixed(0))
+  }
 }
+ 
 
 async function drawOutput(outputBuffer, srcElement) {
   const a = tf.tensor(outputBuffer, netInstance.outputDimensions, 'float32');
@@ -72,21 +79,13 @@ async function drawOutput(outputBuffer, srcElement) {
     labels: labels,
   };
 
+  renderer.backgroundImageSource = bg
+
+  console.log([scaledWidth, scaledHeight])
+  console.log(segMap)
   renderer.uploadNewTexture(srcElement, [scaledWidth, scaledHeight]);
   renderer.drawOutputs(segMap);
   // renderer.highlightHoverLabel(hoverPos, outputcanvas2);
-}
-
-function showPerfResult(medianComputeTime = undefined) {
-  console.log(`loadtime: ${loadTime} ms`);
-  console.log(`buildtime: ${buildTime} ms`);
-  if (medianComputeTime !== undefined) {
-    console.log('Median inference time:');
-    console.log(`${medianComputeTime} ms`);
-  } else {
-    console.log('Inference time:');
-    console.log(`${computeTime} ms`);
-  }
 }
 
 async function ss() {

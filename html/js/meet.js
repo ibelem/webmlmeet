@@ -2,11 +2,20 @@
 const inputvideo = $("#inputvideo")[0];
 const outputcanvas = $("#outputcanvas")[0];
 const outputcanvas2 = $("#outputcanvas2")[0];
-const ctx2 = $("#outputcanvas2")[0].getContext("2d");
-const ctx = $("#outputcanvas")[0].getContext("2d");
+var ctx2 = outputcanvas2.getContext("webgl2");
+var cW2 = outputcanvas2.width;
+var cH2 = outputcanvas2.height;
+
+const bg = document.querySelector("#bgdefault");
+const bgpause = document.querySelector("#bgpause");
+const bgfilebutton = document.querySelector("#bgimg");
+
+var ctx = $("#outputcanvas")[0].getContext("2d");
 let cW = $("#outputcanvas")[0].width;
 let cH = $("#outputcanvas")[0].height;
-let isSS = false;
+let isSS = false, effect = "blur";
+let rafReq;
+let continueAnimating = true;
 
 let renderer;
 let camera,
@@ -95,8 +104,6 @@ const initConference = () => {
   }
 
   let createLocal = () => {
-    console.log('dddd')
-
     localStream = new Owt.Base.LocalStream(
       processedstream,
       new Owt.Base.StreamSourceInfo("mic", "camera")
@@ -591,16 +598,20 @@ const userExit = () => {
 const getProcessedStream = () => {
   if(mediapipe === "1") {
     processedstream = document.querySelector("#outputcanvas").captureStream();
+    const audiotrack = stream.getAudioTracks()[0];
+    processedstream.addTrack(audiotrack);
   } else {
-    processedstream = document.querySelector("#outputcanvas2").captureStream();
+    if(isSS) {
+      console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
+      processedstream = document.querySelector("#outputcanvas2").captureStream();
+      const audiotrack = stream.getAudioTracks()[0];
+      processedstream.addTrack(audiotrack);
+    } else {
+      console.log("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
+      processedstream = inputvideo.srcObject
+    }
   }
-  const audiotrack = stream.getAudioTracks()[0];
-  processedstream.addTrack(audiotrack);
 };
-
-const bg = document.querySelector("#bgdefault");
-const bgpause = document.querySelector("#bgpause");
-const bgfilebutton = document.querySelector("#bgimg");
 
 $(".bgselector").each(function () {
   $(this).on("click", function (e) {

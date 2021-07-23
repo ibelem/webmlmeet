@@ -2,7 +2,6 @@ const createOWTStream = async () => {
   stream = await Owt.Base.MediaStreamFactory.createMediaStream(
     avTrackConstraint
   )
-  console.log(stream)
   console.log(inputvideo)
   if ("srcObject" in inputvideo) {
     inputvideo.srcObject = stream
@@ -14,10 +13,12 @@ const createOWTStream = async () => {
   console.log(inputvideo.srcObject)
 }
 
-function videtoCanvasOnFrame() {
-  window.requestAnimationFrame(videtoCanvasOnFrame);
-  ctx2.drawImage(inputvideo, 0, 0, cW, cH);
-}
+var raf;
+
+// const videoCanvasOnFrame = () => {
+//   window.requestAnimationFrame(videoCanvasOnFrame);
+//   // ctx2.drawImage(inputvideo, 0, 0, cW2, cH2);
+// }
 
 const initRenderer = (effect) => {
   renderer = new Renderer(outputcanvas2);
@@ -28,16 +29,29 @@ const initRenderer = (effect) => {
 }
 
 const oneWebMeetOWT = async () => {
-
   await createOWTStream()
-
-  if(isSS) {
-  // initRenderer("blur")
-  // await ss()
-  } else {
-    videtoCanvasOnFrame()
-  }
-
+  initRenderer(effect)
+  // videoCanvasOnFrame();
   getProcessedStream();
   initConference();
 };
+
+
+const ssConfig = async (isSS, effect) => {
+  if(isSS && effect) {
+    console.log(isSS + ' ' + effect)
+    renderer.effect = effect
+    continueAnimating = true
+    cancelAnimationFrame(raf)
+    await ss()
+    
+  } else {
+    console.log('+++++++++++ ' + isSS + ' ' + effect + ' +++++++++++')
+    console.log(rafReq)
+    // cancelAnimationFrame(rafReq)
+    continueAnimating = false;
+    // videoCanvasOnFrame()
+  }
+  getProcessedStream();
+  initConference();
+}

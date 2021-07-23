@@ -1,6 +1,5 @@
 class Renderer {
   constructor(canvas) {
-
     this.gl = canvas.getContext('webgl2');
     if (this.gl === null) {
       throw new Error('Unable to initialize WebGL.');

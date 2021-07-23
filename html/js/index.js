@@ -43,7 +43,6 @@ var vw;
 var vh;
 
 var currentstream;
-var currentProcessedStream;
 
 var canvasstream = null;
 var avTrackConstraint = {};
