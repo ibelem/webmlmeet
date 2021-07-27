@@ -13,14 +13,18 @@ const createOWTStream = async () => {
   console.log(inputvideo.srcObject)
 }
 
-// const videoCanvasOnFrame = () => {
-//   window.requestAnimationFrame(videoCanvasOnFrame);
-//   // ctx2.drawImage(inputvideo, 0, 0, cW2, cH2);
-// }
+let continueinputvideo = true
 
+const videoCanvasOnFrame = () => {
+  if(continueinputvideo)
+  {
+    window.requestAnimationFrame(videoCanvasOnFrame);
+    // ctx2.drawImage(inputvideo, 0, 0, cW2, cH2);
+    ctx.texImage2D(ctx.TEXTURE_2D, 0, ctx.RGB, ctx.RGB, ctx.UNSIGNED_BYTE, inputvideo);
+  }
+}
 
 const initRenderer = (effect) => {
-  ctx = $("#outputcanvas")[0].getContext("webgl2");
   renderer = new Renderer(outputcanvas);
 
   if(effect === "blur") {
@@ -33,8 +37,10 @@ const initRenderer = (effect) => {
 
 const oneWebMeetOWT = async () => {
   await createOWTStream()
-  initRenderer(effect)
-  // videoCanvasOnFrame();
+  ctx = $("#outputcanvas")[0].getContext("webgl2");
+  await initRenderer(effect)
+  continueinputvideo = true
+  videoCanvasOnFrame();
   getProcessedStream();
   initConference();
 };
@@ -49,14 +55,12 @@ const ssConfig = async (isSS, effect) => {
     // renderer.refineEdgeRadius = 10
     renderer.effect = effect
     continueAnimating = true
+    continueinputvideo = false
     await ss()
     
   } else {
-    console.log('+++++++++++ ' + isSS + ' ' + effect + ' +++++++++++')
-    console.log(rafReq)
-    // cancelAnimationFrame(rafReq)
     continueAnimating = false;
+    continueinputvideo = true
     // videoCanvasOnFrame()
   }
-  getProcessedStream();
 }

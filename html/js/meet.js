@@ -86,6 +86,27 @@ let localName = "user";
 let start, end, delta;
 let spaninference = $("#spaninference")
 
+let createLocal = () => {
+  localStream = new Owt.Base.LocalStream(
+    processedstream,
+    new Owt.Base.StreamSourceInfo("mic", "camera")
+  );
+
+  localId = localStream.id;
+  room.publish(localStream).then((publication) => {
+    localPublication = publication;
+    isPauseAudio = false;
+    toggleAudio();
+    isPauseVideo = true;
+    toggleVideo();
+    mixStream(roomId, localPublication.id, "common");
+    console.info('publish success');
+    publication.addEventListener("error", (err) => {
+      console.log("Publication error: " + err.error.message);
+    });
+  });
+}
+
 const initConference = () => {
   resolution = { width: 320, height: 240 };
   if ($("#login-480").hasClass("selected")) {
@@ -97,27 +118,6 @@ const initConference = () => {
     $("#hd").css("display", "inline-block");
   } else {
     $("#hd").css("display", "none");
-  }
-
-  let createLocal = () => {
-    localStream = new Owt.Base.LocalStream(
-      processedstream,
-      new Owt.Base.StreamSourceInfo("mic", "camera")
-    );
-  
-    localId = localStream.id;
-    room.publish(localStream).then((publication) => {
-      localPublication = publication;
-      isPauseAudio = false;
-      toggleAudio();
-      isPauseVideo = true;
-      toggleVideo();
-      mixStream(roomId, localPublication.id, "common");
-      console.info('publish success');
-      publication.addEventListener("error", (err) => {
-        console.log("Publication error: " + err.error.message);
-      });
-    });
   }
 
   createToken(roomId, localName, "presenter", function (response) {
@@ -592,13 +592,9 @@ const userExit = () => {
 };
 
 const getProcessedStream = () => {
-  if(mediapipe === "1" || isSS) {
-    processedstream = document.querySelector("#outputcanvas").captureStream();
-    const audiotrack = stream.getAudioTracks()[0];
-    processedstream.addTrack(audiotrack);
-  } else {
-    processedstream = stream
-  }
+  processedstream = document.querySelector("#outputcanvas").captureStream();
+  const audiotrack = stream.getAudioTracks()[0];
+  processedstream.addTrack(audiotrack);
 };
 
 $(".bgselector").each(function () {
