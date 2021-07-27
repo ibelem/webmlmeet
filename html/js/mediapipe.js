@@ -85,6 +85,7 @@ const onBRResults = (results) => {
   
   const oneWebMeetMediaPipe = async () => {
     initMediaPipeStream();
+    ctx = $("#outputcanvas")[0].getContext("2d");
     await camera.start();
     getProcessedStream();
     initConference();

@@ -627,7 +627,6 @@ class Renderer {
   }
 
   async drawOutputs(newSegMap) {
-
     if (!newSegMap)
       return;
 

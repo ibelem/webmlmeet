@@ -3,12 +3,8 @@ let path;
 const checkMP = () => {
   if(mediapipe === "1") {
     $("#mplogo").removeClass("dnoneimp");
-    $('#opcanvasdiv2').addClass("dnoneimp")
-    $('#opcanvasdiv').removeClass("dnone")
   } else {
     $("#mplogo").addClass("dnoneimp");
-    $('#opcanvasdiv').addClass("dnoneimp")
-    $('#opcanvasdiv2').removeClass("dnone")
   }
 }
 

@@ -1,16 +1,12 @@
 
 const inputvideo = $("#inputvideo")[0];
 const outputcanvas = $("#outputcanvas")[0];
-const outputcanvas2 = $("#outputcanvas2")[0];
-var ctx2 = outputcanvas2.getContext("webgl2");
-var cW2 = outputcanvas2.width;
-var cH2 = outputcanvas2.height;
 
 const bg = document.querySelector("#bgdefault");
 const bgpause = document.querySelector("#bgpause");
 const bgfilebutton = document.querySelector("#bgimg");
 
-var ctx = $("#outputcanvas")[0].getContext("2d");
+var ctx;
 let cW = $("#outputcanvas")[0].width;
 let cH = $("#outputcanvas")[0].height;
 let isSS = false, effect = "blur";
@@ -596,20 +592,12 @@ const userExit = () => {
 };
 
 const getProcessedStream = () => {
-  if(mediapipe === "1") {
+  if(mediapipe === "1" || isSS) {
     processedstream = document.querySelector("#outputcanvas").captureStream();
     const audiotrack = stream.getAudioTracks()[0];
     processedstream.addTrack(audiotrack);
   } else {
-    if(isSS) {
-      console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
-      processedstream = document.querySelector("#outputcanvas2").captureStream();
-      const audiotrack = stream.getAudioTracks()[0];
-      processedstream.addTrack(audiotrack);
-    } else {
-      console.log("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
-      processedstream = inputvideo.srcObject
-    }
+    processedstream = stream
   }
 };
 

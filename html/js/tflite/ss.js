@@ -85,7 +85,6 @@ async function drawOutput(outputBuffer, srcElement) {
   console.log(segMap)
   renderer.uploadNewTexture(srcElement, [scaledWidth, scaledHeight]);
   renderer.drawOutputs(segMap);
-  // renderer.highlightHoverLabel(hoverPos, outputcanvas2);
 }
 
 async function ss() {

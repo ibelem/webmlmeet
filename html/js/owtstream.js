@@ -13,17 +13,20 @@ const createOWTStream = async () => {
   console.log(inputvideo.srcObject)
 }
 
-var raf;
-
 // const videoCanvasOnFrame = () => {
 //   window.requestAnimationFrame(videoCanvasOnFrame);
 //   // ctx2.drawImage(inputvideo, 0, 0, cW2, cH2);
 // }
 
+
 const initRenderer = (effect) => {
-  renderer = new Renderer(outputcanvas2);
-  renderer.refineEdgeRadius = 8
-  renderer.blurRadius = 20
+  ctx = $("#outputcanvas")[0].getContext("webgl2");
+  renderer = new Renderer(outputcanvas);
+
+  if(effect === "blur") {
+    renderer.blurRadius = 5
+  }
+  // renderer.refineEdgeRadius = 10
   renderer.effect = effect
   renderer.setup();
 }
@@ -40,9 +43,12 @@ const oneWebMeetOWT = async () => {
 const ssConfig = async (isSS, effect) => {
   if(isSS && effect) {
     console.log(isSS + ' ' + effect)
+    if(effect === "blur") {
+      renderer.blurRadius = 5
+    }
+    // renderer.refineEdgeRadius = 10
     renderer.effect = effect
     continueAnimating = true
-    cancelAnimationFrame(raf)
     await ss()
     
   } else {
@@ -53,5 +59,4 @@ const ssConfig = async (isSS, effect) => {
     // videoCanvasOnFrame()
   }
   getProcessedStream();
-  initConference();
 }
