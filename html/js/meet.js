@@ -9,7 +9,7 @@ const bgfilebutton = document.querySelector("#bgimg");
 var ctx;
 let cW = $("#outputcanvas")[0].width;
 let cH = $("#outputcanvas")[0].height;
-let isSS = false, effect = "blur";
+let isOWT = false, isSS = false, effect = "blur";
 let rafReq;
 let continueAnimating = true;
 
