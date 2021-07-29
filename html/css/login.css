@@ -30,6 +30,11 @@
   padding-right: 40px;
 }
 
+#cnote {
+  margin-top: 4px;
+  font-weight: 100;
+}
+
 .join {
     position: absolute;
     top: 0;
@@ -44,7 +49,7 @@
       ". .";
     align-items: center;
     justify-items: center;
-    margin-top: -30px;
+    margin-top: -20px;
 }
 
 .glass {
@@ -86,6 +91,15 @@
 
   .vo a:last-child {
       margin-left: -4px;
+  }
+
+  .vm a {
+    width: 120px;
+    margin: 0px;
+}
+
+  .vm a:last-child {
+      margin-left: -0px;
   }
 
   .vr a {

@@ -9,20 +9,20 @@ const bgfilebutton = document.querySelector("#bgimg");
 var ctx;
 let cW = $("#outputcanvas")[0].width;
 let cH = $("#outputcanvas")[0].height;
-let isOWT = false, isSS = false, effect = "blur";
+let isSS = false, effect = "blur";
 let rafReq;
 let continueAnimating = true;
+
+let usr;
 
 let renderer;
 let camera,
   isbr = false,
   isbb = false,
   isbeauty = false;
-let selfie_segmentation_landscape = 0
 
 let backend = parseSearchParams("backend") 
-let mediapipe = parseSearchParams("mediapipe") 
-let model = parseSearchParams("model") 
+let model = parseSearchParams("model")
 
 let ssmodelinfo = [{
     id: 0,
@@ -82,7 +82,7 @@ let remoteScreenName = null;
 let localId = null;
 let users = [];
 
-let localName = "user";
+let localname = "user";
 let start, end, delta;
 let spaninference = $("#spaninference")
 
@@ -120,7 +120,7 @@ const initConference = () => {
     $("#hd").css("display", "none");
   }
 
-  createToken(roomId, localName, "presenter", function (response) {
+  createToken(roomId, localname, "presenter", function (response) {
     console.log('createToken0')
     let token = response;
     console.log(token)
@@ -170,11 +170,7 @@ const initConference = () => {
 
       // document.querySelector("#pnumber").innerHTML = resp.participants.length
     }, err => {
-      console.log("server connect failed: " + err);
-      if (err.message.indexOf('connect_error:') >= 0) {
-        const signalingHost = err.message.replace('connect_error:', '');
-        alertCert(signalingHost);
-      }
+      console.log("server connect failed: " + err.message);
     });
   });
 };
@@ -409,12 +405,12 @@ function sendIm(msg, sender) {
       sender = localId;
       console.info('ready to send message');
       // send to server
-      if (localName !== null) {
+      if (localname !== null) {
         room.send(sendMsgInfo).then(() => {
           console.info('begin to send message');
-          console.info(localName + 'send message: ' + msg);
+          console.info(localname + 'send message: ' + msg);
         }, err => {
-          console.error(localName + 'sned failed: ' + err);
+          console.error(localname + 'sned failed: ' + err);
         });
       }
     } else {
@@ -451,9 +447,9 @@ function addRoomEventListener() {
 
       console.log('localId: ' + localId + '!=='  + 'stream.id: ' + stream.id)
       console.log('localScreenId: '+ localScreenId  + '!=='  + stream.id)
-      console.log('localName: '+ localName + ' !== getUserFromId(stream.origin).userId: ' + getUserFromId(stream.origin).userId)
+      console.log('localname: '+ localname + ' !== getUserFromId(stream.origin).userId: ' + getUserFromId(stream.origin).userId)
 
-      if (localId !== stream.id && localScreenId !== stream.id && localName !== getUserFromId(stream.origin).userId) {
+      if (localId !== stream.id && localScreenId !== stream.id && localname !== getUserFromId(stream.origin).userId) {
         console.log('add video')
         subscribeStream(stream);
       }

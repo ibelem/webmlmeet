@@ -71,7 +71,7 @@ const onBRResults = (results) => {
   
   const selfieSegmentation = new SelfieSegmentation({
     locateFile: (file) => {
-      return `./js/mediapipe/model/selfie_segmentation/${file}`;
+      return `../../assets/models/selfie_segmentation/${file}`;
     },
   });
   

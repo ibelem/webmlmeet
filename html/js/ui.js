@@ -1,4 +1,4 @@
-let path;
+
 
 const checkMP = () => {
   if(mediapipe === "1") {
@@ -8,104 +8,6 @@ const checkMP = () => {
   }
 }
 
-$(document).ready(function () {
-  $("#container").css("display", "none")
-  $("#login").fadeIn()
-
-  if(parseSearchParams("mediapipe") === "1") {
-    mediapipe = "1";
-    checkMP();
-    $('#wi-mp').addClass("selected")
-    $('#wo-mp').removeClass("selected")
-
-  } else  {
-    mediapipe = "0";
-    checkMP();
-    $('#wi-mp').removeClass("selected")
-    $('#wo-mp').addClass("selected")
-
-  } 
-
-  $('#wi-mp').click(function(){
-    mediapipe = "1";
-    checkMP();
-    path = `?backend=${backend}&mediapipe=1&model=${model}`
-    window.history.pushState(null, null, path);
-  })
-
-  $('#wo-mp').click(function(){
-    mediapipe = "0";
-    checkMP();
-    path = `?backend=${backend}&mediapipe=0&model=${model}`
-    window.history.pushState(null, null, path);
-  })
-
-  if(parseSearchParams("backend").toLowerCase() === "webgl") {
-    $('#btnwasm').removeClass("selected")
-    $('#btnwebgl').addClass("selected")
-    $('#btnwebnn').removeClass("selected")
-  } else if(parseSearchParams("backend").toLowerCase() === "webnn") {
-    $('#btnwasm').removeClass("selected")
-    $('#btnwebgl').removeClass("selected")
-    $('#btnwebnn').addClass("selected")
-  } else {
-    $('#btnwasm').addClass("selected")
-    $('#btnwebgl').removeClass("selected")
-    $('#btnwebnn').removeClass("selected")
-  }
-
-  $('#btnwasm').click(function(){
-    backend = "wasm"
-    path = `?backend=wasm&mediapipe=${mediapipe}&model=${model}`
-    window.history.pushState(null, null, path);
-  })
-
-  $('#btnwebgl').click(function(){
-    backend = "webgl"
-    path = `?backend=webgl&mediapipe=${mediapipe}&model=${model}`
-    window.history.pushState(null, null, path);
-  })
-
-  $('#btnwebnn').click(function(){
-    backend = "webnn"
-    path = `?backend=webnn&mediapipe=${mediapipe}&model=${model}`
-    window.history.pushState(null, null, path);
-  })
-
-if(parseSearchParams("model").toLowerCase() === "0") {
-    $('#btndl').removeClass("selected")
-    $('#btnss').addClass("selected")
-    $('#btnssl').removeClass("selected")
-  } else if (parseSearchParams("model").toLowerCase() === "1") {
-    $('#btndl').removeClass("selected")
-    $('#btnss').removeClass("selected")
-    $('#btnssl').addClass("selected")
-  } else {
-    $('#btndl').addClass("selected")
-    $('#btnss').removeClass("selected")
-    $('#btnssl').removeClass("selected")
-  }
-
-  $('#btndl').click(function(){
-    model = "2"
-    path = `?backend=${backend}&mediapipe=${mediapipe}&model=2`
-    window.history.pushState(null, null, path);
-  })
-
-  $('#btnss').click(function(){
-    model = "0"
-    path = `?backend=${backend}&mediapipe=${mediapipe}&model=0`
-    window.history.pushState(null, null, path);
-  })
-
-  $('#btnssl').click(function(){
-    model = "1"
-    path = `?backend=${backend}&mediapipe=${mediapipe}&model=1`
-    window.history.pushState(null, null, path);
-  })
-
-})
-
 const loginDisableVideo = () => {
   $("#login-resolution").slideUp()
 }
@@ -114,23 +16,6 @@ const loginEnableVideo = () => {
   $("#login-resolution").slideDown()
 }
 
-const showMain = () => {
-  $("#login").hide(200)
-  $("#wrapper").fadeIn(400)
-}
-const login = async () => {
-  showMain()
-  localName = $("#inputjoin").val()
-  if (localName !== "") {
-    $("#navuser").html(localName)
-    console.log(mediapipe)
-    if(mediapipe === "1") {
-      oneWebMeetMediaPipe()
-    } else {
-      oneWebMeetOWT()
-    }
-  }
-}
 
 const fullscreen = () => {
   isfullscreen = document.fullscreenElement && document.fullscreenElement !== null
@@ -285,12 +170,10 @@ const toggleBBUI = () => {
     showModelInfo()
     isSS = true
     effect = "blur"
-    ssConfig(isSS, effect)
   } 
   if (!isbr && !isbb) {
     $("#control-panel").fadeOut()
     isSS = false
-    ssConfig(isSS, effect)
   }
 }
 
@@ -317,12 +200,10 @@ const toggleBRUI = () => {
     showModelInfo()
     isSS = true
     effect = "image"
-    ssConfig(isSS, effect)
   } 
   if (!isbr && !isbb) {
     $("#control-panel").fadeOut()
     isSS = false
-    ssConfig(isSS, effect)
   }
 }
 
@@ -338,25 +219,6 @@ $("#ocbar").click(() => {
     $("#opcanvasdiv").addClass("x4")
     $("#ocbar").html("1x")
   }
-})
-
-const userLogin = () => {
-  let value = $("#inputjoin").val()
-  if (value.length <= 3) {
-    console.log("Please enter your user name of at least 3 characters.")
-  } else {
-    login()
-  }
-}
-
-$("#inputjoin").on('keypress', function (e) {
-  if(e.which === 13){
-    userLogin()
-  }
-})
-
-$("#btnjoin").click(() => {
-  userLogin()
 })
 
 const checkLeftBar = () => {

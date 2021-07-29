@@ -20,8 +20,8 @@ const videoCanvasOnFrame = () => {
   {
     window.requestAnimationFrame(videoCanvasOnFrame);
     // ctx2.drawImage(inputvideo, 0, 0, cW2, cH2);
-    console.log(ctx)
-    ctx.texImage2D(ctx.TEXTURE_2D, 0, ctx.RGB, cW, cH, 0, ctx.RGB, ctx.UNSIGNED_BYTE, inputvideo);
+    // console.log(ctx)
+    // ctx.texImage2D(ctx.TEXTURE_2D, 0, ctx.RGB, cW, cH, 0, ctx.RGB, ctx.UNSIGNED_BYTE, inputvideo);
   }
 }
 
@@ -42,7 +42,7 @@ const oneWebMeetOWT = async () => {
   await initRenderer(effect)
   continueinputvideo = true
 
-  videoCanvasOnFrame();
+  // videoCanvasOnFrame();
   getProcessedStream();
 
   console.log(stream)
@@ -51,22 +51,20 @@ const oneWebMeetOWT = async () => {
 
 
 const ssConfig = async (isSS, effect) => {
-  if(isOWT) {
-    if(isSS && effect) {
-      console.log(isSS + ' ' + effect)
-      if(effect === "blur") {
-        renderer.blurRadius = 5
-      }
-      // renderer.refineEdgeRadius = 10
-      renderer.effect = effect
-      continueAnimating = true
-      continueinputvideo = false
-      await ss()
-      
-    } else {
-      continueAnimating = false;
-      continueinputvideo = true
-      // videoCanvasOnFrame()
+  if(isSS && effect) {
+    console.log(isSS + ' ' + effect)
+    if(effect === "blur") {
+      renderer.blurRadius = 5
     }
+    // renderer.refineEdgeRadius = 10
+    renderer.effect = effect
+    continueAnimating = true
+    continueinputvideo = false
+    await ss()
+    
+  } else {
+    continueAnimating = false;
+    continueinputvideo = true
+    // videoCanvasOnFrame()
   }
 }

@@ -82,6 +82,10 @@ prepareSampleRoom
       .catch(onRequestFail);
   });
 
+  // app.get('/tflite', function (req, res) {
+  //   res.render('index', { title: 'Hey', message: 'Hello there!'});
+  // });
+
   // Start HTTP server
   app.listen(config.httpPort);
 
