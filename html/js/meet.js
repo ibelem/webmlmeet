@@ -108,17 +108,12 @@ let createLocal = () => {
 }
 
 const initConference = () => {
-  resolution = { width: 320, height: 240 };
-  if ($("#login-480").hasClass("selected")) {
-    resolution = { width: 640, height: 480 };
-  } else if ($("#login-720").hasClass("selected")) {
-    resolution = { width: 1280, height: 720 };
-  }
-  if (resolution.width == 1280) {
-    $("#hd").css("display", "inline-block");
-  } else {
-    $("#hd").css("display", "none");
-  }
+  // resolution = { width: 320, height: 240 };
+  // if ($("#login-480").hasClass("selected")) {
+  //   resolution = { width: 640, height: 480 };
+  // } else if ($("#login-720").hasClass("selected")) {
+  //   resolution = { width: 1280, height: 720 };
+  // }
 
   createToken(roomId, localname, "presenter", function (response) {
     console.log('createToken0')

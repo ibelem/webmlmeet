@@ -19,15 +19,12 @@ const videoCanvasOnFrame = () => {
   if(continueinputvideo)
   {
     window.requestAnimationFrame(videoCanvasOnFrame);
-    // ctx2.drawImage(inputvideo, 0, 0, cW2, cH2);
-    // console.log(ctx)
-    // ctx.texImage2D(ctx.TEXTURE_2D, 0, ctx.RGB, cW, cH, 0, ctx.RGB, ctx.UNSIGNED_BYTE, inputvideo);
+    ctx.drawImage(inputvideo, 0, 0, cW, cH);
   }
 }
 
 const initRenderer = (effect) => {
   renderer = new Renderer(outputcanvas);
-
   if(effect === "blur") {
     renderer.blurRadius = 5
   }
@@ -38,13 +35,10 @@ const initRenderer = (effect) => {
 
 const oneWebMeetOWT = async () => {
   await createOWTStream()
-  ctx = $("#outputcanvas")[0].getContext("webgl2");
-  await initRenderer(effect)
+  // ctx = $("#outputcanvas")[0].getContext("2d");
   continueinputvideo = true
-
   // videoCanvasOnFrame();
   getProcessedStream();
-
   console.log(stream)
   initConference();
 };
@@ -52,6 +46,10 @@ const oneWebMeetOWT = async () => {
 
 const ssConfig = async (isSS, effect) => {
   if(isSS && effect) {
+    console.log('dddddddddddddddddddddddd')
+    ctx = $("#outputcanvas")[0].getContext("webgl2");
+    console.log(ctx)
+    await initRenderer(effect)
     console.log(isSS + ' ' + effect)
     if(effect === "blur") {
       renderer.blurRadius = 5
@@ -63,8 +61,9 @@ const ssConfig = async (isSS, effect) => {
     await ss()
     
   } else {
+    ctx = $("#outputcanvas")[0].getContext("2d");
     continueAnimating = false;
     continueinputvideo = true
-    // videoCanvasOnFrame()
+    videoCanvasOnFrame()
   }
 }

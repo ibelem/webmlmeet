@@ -62,9 +62,11 @@ $(document).ready(function () {
 
   updateDocSize()
 
-  selfieSegmentation.setOptions({
-    modelSelection: parseInt(model),
-  });
+  if (resolution.width == 1280) {
+    $("#hd").css("display", "inline-block");
+  } else {
+    $("#hd").css("display", "none");
+  }
 
   $(".btnfullscreen").click(function () {
     fullscreen()    
@@ -156,55 +158,6 @@ const showModelInfo = () => {
     ${modelindex.name}
   `
   $('#model').html(modelinfo)
-}
-
-const toggleBBUI = () => {
-  $("#bboff").toggleClass("block")
-  $("#bbon").toggleClass("block")
-  $("#tbb").toggleClass("act")
-
-  isbb = !isbb
-
-  if (isbb) {
-    $("#control-panel").fadeIn()
-    showModelInfo()
-    isSS = true
-    effect = "blur"
-  } 
-  if (!isbr && !isbb) {
-    $("#control-panel").fadeOut()
-    isSS = false
-  }
-}
-
-const toggleBRUI = () => {
-  $("#right-bar").fadeIn()
-
-  $("#broff").toggleClass("block")
-  $("#bron").toggleClass("block")
-  $("#tbr").toggleClass("act")
-
-  if ($("#broff").css("display") == "block") {
-    $("#right-bar").fadeIn()
-    $("#ic").removeClass('norightbar')
-    $("#bgscontainer").fadeIn()
-  } else {
-    $("#bgscontainer").hide()
-    $("#ic").addClass('norightbar')
-    $("#right-bar").hide()
-  }
-  isbr = !isbr
-
-  if (isbr) {
-    $("#control-panel").fadeIn()
-    showModelInfo()
-    isSS = true
-    effect = "image"
-  } 
-  if (!isbr && !isbb) {
-    $("#control-panel").fadeOut()
-    isSS = false
-  }
 }
 
 $("#ebeauty").click(() => {
