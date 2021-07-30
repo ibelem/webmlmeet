@@ -26,11 +26,15 @@ const toggleBBUI = () => {
     isSS = true
     effect = "blur"
     ssConfig(isSS, effect)
+    $("#outputcanvas").removeClass("dnone");
+    $("#outputcanvas2d").addClass("dnone");
   } 
   if (!isbr && !isbb) {
     $("#control-panel").fadeOut()
     isSS = false
     ssConfig(isSS, effect)
+    $("#outputcanvas").addClass("dnone");
+    $("#outputcanvas2d").removeClass("dnone");
   }
 }
 
@@ -58,10 +62,14 @@ const toggleBRUI = () => {
     isSS = true
     effect = "image"
     ssConfig(isSS, effect)
+    $("#outputcanvas").removeClass("dnone");
+    $("#outputcanvas2d").addClass("dnone");
   } 
   if (!isbr && !isbb) {
     $("#control-panel").fadeOut()
     isSS = false
     ssConfig(isSS, effect)
+    $("#outputcanvas").addClass("dnone");
+    $("#outputcanvas2d").removeClass("dnone");
   }
 }

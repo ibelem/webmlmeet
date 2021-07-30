@@ -6,7 +6,6 @@ const bg = document.querySelector("#bgdefault");
 const bgpause = document.querySelector("#bgpause");
 const bgfilebutton = document.querySelector("#bgimg");
 
-var ctx;
 let cW = $("#outputcanvas")[0].width;
 let cH = $("#outputcanvas")[0].height;
 let isSS = false, effect = "blur";
@@ -146,8 +145,6 @@ const initConference = () => {
       });
       loadUserList();
       createLocal();
-
-      console.log(streams)
 
       for (const stream of streams) {
         console.log("stream.source.video: " + stream.source.video)
@@ -579,11 +576,10 @@ const userExit = () => {
   users = [];
   subList = {};
   isAudioOnly = false;
-  location.reload();
 };
 
 const getProcessedStream = () => {
-  processedstream = document.querySelector("#outputcanvas").captureStream();
+  processedstream = outputcanvas.captureStream();
   const audiotrack = stream.getAudioTracks()[0];
   processedstream.addTrack(audiotrack);
 };

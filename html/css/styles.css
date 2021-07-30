@@ -1,9 +1,8 @@
 :root {
   --bg-color: #ffffff;
-  --bg-lb-color: rgb(29, 46, 63);
-  --bg-main-color: rgb(33, 53, 71);
-  --bg-maindark-color: rgb(23, 35, 45);
-  --bg-textbg-color: rgb(42, 60.6, 84.2);
+  --bg-lb-color: rgba(21.5, 23.8, 41.9, 1.0);
+  --bg-main-color: rgba(16.8, 19.1, 31.8, 1);
+  --bg-textbg-color: rgba(6.5, 10.8, 20.3, 1.0);
   --m-color: #ccff90;
   --mc-color: #ba2831;
   --m1-color: #ddeaca;

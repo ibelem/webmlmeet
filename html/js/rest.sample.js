@@ -55,6 +55,17 @@ var mixStream = function (room, stream, view, host) {
         onResponse, host);
 };
 
+const deleteStream = function(room, stream, host) {
+    const jsonPatch = [{ name: 'deleteStream' }]
+    send(
+      'DELETE',
+      '/rooms/' + room + '/streams/' + stream,
+      jsonPatch,
+      onResponse,
+      host
+    )
+  }
+
 var startStreamingIn = function (room, inUrl, host) {
     var options = {
         url: inUrl,

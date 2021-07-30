@@ -48,7 +48,6 @@ const oneWebMeetOWT = async () => {
   continueinputvideo = true
   videoCanvasOnFrame();
   getProcessedStream();
-  console.log("^^^^^^^^^^^^^^^^^^^")
   console.log(stream)
   initConference();
 };
