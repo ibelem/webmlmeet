@@ -13,17 +13,24 @@ const createOWTStream = async () => {
   console.log(inputvideo.srcObject)
 }
 
-const outputcanvas2d = $("#outputcanvas2d")[0];
-let cW2d = $("#outputcanvas2d")[0].width;
-let cH2d = $("#outputcanvas2d")[0].height;
-let ctx2d;
 let continueinputvideo = true
 
 const videoCanvasOnFrame = () => {
   if(continueinputvideo)
   {
     window.requestAnimationFrame(videoCanvasOnFrame);
-    ctx2d.drawImage(inputvideo, 0, 0, cW, cH);
+    // ctx2d.drawImage(inputvideo, 0, 0, cW, cH);
+    renderer.uploadNewTexture(inputvideo, [cW, cH]);
+    renderer.utils.render();
+  }
+}
+
+const canvasOnFrame = () => {
+  if(continueAnimating)
+  {
+    window.requestAnimationFrame(canvasOnFrame);
+    renderer.uploadNewTexture(inputvideo, [cW, cH]);
+    renderer.utils.render();
   }
 }
 
@@ -39,11 +46,11 @@ const initRenderer = (effect) => {
 
 const oneWebMeetOWT = async () => {
   await createOWTStream()
-  ctx2d = outputcanvas2d.getContext("2d");
+  await initRenderer("fill")
   continueinputvideo = true
   videoCanvasOnFrame();
-  // getProcessedStream();
-  processedstream = stream
+  getProcessedStream();
+  // processedstream = stream
   initConference();
 };
 
@@ -51,7 +58,6 @@ const oneWebMeetOWT = async () => {
 const ssConfig = async (isSS, effect) => {
   if(isSS && effect) {
     continueinputvideo = false
-    await initRenderer(effect)
     console.log(isSS + ' ' + effect)
     if(effect === "blur") {
       renderer.blurRadius = 5
@@ -60,16 +66,17 @@ const ssConfig = async (isSS, effect) => {
     renderer.effect = effect
     continueAnimating = true    
     await ss()
-    getProcessedStream();
-    deleteStream(roomId, localPublication.id)
-    createLocal();
+
+
+    // deleteStream(roomId, localPublication.id)
+    // createLocal();
   } else {
     // gl = outputcanvas.getContext("2d");
     continueAnimating = false;
     continueinputvideo = true
     videoCanvasOnFrame()
-    processedstream = stream
-    deleteStream(roomId, localPublication.id)
-    createLocal();
+
+    // deleteStream(roomId, localPublication.id)
+    // createLocal();
   }
 }

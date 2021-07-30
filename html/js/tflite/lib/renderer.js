@@ -22,7 +22,6 @@ class Renderer {
     this._effect = 'label';
     this._zoom = 1;
     this._bgColor = [57, 135, 189];
-    this._colorMapAlpha = 0.7;
     this._blurRadius = 30;
     this._backgroundImageSource = null;
     let kernel1D = this._generateGaussianKernel1D(this._blurRadius * 2 + 1);
@@ -91,16 +90,6 @@ class Renderer {
 
     this._setupBlurShader();
     this.drawOutputs(this._segMap);
-  }
-
-  get colorMapAlpha() {
-    return this._colorMapAlpha;
-  }
-
-  set colorMapAlpha(alpha) {
-    this._colorMapAlpha = alpha;
-
-    this._drawColorLabel();
   }
 
   get effect() {
@@ -192,9 +181,6 @@ class Renderer {
     this.utils.setup2dQuad();
 
     switch (this._effect) {
-      case 'label': {
-        this._setupColorizeShader();
-      } break;
       case 'blur': {
         this._setupExtractShader();
         this._setupBlurShader();
@@ -215,78 +201,6 @@ class Renderer {
       }
     }
     // this.utils.freeze();
-  }
-
-  _setupColorizeShader() {
-
-    const vs =
-      `#version 300 es
-      in vec4 a_pos;
-      out vec2 v_texcoord;
-      out vec2 v_maskcord;
-
-      void main() {
-        gl_Position = a_pos;
-        v_texcoord = a_pos.xy * vec2(0.5, -0.5) + 0.5;
-        v_maskcord = v_texcoord;
-      }`;
-
-    const fs =
-      `#version 300 es
-      precision highp float;
-      out vec4 out_color;
-
-      uniform sampler2D u_image;
-      uniform sampler2D u_predictions;
-      uniform sampler2D u_palette;
-      uniform int u_length;
-      uniform float u_alpha;
-
-      in vec2 v_maskcord;
-      in vec2 v_texcoord;
-
-      void main() {
-        float label_index = texture(u_predictions, v_maskcord).a * 255.0;
-        vec4 label_color = texture(u_palette, vec2((label_index + 0.5) / float(u_length), 0.5));
-        vec4 im_color = texture(u_image, v_texcoord);
-        out_color = mix(im_color, label_color, u_alpha);
-      }`;
-
-    this.shaders.colorize = new Shader(this.gl, vs, fs);
-    this.shaders.colorize.use();
-    this.shaders.colorize.set1i('u_image', 0); // texture units 0
-    this.shaders.colorize.set1i('u_predictions', 1); // texture units 1
-    this.shaders.colorize.set1i('u_palette', 2); // texture units 2
-    this.shaders.colorize.set1i('u_length', this._colorPalette.length / 3);
-
-    if (typeof this.utils.getTexture('image') === 'undefined') {
-      this.utils.createAndBindTexture({
-        name: 'image',
-        filter: this.gl.LINEAR,
-      });
-    }
-
-    this.utils.createAndBindTexture({
-      name: 'predictions',
-      filter: this.gl.NEAREST,
-    });
-
-    this.utils.createAndBindTexture({
-      name: 'palette',
-      filter: this.gl.NEAREST,
-    });
-
-    this.gl.texImage2D(
-      this.gl.TEXTURE_2D,
-      0,
-      this.gl.RGB,
-      this._colorPalette.length / 3,
-      1,
-      0,
-      this.gl.RGB,
-      this.gl.UNSIGNED_BYTE,
-      this._colorPalette
-    );
   }
 
   _setupExtractShader() {
@@ -638,12 +552,13 @@ class Renderer {
     this.gl.canvas.height = this._clippedSize[1] * this._zoom;
     this.utils.setViewport(this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
 
-    if (this._effect === 'label') {
-      // Display color labels
-      this._segMap = newSegMap;
-      console.time("post-processing time");
-      this._predictions = this._maskSegMap(newSegMap);
-      console.timeEnd("post-processing time");
+    // Person segmentation
+    this._segMap = newSegMap;
+    console.time("post-processing time");
+    this._predictions = this._maskSegMapPerson(newSegMap);
+    console.timeEnd("post-processing time");
+    if (this._guidedFilterRadius === 0) {
+      // guided filter is disabled
       this.utils.bindTexture('predictions');
       this.gl.pixelStorei(this.gl.UNPACK_ALIGNMENT, 1);
       this.gl.texImage2D(
@@ -657,107 +572,21 @@ class Renderer {
         this.gl.UNSIGNED_BYTE,
         this._predictions
       );
-      this._drawColorLabel();
     } else {
-      // Person segmentation
-      this._segMap = newSegMap;
-      console.time("post-processing time");
-      this._predictions = this._maskSegMapPerson(newSegMap);
-      console.timeEnd("post-processing time");
-      if (this._guidedFilterRadius === 0) {
-        // guided filter is disabled
-        this.utils.bindTexture('predictions');
-        this.gl.pixelStorei(this.gl.UNPACK_ALIGNMENT, 1);
-        this.gl.texImage2D(
-          this.gl.TEXTURE_2D,
-          0,
-          this.gl.ALPHA,
-          this._clippedSize[0],
-          this._clippedSize[1],
-          0,
-          this.gl.ALPHA,
-          this.gl.UNSIGNED_BYTE,
-          this._predictions
-        );
-      } else {
-        // guided filter is enabled
-        let refinedMask = this.guidedFilter.apply(
-          this._imageSource,
-          this._predictions,
-          this._clippedSize[0],
-          this._clippedSize[1]
-        );
-        this.utils.setTexture('predictions', refinedMask);
-      }
-      this._drawPerson();
-    }  
+      // guided filter is enabled
+      let refinedMask = this.guidedFilter.apply(
+        this._imageSource,
+        this._predictions,
+        this._clippedSize[0],
+        this._clippedSize[1]
+      );
+      this.utils.setTexture('predictions', refinedMask);
+    }
+    this._drawPerson();
+ 
     let elapsed = performance.now() - start;
     console.log(`Draw time: ${elapsed.toFixed(2)} ms`);
     return elapsed;
-  }
-
-  _drawColorLabel() {
-    let currShader = this.shaders.colorize;
-    currShader.use();
-    currShader.set1f('u_alpha', this._colorMapAlpha);
-    this.utils.bindFramebuffer(null);
-    this.utils.bindInputTextures(['image', 'predictions', 'palette']);
-    this.utils.render();
-
-    // generate label map. { labelName: [ labelName, rgbTuple ] }
-    let uniqueLabels = new Set(this._predictions);
-    let labelMap = {};
-    for (let labelId of uniqueLabels) {
-      let labelName = this._segMap.labels[labelId];
-      let rgbTuple = this._colorPalette.slice(labelId * 3, (labelId + 1) * 3);
-      labelMap[labelId] = [labelName, rgbTuple];
-    }
-    this._showLegends(labelMap);
-    return labelMap;
-  }
-
-  _showLegends(labelMap) {
-    let shownLabelId = new Set();
-
-    $('.seg-label').each((i, e) => {
-      let id = $(e).attr('data-label-id');
-      if (!labelMap.hasOwnProperty(id)) {
-        $(e).remove();
-      } else {
-        shownLabelId.add(id);
-      }
-    });
-
-    for (let id in labelMap) {
-      if (!shownLabelId.has(id)) {
-        let labelDiv = $(`<div class="col-12 seg-label" data-label-id="${id}"/>`)
-          .append($(`<span style="color:rgb(${labelMap[id][1]})">⬤</span>`))
-          .append(`${labelMap[id][0]}`);
-        $('.labels-wrapper').append(labelDiv);
-      }
-    }
-  }
-
-  highlightHoverLabel(hoverPos) {
-    if (!this._predictions) {
-      return;
-    }
-
-    if (!hoverPos) {
-      // clear highlight when mouse leaves canvas
-      $('.seg-label').removeClass('highlight');
-      return;
-    }
-
-    let outputW = this._clippedSize[0];
-    let actualZoom = canvasvideo.clientWidth / this._clippedSize[0];
-
-    let x = Math.floor(hoverPos.x / actualZoom);
-    let y = Math.floor(hoverPos.y / actualZoom);
-    let labelId = this._predictions[x + y * outputW];
-
-    $('.seg-label').removeClass('highlight');
-    $('.labels-wrapper').find(`[data-label-id="${labelId}"]`).addClass('highlight');
   }
 
   _drawPerson() {
@@ -794,9 +623,9 @@ class Renderer {
         this.utils.render();
       } break;
       case 'fill': {
-        currShader = this.shaders.fill;
-        currShader.use();
-        this.utils.bindFramebuffer('styledBg');
+        // currShader = this.shaders.fill;
+        // currShader.use();
+        // this.utils.bindFramebuffer('styledBg');
         this.utils.render();
       }
     }
