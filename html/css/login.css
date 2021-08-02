@@ -1,4 +1,26 @@
-#login, #wrapper {
+#home .logos {
+  backdrop-filter: blur(20px);
+  width: 640px;
+  text-align: center;
+}
+
+#home .logos svg {
+  width: 100px;
+  height: 60px;
+  display: inline-block;
+  margin: 0 0.3rem;
+}
+ 
+#home .logos svg.mp {
+  margin-bottom: 12px;
+}
+
+#home svg.webnn {
+  width: 160px;
+  height: 60px;
+}
+
+#login, #wrapper, .logos {
     display: none;
 }
 

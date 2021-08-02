@@ -24,7 +24,7 @@ const toggleBBUI = () => {
     $("#control-panel").fadeIn()
     showModelInfo()
     isSS = true
-    effect = "fill"
+    effect = "blur"
     ssConfig(isSS, effect)
   } 
   if (!isbr && !isbb) {

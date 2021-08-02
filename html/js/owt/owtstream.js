@@ -21,15 +21,15 @@ const videoCanvasOnFrame = () => {
   {
     window.requestAnimationFrame(videoCanvasOnFrame);
     // ctx2d.drawImage(inputvideo, 0, 0, cW, cH);
-    // renderer.uploadNewTexture(inputvideo, [cW, cH]);
-    gl.texImage2D(
-      gl.TEXTURE_2D,
-      0,
-      gl.RGBA,
-      gl.RGBA,
-      gl.UNSIGNED_BYTE,
-      inputvideo
-    );
+    renderer.uploadNewTexture(inputvideo, [cW, cH]);
+    // gl.texImage2D(
+    //   gl.TEXTURE_2D,
+    //   0,
+    //   gl.RGBA,
+    //   gl.RGBA,
+    //   gl.UNSIGNED_BYTE,
+    //   inputvideo
+    // );
     gl.drawArrays(gl.TRIANGLES, 0, 6);
   }
 }
@@ -61,6 +61,7 @@ const ssConfig = async (isSS, effect) => {
     console.log(isSS + ' ' + effect)
     if(effect === "blur") {
       renderer.blurRadius = 5
+      console.log(renderer.blurRadius)
     }
     // renderer.refineEdgeRadius = 10
     renderer.effect = effect
@@ -74,7 +75,7 @@ const ssConfig = async (isSS, effect) => {
     // gl = outputcanvas.getContext("2d");
     continueAnimating = false;
     continueinputvideo = true
-    await initRenderer("fill")
+    await initRenderer("none")
     videoCanvasOnFrame()
 
     // deleteStream(roomId, localPublication.id)

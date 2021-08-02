@@ -20,6 +20,7 @@ const obj = {
 
 $(document).ready(function () {
   $("#login").fadeIn(1000)
+  $(".logos").fadeIn(1500)
 
   $("#wi-mp").click(function () {
     $("#wo-mp").removeClass("selected")

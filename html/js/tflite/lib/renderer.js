@@ -372,8 +372,6 @@ class Renderer {
       precision highp float;
 
       in vec2 v_texcoord;
-      out vec4 out_color;
-      uniform vec4 fill_color;
 
       void main() {
       }`;
@@ -621,9 +619,8 @@ class Renderer {
         this.utils.render();
       } break;
       case 'none': {
-        // currShader = this.shaders.fill;
-        // currShader.use();
-        // this.utils.bindFramebuffer('styledBg');
+        currShader = this.shaders.none;
+        currShader.use();
         this.utils.render();
       } break;
     }
