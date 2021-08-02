@@ -1,8 +1,7 @@
 class Renderer {
   constructor(canvas) {
-    console.log(canvas.getContext('webgl2'))
     this.gl = canvas.getContext('webgl2');
-    console.log(this.gl)
+    gl = this.gl
     if (this.gl === null) {
       throw new Error('Unable to initialize WebGL.');
     }
@@ -19,38 +18,12 @@ class Renderer {
     this._imageSource = null;
 
     // UI state
-    this._effect = 'label';
     this._zoom = 1;
-    this._bgColor = [57, 135, 189];
     this._blurRadius = 30;
     this._backgroundImageSource = null;
     let kernel1D = this._generateGaussianKernel1D(this._blurRadius * 2 + 1);
     this._halfKernel = kernel1D.slice(this._blurRadius); // take the second half
     this._guidedFilterRadius = 0;
-
-    this._colorPalette = new Uint8Array([
-      45, 52, 54,
-      85, 239, 196,
-      129, 236, 236,
-      116, 185, 255,
-      162, 155, 254,
-      223, 230, 233,
-      0, 184, 148,
-      0, 206, 201,
-      9, 132, 227,
-      39, 60, 117,
-      108, 92, 231,
-      178, 190, 195,
-      255, 234, 167,
-      250, 177, 160,
-      255, 118, 117,
-      253, 121, 168,
-      99, 110, 114,
-      253, 203, 110,
-      225, 112, 85,
-      214, 48, 49,
-      232, 67, 147,
-    ]);
   }
 
   get zoom() {
@@ -62,16 +35,6 @@ class Renderer {
 
     // all FRAMEBUFFERs should be reconfigured when zooming
     this.setup().then(_ => this.drawOutputs(this._segMap));
-  }
-
-  get bgColor() {
-    return this._bgColor;
-  }
-
-  set bgColor(rgb) {
-    this._bgColor = rgb;
-    this._setupFillShader();
-    this.drawOutputs(this._segMap);
   }
 
   get blurRadius() {
@@ -181,6 +144,11 @@ class Renderer {
     this.utils.setup2dQuad();
 
     switch (this._effect) {
+      case 'none': {
+        this._setupExtractShader();
+        this._setupNoneShader();
+        this._setupBlendShader();
+      } break;
       case 'blur': {
         this._setupExtractShader();
         this._setupBlurShader();
@@ -377,17 +345,41 @@ class Renderer {
 
     this.shaders.fill = new Shader(this.gl, vs, fs);
     this.shaders.fill.use();
-    // set solid color in fill shader
-    const fillColor = this._bgColor.map(x => x / 255);
-    this.shaders.fill.set4f('fill_color', ...fillColor, 1);
 
-    this.utils.createTexInFrameBuffer('styledBg',
-      [{
-        name: 'styledBg',
-        width: this._clippedSize[0] * this._zoom,
-        height: this._clippedSize[1] * this._zoom,
-      }]
-    );
+    // this.utils.createTexInFrameBuffer('styledBg',
+    //   [{
+    //     name: 'styledBg',
+    //     width: this._clippedSize[0] * this._zoom,
+    //     height: this._clippedSize[1] * this._zoom,
+    //   }]
+    // );
+  }
+
+  _setupNoneShader() {
+
+    const vs =
+      `#version 300 es
+      in vec4 a_pos;
+      out vec2 v_texcoord;
+
+      void main() {
+        gl_Position = a_pos;
+        v_texcoord = a_pos.xy * vec2(0.5, -0.5) + 0.5;
+      }`;
+
+    const fs =
+      `#version 300 es
+      precision highp float;
+
+      in vec2 v_texcoord;
+      out vec4 out_color;
+      uniform vec4 fill_color;
+
+      void main() {
+      }`;
+
+    this.shaders.none = new Shader(this.gl, vs, fs);
+    this.shaders.none.use();
   }
 
   _setupImageShader() {
@@ -627,7 +619,13 @@ class Renderer {
         // currShader.use();
         // this.utils.bindFramebuffer('styledBg');
         this.utils.render();
-      }
+      } break;
+      case 'none': {
+        // currShader = this.shaders.fill;
+        // currShader.use();
+        // this.utils.bindFramebuffer('styledBg');
+        this.utils.render();
+      } break;
     }
 
     // feed into blend shader

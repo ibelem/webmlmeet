@@ -14,23 +14,23 @@ const createOWTStream = async () => {
 }
 
 let continueinputvideo = true
+let gl
 
 const videoCanvasOnFrame = () => {
   if(continueinputvideo)
   {
     window.requestAnimationFrame(videoCanvasOnFrame);
     // ctx2d.drawImage(inputvideo, 0, 0, cW, cH);
-    renderer.uploadNewTexture(inputvideo, [cW, cH]);
-    renderer.utils.render();
-  }
-}
-
-const canvasOnFrame = () => {
-  if(continueAnimating)
-  {
-    window.requestAnimationFrame(canvasOnFrame);
-    renderer.uploadNewTexture(inputvideo, [cW, cH]);
-    renderer.utils.render();
+    // renderer.uploadNewTexture(inputvideo, [cW, cH]);
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      inputvideo
+    );
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
   }
 }
 
@@ -46,7 +46,7 @@ const initRenderer = (effect) => {
 
 const oneWebMeetOWT = async () => {
   await createOWTStream()
-  await initRenderer("fill")
+  await initRenderer("none")
   continueinputvideo = true
   videoCanvasOnFrame();
   getProcessedStream();
@@ -74,6 +74,7 @@ const ssConfig = async (isSS, effect) => {
     // gl = outputcanvas.getContext("2d");
     continueAnimating = false;
     continueinputvideo = true
+    await initRenderer("fill")
     videoCanvasOnFrame()
 
     // deleteStream(roomId, localPublication.id)
