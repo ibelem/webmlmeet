@@ -11,14 +11,6 @@ $(document).ready(function () {
 
 $(window).on("load", function () {
   oneWebMeetMediaPipe();
-
-  let ele = $('.username');
-  for(let i of ele) {
-    if (isElementOverflowing(i)) {
-      wrapContentsInMarquee(i);
-    }
-  }
-
 });
 
 const toggleBBUI = () => {

@@ -257,7 +257,7 @@ const subscribeStream = (remotestream) => {
         });
       }
 
-      addVideo(remotestream)
+      addVideo(remotestream, getUserFromId(remotestream.origin).userId)
 
     },
     (err) => {
@@ -275,7 +275,11 @@ const subscribeStream = (remotestream) => {
   });
 };
 
-function addVideo(remotestream) {
+function addVideo(remotestream, username) {
+  let usernametag = ''
+  if(username) {
+    usernametag = `<div class="username">${username}</div>`
+  }
   let $video = $(
     `
     <div class="vslot" id=${"div" + remotestream.id}>
@@ -293,12 +297,20 @@ function addVideo(remotestream) {
           </svg>
         </button>
       </div>
+      ${usernametag}
     </div>
     `
   );
   $("#video-panel").append($video);
   let vid = "#v" + remotestream.id;
   document.querySelector(vid).srcObject = remotestream.mediaStream;
+
+  let ele = $('.username');
+  for(let i of ele) {
+    if (isElementOverflowing(i)) {
+      wrapContentsInMarquee(i);
+    }
+  }
 }
 
 function getUserFromName(name) {

@@ -7,6 +7,10 @@ body.fullscreen {
     margin: 50px;
 }
 
+.fullscreen .username {
+    display: none;
+}
+
 .fullscreen .inputvideo {
     left: -10000px !important;
 }
