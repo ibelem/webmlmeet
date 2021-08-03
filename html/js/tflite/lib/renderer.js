@@ -346,13 +346,13 @@ class Renderer {
     this.shaders.fill = new Shader(this.gl, vs, fs);
     this.shaders.fill.use();
 
-    // this.utils.createTexInFrameBuffer('styledBg',
-    //   [{
-    //     name: 'styledBg',
-    //     width: this._clippedSize[0] * this._zoom,
-    //     height: this._clippedSize[1] * this._zoom,
-    //   }]
-    // );
+    this.utils.createTexInFrameBuffer('styledBg',
+      [{
+        name: 'styledBg',
+        width: this._clippedSize[0] * this._zoom,
+        height: this._clippedSize[1] * this._zoom,
+      }]
+    );
   }
 
   _setupNoneShader() {
@@ -364,7 +364,11 @@ class Renderer {
 
       void main() {
         gl_Position = a_pos;
-        v_texcoord = a_pos.xy * vec2(0.5, -0.5) + 0.5;
+        float x = 0.0;
+        float y = 0.0;
+        if (a_pos.x > 0.0) { x = 1.0; } else { x = 0.0 }
+        if (a_pos.y > 0.0) { y = 0.0; } else { y = 1.0 }
+        v_texcoord = vec2(x, y);
       }`;
 
     const fs =
@@ -373,8 +377,7 @@ class Renderer {
 
       in vec2 v_texcoord;
 
-      void main() {
-      }`;
+      void main() { console.log("-"); }`;
 
     this.shaders.none = new Shader(this.gl, vs, fs);
     this.shaders.none.use();
@@ -613,9 +616,9 @@ class Renderer {
         this.utils.render();
       } break;
       case 'fill': {
-        // currShader = this.shaders.fill;
-        // currShader.use();
-        // this.utils.bindFramebuffer('styledBg');
+        currShader = this.shaders.fill;
+        currShader.use();
+        this.utils.bindFramebuffer('styledBg');
         this.utils.render();
       } break;
       case 'none': {

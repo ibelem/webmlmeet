@@ -1,4 +1,17 @@
 
+const isElementOverflowing = (ele) => {
+  let overflowX = ele.offsetWidth < ele.scrollWidth,
+    overflowY = ele.offsetHeight < ele.scrollHeight;
+  return (overflowX || overflowY);
+}
+
+const  wrapContentsInMarquee = (ele) => {
+  let marquee = document.createElement('marquee'),
+    contents = ele.innerText;
+  marquee.innerText = contents;
+  ele.innerHTML = '';
+  ele.appendChild(marquee);
+}
 
 const checkMP = () => {
   if(mediapipe === "1") {

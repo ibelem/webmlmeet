@@ -11,19 +11,19 @@ class DeepLabV3MNV2 {
         scaledFlag: true,
         inputLayout: 'nhwc',
         labelUrl: '../../assets/models/labels.txt',
-        inputDimensions: [1, 513, 513, 3], // deeplab
+        inputDimensions: [1, 256, 256, 3], // deeplab
         // inputDimensions: [1,224,224,3],
         // inputDimensions: [1,299,299,3],
         // inputDimensions: [1,256,256,3], // selfie_segmentation
       };
-      this.outputDimensions = [1,513,513,21];
+      this.outputDimensions = [1,256,256,21];
     //   this.outputDimensions = [1, 1001];
   }
 
   async load() {
   // Create the model runner with the model.
 
-  const MODEL_PATH = '../../assets/models/deeplab_mobilenetv2_no_argmax.tflite';
+  const MODEL_PATH = '../../assets/models/deeplab_mobilenetv2_256_no_argmax.tflite';
 //   const MODEL_PATH = './models/selfie_segmentation.tflite';
 // const MODEL_PATH = './tflite-support/mobilenetv2.tflite';
 

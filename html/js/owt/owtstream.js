@@ -21,25 +21,24 @@ const videoCanvasOnFrame = () => {
   {
     window.requestAnimationFrame(videoCanvasOnFrame);
     // ctx2d.drawImage(inputvideo, 0, 0, cW, cH);
-    renderer.uploadNewTexture(inputvideo, [cW, cH]);
-    // gl.texImage2D(
-    //   gl.TEXTURE_2D,
-    //   0,
-    //   gl.RGBA,
-    //   gl.RGBA,
-    //   gl.UNSIGNED_BYTE,
-    //   inputvideo
-    // );
-    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    if(stream) {
+      renderer.uploadNewTexture(inputvideo, [cW, cH]);
+      renderer.utils.render();
+      // gl.texImage2D(
+      //   gl.TEXTURE_2D,
+      //   0,
+      //   gl.RGBA,
+      //   gl.RGBA,
+      //   gl.UNSIGNED_BYTE,
+      //   inputvideo
+      // );
+      // gl.drawArrays(gl.TRIANGLES, 0, 6);
+    }
   }
 }
 
 const initRenderer = (effect) => {
   renderer = new Renderer(outputcanvas);
-  if(effect === "blur") {
-    renderer.blurRadius = 5
-  }
-  // renderer.refineEdgeRadius = 10
   renderer.effect = effect
   renderer.setup();
 }
@@ -50,7 +49,6 @@ const oneWebMeetOWT = async () => {
   continueinputvideo = true
   videoCanvasOnFrame();
   getProcessedStream();
-  // processedstream = stream
   initConference();
 };
 
@@ -60,21 +58,19 @@ const ssConfig = async (isSS, effect) => {
     continueinputvideo = false
     console.log(isSS + ' ' + effect)
     if(effect === "blur") {
-      renderer.blurRadius = 5
-      console.log(renderer.blurRadius)
+      renderer.blurRadius = 10
     }
-    // renderer.refineEdgeRadius = 10
-    renderer.effect = effect
+
+    renderer.effect = effect 
     continueAnimating = true    
     await ss()
-
-
     // deleteStream(roomId, localPublication.id)
     // createLocal();
   } else {
     // gl = outputcanvas.getContext("2d");
     continueAnimating = false;
     continueinputvideo = true
+    renderer.deleteAll()
     await initRenderer("none")
     videoCanvasOnFrame()
 

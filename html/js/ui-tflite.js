@@ -2,10 +2,19 @@
 $(document).ready(function () {
     localname = parseSearchParams("usr")
     $("#navuser").html(localname)
+    $("#localname").html(localname)
 })
 
 $(window).on("load", function () {
   oneWebMeetOWT();
+
+  let ele = $('.username');
+  for(let i of ele) {
+    if (isElementOverflowing(i)) {
+      wrapContentsInMarquee(i);
+    }
+  }
+
 });
 
 const exit = () => {

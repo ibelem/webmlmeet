@@ -42,7 +42,7 @@ let ssmodelinfo = [{
   },{
     id: 2,
     name: 'DeepLabV3',
-    inputsize: '513x513x1',
+    inputsize: '256x256x1',
     outputsize: '',
     size: '8.4mB',
     basedon: '',

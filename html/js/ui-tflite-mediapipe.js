@@ -2,6 +2,7 @@
 $(document).ready(function () {
     localname = parseSearchParams("usr")
     $("#navuser").html(localname)
+    $("#localname").html(localname)
 
     selfieSegmentation.setOptions({
         modelSelection: parseInt(model),
@@ -10,6 +11,14 @@ $(document).ready(function () {
 
 $(window).on("load", function () {
   oneWebMeetMediaPipe();
+
+  let ele = $('.username');
+  for(let i of ele) {
+    if (isElementOverflowing(i)) {
+      wrapContentsInMarquee(i);
+    }
+  }
+
 });
 
 const toggleBBUI = () => {

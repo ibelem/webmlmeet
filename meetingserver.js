@@ -6,7 +6,6 @@
 const express = require('express');
 const fs = require('fs');
 const https = require('https');
-const bodyParser = require('body-parser');
 const app = express();
 
 const rest = require('./authrequest');
@@ -14,9 +13,14 @@ const rest = require('./authrequest');
 const config = require('./config');
 
 // Directory 'public' for static files
-app.use(express.static(__dirname + '/html'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
+app.use(express.static(__dirname + '/html', {
+  setHeaders: (res) => {
+    res.set('Cross-Origin-Opener-Policy', 'same-origin');
+    res.set('Cross-Origin-Embedder-Policy', 'require-corp');
+  }
+}));
+app.use(express.json());
+app.use(express.urlencoded({
   extended: true
 }));
 
