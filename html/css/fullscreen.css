@@ -7,9 +7,28 @@ body.fullscreen {
     margin: 50px;
 }
 
-.fullscreen .username {
+/* .fullscreen .username {
     display: none;
+} */
+
+.fullscreen .streamfull .username {
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    right: 60px;
+    bottom: 60px;
+    top: auto;
+    width: 120px;
+    max-width: 120px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 0;
 }
+
+/* .fullscreen .streamfull .username:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 1.0);
+} */
 
 .fullscreen .inputvideo {
     left: -10000px !important;
