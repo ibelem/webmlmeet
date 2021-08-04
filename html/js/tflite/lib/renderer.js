@@ -651,7 +651,14 @@ class Renderer {
   }
 
   _maskSegMapPerson(segmap) {
-    const PERSON_ID = 15;
+    let PERSON_ID = 15;
+
+    if(modelname === "deeplab") {
+      PERSON_ID = 15;
+    } else if (modelname === "selfiesegmentation" || modelname === "selfiesegmentationlandscape") {
+      PERSON_ID = 1;
+    }
+
     const clippedHeight = this._clippedSize[1];
     const clippedWidth = this._clippedSize[0];
     const outputWidth = segmap.outputShape[1];

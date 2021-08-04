@@ -89,5 +89,6 @@ const onBRResults = (results) => {
     await camera.start();
     getProcessedStream();
     initConference();
+    userMarquee();
   };
   

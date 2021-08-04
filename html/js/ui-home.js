@@ -11,16 +11,19 @@ const encodeSearchParams = (obj) => {
 }
 
 let path = "tflite"
-let search = "?backend=wasm&model=2"
+let model = "deeplab"
+let backend = "wasm"
 
-const obj = {
-  backend: "wasm",
-  model: 2,
-}
+// const obj = {
+//   backend: "wasm",
+//   model: 2,
+// }
 
 $(document).ready(function () {
   $("#login").fadeIn(1000)
   $(".logos").fadeIn(1500)
+
+  $("#btnwebgl").dis
 
   $("#wi-mp").click(function () {
     $("#wo-mp").removeClass("selected")
@@ -29,7 +32,7 @@ $(document).ready(function () {
     $("#btndl").removeClass("selected")
     $("#btnssl").removeClass("selected")
     $("#btnss").addClass("selected")
-    obj.model = "0"
+    model = "selfiesegmentation"
     $("#btndl").hide()
     $("#btnss").parent().removeClass("vr").addClass("vm")
     // window.history.pushState(null, null, path)
@@ -43,6 +46,7 @@ $(document).ready(function () {
     $("#btndl").addClass("selected")
     $("#btnssl").removeClass("selected")
     $("#btnss").removeClass("selected")
+    model = "selfiesegmentation"
     $("#btndl").show()
     $("#btnss").parent().removeClass("vm").addClass("vr")
   })
@@ -51,42 +55,42 @@ $(document).ready(function () {
     $("#btnwebnn").removeClass("selected")
     $("#btnwebgl").removeClass("selected")
     $("#btnwasm").addClass("selected")
-    obj.backend = "wasm"
+    backend = "wasm"
   })
 
   $("#btnwebgl").click(function () {
     $("#btnwasm").removeClass("selected")
     $("#btnwebnn").removeClass("selected")
     $("#btnwebgl").addClass("selected")
-    obj.backend = "webgl"
+    backend = "webgl"
   })
 
   $("#btnwebnn").click(function () {
     $("#btnwasm").removeClass("selected")
     $("#btnwebgl").removeClass("selected")
     $("#btnwebnn").addClass("selected")
-    obj.backend = "webnn"
+    backend = "webnn"
   })
 
   $("#btndl").click(function () {
     $("#btnss").removeClass("selected")
     $("#btnssl").removeClass("selected")
     $("#btndl").addClass("selected")
-    obj.model = "2"
+    model = "deeplab"
   })
 
   $("#btnss").click(function () {
     $("#btndl").removeClass("selected")
     $("#btnssl").removeClass("selected")
     $("#btnss").addClass("selected")
-    obj.model = "0"
+    model = "selfiesegmentation"
   })
 
   $("#btnssl").click(function () {
     $("#btnss").removeClass("selected")
     $("#btndl").removeClass("selected")
     $("#btnssl").addClass("selected")
-    obj.model = "1"
+    model = "selfiesegmentationlandscape"
   })
 })
 
@@ -100,11 +104,11 @@ const go = () => {
 
   if (value.length > 3) {
     $('#cnote').hide()
-    search = encodeSearchParams(obj)
+    // search = encodeSearchParams(obj)
     let usr = $("#inputjoin").val()
     
-    console.log(`${path}?${search}&usr=${usr}`)
-    location.href = `${path}?${search}&usr=${usr}`
+    console.log(`${path}-${backend}-${model}?usr=${usr}`)
+    location.href = `${path}-${backend}-${model}?usr=${usr}`
   }
 }
 

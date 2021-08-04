@@ -20,8 +20,14 @@ let camera,
   isbb = false,
   isbeauty = false;
 
-let backend = parseSearchParams("backend") 
-let model = parseSearchParams("model")
+let backend = parsePathnameBackend()
+let modelname = parsePathnameModel()
+let model;
+
+if(modelname === "deeplab") model = "2"
+if(modelname === "selfiesegmentation") model = "0"
+if(modelname === "selfiesegmentationlandscape") model = "1"
+
 
 let ssmodelinfo = [{
     id: 0,
@@ -35,14 +41,14 @@ let ssmodelinfo = [{
     id: 1,
     name: 'Selfie Segmentation Landscape',
     inputsize: '144x256x3 (HWC)',
-    outputsize: '256x256x1',
+    outputsize: '144x256x1',
     size: '249.8kB',
     basedon: 'MobileNetV3',
     format: 'TFLite'
   },{
     id: 2,
     name: 'DeepLabV3',
-    inputsize: '256x256x1',
+    inputsize: '321x321x1',
     outputsize: '',
     size: '8.4mB',
     basedon: '',
@@ -305,12 +311,7 @@ function addVideo(remotestream, username) {
   let vid = "#v" + remotestream.id;
   document.querySelector(vid).srcObject = remotestream.mediaStream;
 
-  let ele = $('.username');
-  for(let i of ele) {
-    if (isElementOverflowing(i)) {
-      wrapContentsInMarquee(i);
-    }
-  }
+  userMarquee();
 }
 
 function getUserFromName(name) {

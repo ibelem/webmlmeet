@@ -50,6 +50,7 @@ const oneWebMeetOWT = async () => {
   videoCanvasOnFrame();
   getProcessedStream();
   initConference();
+  userMarquee();
 };
 
 
