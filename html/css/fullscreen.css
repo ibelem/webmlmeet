@@ -7,28 +7,29 @@ body.fullscreen {
     margin: 50px;
 }
 
-/* .fullscreen .username {
+.fullscreen #localname, .usernamefs {
     display: none;
-} */
+}
 
-.fullscreen .streamfull .username {
-    background-color: rgba(0, 0, 0, 0);
-    font-size: 20px;
-    color: rgba(255, 255, 255, 0.8);
+.fullscreen .streamfull .usernamefs {
+    position: fixed;
+    display: inline-block;
     right: 60px;
     bottom: 60px;
     top: auto;
-    width: 120px;
-    max-width: 120px;
-    height: 30px;
-    line-height: 30px;
-    border-radius: 0;
-}
+    max-width: 160px;
+    text-align: center;
+    overflow:hidden;
 
-/* .fullscreen .streamfull .username:hover {
-    background-color: rgba(0, 0, 0, 0.6);
-    color: rgba(255, 255, 255, 1.0);
-} */
+    cursor: pointer;
+    background: var(--han-color);
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    padding: 4px 10px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
 
 .fullscreen .inputvideo {
     left: -10000px !important;

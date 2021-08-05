@@ -96,13 +96,13 @@ $(document).ready(function () {
 
 const go = () => {
   let value = $("#inputjoin").val()
-  if (value.length <= 3) {
-    console.log("Please enter your user name of at least 3 characters.")
+  if (value.length <= 1) {
+    console.log("Please enter your user name of at least 2 characters.")
     $('#cnote').fadeIn()
     return
   }
 
-  if (value.length > 3) {
+  if (value.length > 1) {
     $('#cnote').hide()
     // search = encodeSearchParams(obj)
     let usr = $("#inputjoin").val()

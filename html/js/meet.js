@@ -169,6 +169,25 @@ const initConference = () => {
       // document.querySelector("#pnumber").innerHTML = resp.participants.length
     }, err => {
       console.log("server connect failed: " + err.message);
+
+      const certmessage =
+      `No remote camera stream show in page (caused by certificate in test
+      environment)?<br><br>
+
+      NET::ERR_CERT_AUTHORITY_INVALID
+
+      <ol>
+        <li>
+          Visit
+          <a href="https://10.239.115.78:8080/socket.io/?EIO=3&transport=polling">the test page</a>
+        </li>
+        <li>
+        "Your connection is not private" -&gt; Click "Advanced" button -&gt; Click "Proceed to 10.239.115.78 (unsafe)"
+        </li>
+        <li>Go back and refresh this page.</li>
+      </ol>`
+      $("#errormsg").html(certmessage); 
+      $("#errormsg").fadeIn();
     });
   });
 };
@@ -284,7 +303,7 @@ const subscribeStream = (remotestream) => {
 function addVideo(remotestream, username) {
   let usernametag = ''
   if(username) {
-    usernametag = `<div class="username">${username}</div>`
+    usernametag = `<div class="username">${username}</div><div class="usernamefs">${username}</div>`
   }
   let $video = $(
     `

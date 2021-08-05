@@ -36,3 +36,11 @@ const userMarquee = () => {
     }
   }
 }
+
+const optionsLink = (username) => {
+  let olink = $(".options li a")
+  for(let i of olink) {
+    let t = i.getAttribute('href');
+    i.setAttribute('href', t + '?usr=' + username);
+  }
+}

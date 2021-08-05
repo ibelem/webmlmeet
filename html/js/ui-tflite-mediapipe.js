@@ -3,6 +3,8 @@ $(document).ready(function () {
     localname = parseSearchParams("usr")
     $("#navuser").html(localname)
     $("#localname").html(localname)
+    $("#localnamefs").html(localname)
+    optionsLink(localname);
 
     selfieSegmentation.setOptions({
         modelSelection: parseInt(model),
@@ -12,6 +14,16 @@ $(document).ready(function () {
 $(window).on("load", function () {
   oneWebMeetMediaPipe();
 });
+
+$(".mega-drop-down").hover(function () {
+  $(".mega-menu").addClass('dgrid');
+  $(".mega-menu").fadeIn(1000)
+})
+
+$(".mega-menu").on("mouseleave", function () {
+  $(".mega-menu").removeClass('dgrid');
+  $(".mega-menu").fadeOut(3000)
+})
 
 const toggleBBUI = () => {
     $("#bboff").toggleClass("block")

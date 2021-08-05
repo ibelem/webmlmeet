@@ -6,6 +6,7 @@
   text-align: center;
   position: relative;
   margin: 0 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 .control .button svg {
@@ -47,6 +48,7 @@
     transform: rotate(-135deg);
     border: 1px solid var(--han-color);
     background-color: var(--han-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 #ue.button svg {

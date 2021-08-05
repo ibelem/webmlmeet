@@ -1,128 +1,301 @@
+ 
+
+.mega-drop-down {
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.mega-drop-down:hover {
+  color: rgba(204, 255, 144, 1);
+}
+
+.mega-drop-down-div {
+  justify-self: end;
+}
+
+.dgrid {
+  display: grid !important;
+} 
+
+.mega-menu {
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  display: none;
+  position: absolute;
+  width: 100%;
+  background: #2a394f;
+  color: white;
+  z-index: 10000;
+}
+
+.mega-menu {
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    ". . . .";
+}
+
+.mega-menu h4, .mega-menu h5 {
+  margin: 0px;
+  color: white;
+}
+
+.mega-menu .col:hover h4, .mega-menu .col:hover h5 {
+  color: rgba(204, 255, 144, 1)
+}
+
+.mega-menu a {
+  color: white;
+  text-decoration: none;
+}
+
+.mega-menu .col {
+  padding: 20px 60px 1px 60px;
+}
+
+.mega-menu .col:hover {
+  background: #212e41;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.megahead {
+  display: grid; 
+  grid-template-columns: 1fr 3fr; 
+  grid-template-rows: 1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". ."; 
+  justify-content: end; 
+  justify-items:flex-start;
+  align-items:flex-end;
+}
+
+.mega-menu .wasm-logo {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 50px;
+  height: 50px;
+}
+
+.mega-menu .webnn-logo {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 50px;
+  height: 50px;
+}
+
+.mega-menu .wasm-logo path {
+  transform: scale(0.08);
+}
+
+
+.mega-menu .col ul li {
+  padding: 3px 0;
+}
+
+.mega-menu .col ul li:hover {
+  border-bottom: 1px rgba(204, 255, 144, 1) solid;
+  transition: box-shadow 0.3s linear, text-indent 0.3s linear;
+}
+
+.mega-menu .col ul li:hover a {
+  color: rgba(204, 255, 144, 1);
+}
+
+.mega-menu .col svg use, .mega-menu .col:hover path {
+  fill: rgba(255, 255, 255, 0.8);
+  stroke: rgba(255, 255, 255, 0.4);
+}
+
+.mega-menu .col:hover svg use, .mega-menu .col:hover svg path {
+  fill: rgba(204, 255, 144, 1);
+  stroke: rgba(204, 255, 144, 0.4);
+}
+
+.mega-menu .col:hover svg.wasm-logo path:first-child {
+  fill: rgba(204, 255, 144, 0.2);
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .mega-menu {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      ". ."
+      ". .";
+  }
+
+  .mega-menu .col {
+    padding: 20px 20px 0px 20px;
+  }
+}
+ 
+@media (max-width: 640px) {
+  .mega-menu {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "."
+      "."
+      "."
+      ".";
+  }
+
+  .mega-menu .col {
+    padding: 20px 20px 0px 20px;
+  }
+}
+ 
+#errormsg {
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  width: 400px;
+  height: 240px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  background-color: #0071c5;
+  z-index: 10001;
+}
+
+#errormsg ol {
+  margin-left: -26px;
+}
+
+#errormsg ol a {
+  color: white;
+}
+
+#errormsg:hover {
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
 .video-panel {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
   gap: 0px 0px;
-  grid-template-areas: 
-  ". . . . . "
-  ". . . . . "
-  ". . . . . ";
+  grid-template-areas:
+    ". . . . . "
+    ". . . . . "
+    ". . . . . ";
 }
 
 .norightbar .video-panel {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-areas: 
-  ". . . . . ."
-  ". . . . . ."
-  ". . . . . .";
+  grid-template-areas:
+    ". . . . . ."
+    ". . . . . ."
+    ". . . . . .";
 }
 
 @media only screen and (min-width: 1940px) and (max-width: 2240px) {
   .video-panel {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr !important;
-    grid-template-areas: 
-    ". . . . . ."
-    ". . . . . ."
-    ". . . . . ." !important;
+    grid-template-areas:
+      ". . . . . ."
+      ". . . . . ."
+      ". . . . . ." !important;
   }
-  
+
   .norightbar .video-panel {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr !important;
-    grid-template-areas: 
-    ". . . . . . ."
-    ". . . . . . ."
-    ". . . . . . ." !important;
+    grid-template-areas:
+      ". . . . . . ."
+      ". . . . . . ."
+      ". . . . . . ." !important;
   }
 }
 
 @media only screen and (min-width: 2241px) and (max-width: 2564px) {
   .video-panel {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: 
-    ". . . . . . ."
-    ". . . . . . ."
-    ". . . . . . .";
+    grid-template-areas:
+      ". . . . . . ."
+      ". . . . . . ."
+      ". . . . . . .";
   }
-  
+
   .norightbar .video-panel {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: 
-    ". . . . . . . ."
-    ". . . . . . . ."
-    ". . . . . . . .";
+    grid-template-areas:
+      ". . . . . . . ."
+      ". . . . . . . ."
+      ". . . . . . . .";
   }
 }
 
 @media only screen and (min-width: 2565px) and (max-width: 2862px) {
   .video-panel {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: 
-    ". . . . . . . ."
-    ". . . . . . . ."
-    ". . . . . . . .";
+    grid-template-areas:
+      ". . . . . . . ."
+      ". . . . . . . ."
+      ". . . . . . . .";
   }
-  
+
   .norightbar .video-panel {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: 
-    ". . . . . . . . ."
-    ". . . . . . . . ."
-    ". . . . . . . . .";
+    grid-template-areas:
+      ". . . . . . . . ."
+      ". . . . . . . . ."
+      ". . . . . . . . .";
   }
 }
 
 @media only screen and (min-width: 2863px) and (max-width: 3204px) {
   .video-panel {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: 
-    ". . . . . . . . ."
-    ". . . . . . . . ."
-    ". . . . . . . . .";
+    grid-template-areas:
+      ". . . . . . . . ."
+      ". . . . . . . . ."
+      ". . . . . . . . .";
   }
-  
+
   .norightbar .video-panel {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: 
-    ". . . . . . . . . ."
-    ". . . . . . . . . ."
-    ". . . . . . . . . .";
+    grid-template-areas:
+      ". . . . . . . . . ."
+      ". . . . . . . . . ."
+      ". . . . . . . . . .";
   }
 }
-
 
 @media only screen and (min-width: 3205px) and (max-width: 3526px) {
   .video-panel {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: 
-    ". . . . . . . . . ."
-    ". . . . . . . . . ."
-    ". . . . . . . . . .";
+    grid-template-areas:
+      ". . . . . . . . . ."
+      ". . . . . . . . . ."
+      ". . . . . . . . . .";
   }
-  
+
   .norightbar .video-panel {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: 
-    ". . . . . . . . . . ."
-    ". . . . . . . . . . ."
-    ". . . . . . . . . . .";
+    grid-template-areas:
+      ". . . . . . . . . . ."
+      ". . . . . . . . . . ."
+      ". . . . . . . . . . .";
   }
 }
 
 @media only screen and (min-width: 3527px) {
   .video-panel {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: 
-    ". . . . . . . . . . ."
-    ". . . . . . . . . . ."
-    ". . . . . . . . . . .";
+    grid-template-areas:
+      ". . . . . . . . . . ."
+      ". . . . . . . . . . ."
+      ". . . . . . . . . . .";
   }
-  
+
   .norightbar .video-panel {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: 
-    ". . . . . . . . . . . ."
-    ". . . . . . . . . . . ."
-    ". . . . . . . . . . . .";
+    grid-template-areas:
+      ". . . . . . . . . . . ."
+      ". . . . . . . . . . . ."
+      ". . . . . . . . . . . .";
   }
 }
 
@@ -139,10 +312,11 @@
   }
 }
 
-video, canvas {
-    width: 320px;
-    height: 180px;
-  }  
+video,
+canvas {
+  width: 320px;
+  height: 180px;
+}
 
 .inputvideo {
   display: none;
@@ -204,7 +378,7 @@ video, canvas {
 }
 
 .vslot:hover .bar {
-  color: rgba(255, 255, 255, 1.0);
+  color: rgba(255, 255, 255, 1);
   background: rgba(0, 0, 0, 0.4);
 }
 
@@ -212,7 +386,8 @@ video, canvas {
   height: 68px;
 }
 
-.cp-wasm, .cp-fps {
+.cp-wasm,
+.cp-fps {
   display: inline-block;
   vertical-align: bottom;
 }
@@ -265,24 +440,25 @@ video, canvas {
   display: none;
 }
 
-#control-panel #fps,  #control-panel #fpsnote {
+#control-panel #fps,
+#control-panel #fpsnote {
   width: 92px;
 }
 
-#control-panel #fps, #control-panel #inference {
+#control-panel #fps,
+#control-panel #inference {
   font-size: 24px;
   padding: 2px 10px 4px 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
 }
 
-
-
 #control-panel #inference span {
   font-size: 24px;
 }
 
-#control-panel #fpsnote, #control-panel #inferencenote {
+#control-panel #fpsnote,
+#control-panel #inferencenote {
   padding: 2px 10px;
   background-color: rgba(255, 255, 255, 0.2);
   font-size: 0.6rem;
@@ -322,5 +498,5 @@ video, canvas {
 }
 
 .btnfullscreen:hover svg path {
-  color: rgba(255, 255, 255, 1.0);
+  color: rgba(255, 255, 255, 1);
 }

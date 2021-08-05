@@ -1,13 +1,24 @@
-
 $(document).ready(function () {
     localname = parseSearchParams("usr")
     $("#navuser").html(localname)
     $("#localname").html(localname)
+    $("#localnamefs").html(localname)
+    optionsLink(localname);
 })
 
 $(window).on("load", function () {
   oneWebMeetOWT();
 });
+
+$(".mega-drop-down").hover(function () {
+  $(".mega-menu").addClass('dgrid');
+  $(".mega-menu").fadeIn()
+})
+
+$(".mega-menu").on("mouseleave", function () {
+  $(".mega-menu").removeClass('dgrid');
+  $(".mega-menu").fadeOut()
+})
 
 const exit = () => {
     userExit();
