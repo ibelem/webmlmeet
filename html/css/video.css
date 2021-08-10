@@ -1,4 +1,14 @@
  
+.cleft a {
+  color: rgba(204, 255, 144, 1);
+  text-decoration: none;
+  font-size: 0.78rem;
+}
+
+.cleft a:hover {
+  color: rgba(204, 255, 144, 1);
+  text-decoration: underline;
+}
 
 .mega-drop-down {
   color: white;
