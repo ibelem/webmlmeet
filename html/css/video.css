@@ -423,6 +423,17 @@ canvas {
   transform: scale(0.095);
 }
 
+.cp-webnn {
+  display: inline-block;
+}
+
+.cp-webnn svg.webnn {
+  width: 160px;
+  height: 60px;
+  display: inline-block;
+  margin-bottom: -20px;
+}
+
 .cp-fps {
   margin-left: 8px;
 }
