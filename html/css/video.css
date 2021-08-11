@@ -314,6 +314,13 @@
     grid-template-columns: 1fr;
     grid-template-areas: ".";
   }
+
+  video,
+  canvas {
+    width: 280px !important;
+    height: 156px !important;
+  }
+  .bar { width: 280px !important; bottom: 0px !important; }
 }
 
 @media screen and (max-width: 640px) {
