@@ -468,13 +468,14 @@ canvas {
   display: none;
 }
 
-#control-panel #fps,
-#control-panel #fpsnote {
+#control-panel #fps {
   width: 92px;
 }
 
 #control-panel #fps,
-#control-panel #inference {
+#control-panel #inference,
+#control-panel #cpus,
+#control-panel #cpuu {
   font-size: 24px;
   padding: 2px 10px 4px 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);

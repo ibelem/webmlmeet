@@ -28,6 +28,19 @@ const parsePathnameModel = () => {
   }
 };
 
+const isElementOverflowing = (ele) => {
+  return ele.offsetWidth < ele.scrollWidth;
+}
+
+const  wrapContentsInMarquee = (ele) => {
+  let marquee = document.createElement('marquee'),
+    contents = ele.innerText;
+  marquee.setAttribute("scrollamount", 3)
+  marquee.innerText = contents;
+  ele.innerHTML = '';
+  ele.appendChild(marquee);
+}
+
 const userMarquee = () => {
   let ele = $('.username');
   for(let i of ele) {

@@ -1,16 +1,34 @@
+// function callback(update) {
+//   if (update.cpuSpeed > 0.5) {
+//     // The CPU is running at faster than base speed.
+//   } else {
+//     // The CPU is running at normal or reduced speed.
+//   }
 
-const isElementOverflowing = (ele) => {
-  return ele.offsetWidth < ele.scrollWidth;
-}
+//   console.log("---- CPU ----")
+//   console.log("Speed: " + update.cpuSpeed + ", UTE: " + update.cpuUtilization)
 
-const  wrapContentsInMarquee = (ele) => {
-  let marquee = document.createElement('marquee'),
-    contents = ele.innerText;
-  marquee.setAttribute("scrollamount", 3)
-  marquee.innerText = contents;
-  ele.innerHTML = '';
-  ele.appendChild(marquee);
-}
+//   $("#cpus").html(update.cpuSpeed)
+//   $("#cpuu").html(update.cpuUtilization)
+
+//   if (update.cpuUtilization >= 0.9) {
+//     // CPU utilization is over 90%.
+//   } else if (update.cpuUtilization >= 0.75) {
+//     // CPU utilization is over 75%.
+//   } else if (update.cpuUtilization >= 0.5) {
+//     // CPU utilization is over 50%.
+//   } else {
+//     // CPU utilization is under 50%.
+//   }
+// }
+
+// const observer = new ComputePressureObserver(callback, {
+//   // Thresholds divide the interval [0.0 .. 1.0] into ranges.
+//   cpuUtilizationThresholds: [0.5, 0.75, 0.9],
+//   // The minimum clock speed is 0.0, and the maximum speed is 1.0.
+//   // 0.5 represents the base clock speed.
+//   cpuSpeedThresholds: [0.5],
+// });
 
 const checkMP = () => {
   if(mediapipe === "1") {
@@ -67,6 +85,13 @@ const switchfullscreen = (e) => {
 }
 
 $(document).ready(function () {
+
+  // if ('ComputePressureObserver' in window) {
+  //     observer.observe();
+  // } else {
+  //   console.log("Compute Pressure API not supported")
+  // }
+
   $(".buttonset>a").click(function () {
     $(this).siblings("a").removeClass("selected")
     $(this).addClass("selected")
