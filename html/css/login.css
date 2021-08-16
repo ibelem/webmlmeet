@@ -115,6 +115,10 @@
       margin-left: -4px;
   }
 
+  .vo a#btnwebnn {
+    margin-left: 0px;
+  }
+
   .vm a {
     width: 120px;
     margin: 0px;
