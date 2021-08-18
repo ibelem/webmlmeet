@@ -58,12 +58,15 @@ async function renderCamStream() {
  
 
 async function drawOutput(outputBuffer, srcElement) {
-  // const a = tf.tensor(outputBuffer, netInstance.outputDimensions, 'float32');
-  // const b = tf.argMax(a, 3);
-  // const buffer = await b.buffer();
-  // tf.dispose();
-  // const argMaxBuffer = buffer.values;
-  // const outputShape = b.shape;
+  // const [argMaxBuffer, outputShape] = tf.tidy(() => {
+  //   const a = tf.tensor(outputBuffer, netInstance.outputDimensions, 'float32');
+  //   let axis = 3;
+  //   if (instanceType === 'deeplabnchw') {
+  //     axis = 1;
+  //   }
+  //   const b = tf.argMax(a, axis);
+  //   return [b.dataSync(), b.shape];
+  // });
 
   const width = inputOptions.inputDimensions[2];
   const imWidth = srcElement.naturalWidth | srcElement.videoWidth;
