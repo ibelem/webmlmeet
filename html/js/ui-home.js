@@ -74,7 +74,7 @@ $(document).ready(function () {
     $("#btnwebnngpu").removeClass("selected")
     $("#btnwebnn").addClass("selected")
     backend = "webnn"
-    ds = 1
+    ds = 2
   })
 
   $("#btnwebnngpu").click(function () {
@@ -83,7 +83,7 @@ $(document).ready(function () {
     $("#btnwebnn").removeClass("selected")
     $("#btnwebnngpu").addClass("selected")
     backend = "webnn"
-    ds = 2
+    ds = 1
   })
 
   $("#btndl").click(function () {

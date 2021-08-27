@@ -5,8 +5,8 @@ $(document).ready(function () {
     $("#localnamefs").html(localname)
     let ds = parseSearchParams("ds")
     let dsname = ''
-    if(ds === '1') dsname = "CPU"
-    if(ds === '2') dsname = "GPU"
+    if(ds === '2') dsname = "CPU"
+    if(ds === '1') dsname = "GPU"
     $('#deviceselection').html(dsname)
     optionsLink(localname);
 })
