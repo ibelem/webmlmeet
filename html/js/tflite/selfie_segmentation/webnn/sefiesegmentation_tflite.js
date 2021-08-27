@@ -8,13 +8,11 @@ class SefieSegmentation {
     this.inputOptions = {
         mean: [127.5, 127.5, 127.5],
         std: [127.5, 127.5, 127.5],
-        scaledFlag: true,
+        scaledFlag: false,
         inputLayout: 'nhwc',
         // labelUrl: '../../assets/models/labels.txt',
-        inputDimensions: [1, 256, 256, 3], // deeplab
-        // inputDimensions: [1,224,224,3],
-        // inputDimensions: [1,299,299,3],
-        // inputDimensions: [1,256,256,3], // selfie_segmentation
+        inputDimensions: [1, 256, 256, 3],
+        inputResolution: [256, 256]
       };
       this.outputDimensions = [1,256, 256, 1];
     //   this.outputDimensions = [1, 1001];
@@ -46,7 +44,7 @@ class SefieSegmentation {
           });
   if (!modelRunnerResult.ok()) {
     throw new Error(
-        'Failed to create TFLiteWebModelRunner: ' + modelRunner.errorMessage());
+        'Failed to create TFLiteWebModelRunner: ' + modelRunnerResult.errorMessage());
   }
   const modelRunner = modelRunnerResult.value();
   return modelRunner;

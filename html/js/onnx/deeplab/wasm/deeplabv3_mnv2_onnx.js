@@ -8,10 +8,11 @@ class DeepLabV3MNV2ONNX {
     this.inputOptions = {
         mean: [127.5, 127.5, 127.5],
         std: [127.5, 127.5, 127.5],
-        scaledFlag: true,
+        scaledFlag: false,
         inputLayout: 'nhwc',
         labelUrl: '../../assets/models/deeplab/labels.txt',
         inputDimensions: [1, 321, 321, 3], // deeplab
+        inputResolution: [321, 321]
       };
       this.outputDimensions = [1,321,321,21];
   }

@@ -2,9 +2,11 @@
 const inputvideo = $("#inputvideo")[0];
 const outputcanvas = $("#outputcanvas")[0];
 
-const bg = document.querySelector("#bgdefault");
+const backgroundImageSource = document.querySelector("#bgdefault");
 const bgpause = document.querySelector("#bgpause");
 const bgfilebutton = document.querySelector("#bgimg");
+
+let backgroundType = 'img'; // 'none', 'blur', 'image'
 
 let cW = $("#outputcanvas")[0].width;
 let cH = $("#outputcanvas")[0].height;
@@ -14,7 +16,6 @@ let continueAnimating = true;
 
 let usr;
 
-let renderer;
 let camera,
   isbr = false,
   isbb = false,
@@ -618,7 +619,7 @@ const getProcessedStream = () => {
 
 $(".bgselector").each(function () {
   $(this).on("click", function (e) {
-    bg.src = e.target.src;
+    backgroundImageSource.src = e.target.src;
   });
 });
 
@@ -627,7 +628,7 @@ bgfilebutton.addEventListener(
   (e) => {
     const files = e.target.files;
     if (files.length > 0) {
-      bg.src = URL.createObjectURL(files[0]);
+      backgroundImageSource.src = URL.createObjectURL(files[0]);
     }
   },
   false

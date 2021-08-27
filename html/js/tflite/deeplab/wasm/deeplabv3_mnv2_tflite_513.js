@@ -3,18 +3,19 @@
 /* eslint max-len: ["error", {"code": 120}] */
 
 // DeepLab V3 MobileNet V2 model with tflite-support
-class DeepLabV3MNV2 {
+class DeepLabV3MNV2TFLite {
   constructor() {
     this.inputOptions = {
         mean: [127.5, 127.5, 127.5],
         std: [127.5, 127.5, 127.5],
-        scaledFlag: true,
+        scaledFlag: false,
         inputLayout: 'nhwc',
         labelUrl: '../../assets/models/deeplab/labels.txt',
         inputDimensions: [1, 513, 513, 3], // deeplab
         // inputDimensions: [1,224,224,3],
         // inputDimensions: [1,299,299,3],
         // inputDimensions: [1,256,256,3], // selfie_segmentation
+        inputResolution: [513, 513]
       };
       this.outputDimensions = [1,513, 513, 21];
     //   this.outputDimensions = [1, 1001];
@@ -24,8 +25,6 @@ class DeepLabV3MNV2 {
   // Create the model runner with the model.
 
   const MODEL_PATH = '../../assets/models/deeplab/deeplab_mobilenetv2_513_no_argmax.tflite';
-//   const MODEL_PATH = './models/selfie_segmentation.tflite';
-// const MODEL_PATH = './tflite-support/mobilenetv2.tflite';
 
   // Load WASM module and model.
   const [module, modelArrayBuffer] = await Promise.all([
@@ -47,7 +46,7 @@ class DeepLabV3MNV2 {
           });
   if (!modelRunnerResult.ok()) {
     throw new Error(
-        'Failed to create TFLiteWebModelRunner: ' + modelRunner.errorMessage());
+        'Failed to create TFLiteWebModelRunner: ' + modelRunnerResult.errorMessage());
   }
   const modelRunner = modelRunnerResult.value();
   return modelRunner;

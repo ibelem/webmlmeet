@@ -8,7 +8,7 @@ class SefieSegmentation {
     this.inputOptions = {
         mean: [127.5, 127.5, 127.5],
         std: [127.5, 127.5, 127.5],
-        scaledFlag: true,
+        scaledFlag: false,
         inputLayout: 'nhwc',
         // labelUrl: '../../assets/models/labels.txt',
         inputDimensions: [1, 256, 256, 3], // deeplab
@@ -44,7 +44,7 @@ class SefieSegmentation {
           });
   if (!modelRunnerResult.ok()) {
     throw new Error(
-        'Failed to create TFLiteWebModelRunner: ' + modelRunner.errorMessage());
+        'Failed to create TFLiteWebModelRunner: ' + modelRunnerResult.errorMessage());
   }
   const modelRunner = modelRunnerResult.value();
   return modelRunner;

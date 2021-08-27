@@ -11,7 +11,6 @@ let buildTime = 0;
 let computeTime = 0;
 let inputOptions;
 let outputBuffer;
-let hoverPos = null;
 let modelRunner;
  
 // $('#modelBtns .btn').on('change', async (e) => {
@@ -59,35 +58,38 @@ async function renderCamStream() {
  
 
 async function drawOutput(outputBuffer, srcElement) {
-  const [argMaxBuffer, outputShape] = tf.tidy(() => {
-    const a = tf.tensor(outputBuffer, netInstance.outputDimensions, 'float32');
-    let axis = 3;
-    if (instanceType === 'deeplabnchw') {
-      axis = 1;
-    }
-    const b = tf.argMax(a, axis);
-    return [b.dataSync(), b.shape];
-  });
-
-  const width = inputOptions.inputDimensions[2];
-  const imWidth = srcElement.naturalWidth | srcElement.videoWidth;
-  const imHeight = srcElement.naturalHeight | srcElement.videoHeight;
-  const resizeRatio = Math.max(Math.max(imWidth, imHeight) / width, 1);
-  const scaledWidth = Math.floor(imWidth / resizeRatio);
-  const scaledHeight = Math.floor(imHeight / resizeRatio);
-
-  const segMap = {
-    data: argMaxBuffer,
-    outputShape: outputShape,
-    labels: labels,
-  };
-
-  renderer.backgroundImageSource = bg
-
-  console.log([scaledWidth, scaledHeight])
-  console.log(segMap)
-  renderer.uploadNewTexture(srcElement, [scaledWidth, scaledHeight]);
-  renderer.drawOutputs(segMap);
+  if (instanceType.startsWith('deeplab')) {
+    outputBuffer = tf.tidy(() => {
+      const a = tf.tensor(outputBuffer, netInstance.outputDimensions, 'float32');
+      let axis = 3;
+      if (instanceType === 'deeplabnchw') {
+        axis = 1;
+      }
+      const b = tf.argMax(a, axis);
+      const c = tf.tensor(b.dataSync(), b.shape, 'float32');
+      return c.dataSync();
+    });
+  }
+  console.log('output: ', outputBuffer);
+  outputcanvas.width = srcElement.naturalWidth | srcElement.videoWidth;
+  outputcanvas.height = srcElement.naturalHeight | srcElement.videoHeight;
+  const pipeline = buildWebGL2Pipeline(
+    srcElement,
+    backgroundImageSource,
+    backgroundType,
+    inputOptions.inputResolution,
+    outputcanvas,
+    outputBuffer,
+  );
+  const postProcessingConfig = {
+    smoothSegmentationMask: true,
+    jointBilateralFilter: {sigmaSpace: 1, sigmaColor: 0.1},
+    coverage: [0.5, 0.75],
+    lightWrapping: 0.3,
+    blendMode: 'screen',
+  }
+  pipeline.updatePostProcessingConfig(postProcessingConfig);
+  await pipeline.render();
 }
 
 async function ss() {
