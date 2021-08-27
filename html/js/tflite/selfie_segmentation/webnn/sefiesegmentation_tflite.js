@@ -41,7 +41,8 @@ class SefieSegmentation {
           offset, modelBytes.length, {
             numThreads: Math.min(
                 4, Math.max(1, (navigator.hardwareConcurrency || 1) / 2)),
-                enableWebNNDelegate: false
+                enableWebNNDelegate: false,
+                webNNDevicePreference: 0 // 0 - default, 1 - gpu, 2 - cpu
           });
   if (!modelRunnerResult.ok()) {
     throw new Error(

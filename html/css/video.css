@@ -473,6 +473,7 @@ canvas {
 }
 
 #control-panel #fps,
+#control-panel #deviceselection,
 #control-panel #inference,
 #control-panel #cpus,
 #control-panel #cpuu {

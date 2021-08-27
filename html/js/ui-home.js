@@ -13,6 +13,7 @@ const encodeSearchParams = (obj) => {
 let path = "tflite"
 let model = "deeplab"
 let backend = "wasm"
+let ds = 0
 
 // const obj = {
 //   backend: "wasm",
@@ -53,6 +54,7 @@ $(document).ready(function () {
 
   $("#btnwasm").click(function () {
     $("#btnwebnn").removeClass("selected")
+    $("#btnwebnngpu").removeClass("selected")
     $("#btnwebgl").removeClass("selected")
     $("#btnwasm").addClass("selected")
     backend = "wasm"
@@ -61,6 +63,7 @@ $(document).ready(function () {
   $("#btnwebgl").click(function () {
     $("#btnwasm").removeClass("selected")
     $("#btnwebnn").removeClass("selected")
+    $("#btnwebnngpu").removeClass("selected")
     $("#btnwebgl").addClass("selected")
     backend = "webgl"
   })
@@ -68,8 +71,19 @@ $(document).ready(function () {
   $("#btnwebnn").click(function () {
     $("#btnwasm").removeClass("selected")
     $("#btnwebgl").removeClass("selected")
+    $("#btnwebnngpu").removeClass("selected")
     $("#btnwebnn").addClass("selected")
     backend = "webnn"
+    ds = 1
+  })
+
+  $("#btnwebnngpu").click(function () {
+    $("#btnwasm").removeClass("selected")
+    $("#btnwebgl").removeClass("selected")
+    $("#btnwebnn").removeClass("selected")
+    $("#btnwebnngpu").addClass("selected")
+    backend = "webnn"
+    ds = 2
   })
 
   $("#btndl").click(function () {
@@ -107,8 +121,8 @@ const go = () => {
     // search = encodeSearchParams(obj)
     let usr = $("#inputjoin").val()
     
-    console.log(`${path}-${backend}-${model}?usr=${usr}`)
-    location.href = `${path}-${backend}-${model}?usr=${usr}`
+    console.log(`${path}-${backend}-${model}?usr=${usr}&ds=${ds}`)
+    location.href = `${path}-${backend}-${model}?usr=${usr}&ds=${ds}`
   }
 }
 

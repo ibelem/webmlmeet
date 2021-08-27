@@ -3,6 +3,11 @@ $(document).ready(function () {
     $("#navuser").html(localname)
     $("#localname").html(localname)
     $("#localnamefs").html(localname)
+    let ds = parseSearchParams("ds")
+    let dsname = ''
+    if(ds === '1') dsname = "CPU"
+    if(ds === '2') dsname = "GPU"
+    $('#deviceselection').html(dsname)
     optionsLink(localname);
 })
 

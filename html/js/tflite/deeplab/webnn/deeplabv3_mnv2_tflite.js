@@ -42,7 +42,8 @@ class DeepLabV3MNV2 {
           offset, modelBytes.length, {
             numThreads: Math.min(
                 4, Math.max(1, (navigator.hardwareConcurrency || 1) / 2)),
-                enableWebNNDelegate: true
+                enableWebNNDelegate: true,
+                webNNDevicePreference: parseInt(parseSearchParams('ds')) // 0 - default, 1 - gpu, 2 - cpu
           });
   if (!modelRunnerResult.ok()) {
     throw new Error(

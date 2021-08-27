@@ -59,9 +59,6 @@ async function renderCamStream() {
  
 
 async function drawOutput(outputBuffer, srcElement) {
-  console.log("&&&&&&&&&&&&&&&&&&&&&")
-  console.log(outputBuffer)
-  console.log(typeof(outputBuffer))
   const [argMaxBuffer, outputShape] = tf.tidy(() => {
     const a = tf.tensor(outputBuffer, netInstance.outputDimensions, 'float32');
     let axis = 3;
