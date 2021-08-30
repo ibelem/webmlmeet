@@ -8,7 +8,7 @@ class SefieSegmentation {
     this.inputOptions = {
         mean: [127.5, 127.5, 127.5],
         std: [127.5, 127.5, 127.5],
-        scaledFlag: true,
+        scaledFlag: false,
         inputLayout: 'nhwc',
         // labelUrl: '../../assets/models/labels.txt',
         inputDimensions: [1, 256, 256, 3],

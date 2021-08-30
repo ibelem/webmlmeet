@@ -17,7 +17,7 @@ class DeepLabV3MNV2TFLite {
         // inputDimensions: [1,256,256,3], // selfie_segmentation
         inputResolution: [321, 321]
       };
-      this.outputDimensions = [1,513, 513,21];
+      this.outputDimensions = [1,513, 513, 21];
     //   this.outputDimensions = [1, 1001];
   }
 
@@ -44,6 +44,7 @@ class DeepLabV3MNV2TFLite {
                 enableWebNNDelegate: true,
                 webNNDevicePreference: parseInt(parseSearchParams('ds')) // 0 - default, 1 - gpu, 2 - cpu
           });
+  
   if (!modelRunnerResult.ok()) {
     throw new Error(
         'Failed to create TFLiteWebModelRunner: ' + modelRunnerResult.errorMessage());

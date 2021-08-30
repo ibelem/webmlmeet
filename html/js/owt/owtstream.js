@@ -14,19 +14,30 @@ const createOWTStream = async () => {
 }
 
 let continueinputvideo = true
+
+const pipeline2 = buildWebGL2Pipeline(
+  inputvideo,
+  backgroundImageSource,
+  "none",
+  [321, 321],
+  outputcanvas,
+  null
+);
+
 const videoCanvasOnFrame = async () => {
   if(continueinputvideo) {
     window.requestAnimationFrame(videoCanvasOnFrame);
     // ctx2d.drawImage(inputvideo, 0, 0, cW, cH);
     if(stream) {
-      const pipeline = buildWebGL2Pipeline(
-        inputvideo,
-        backgroundImageSource,
-        backgroundType,
-        [321, 321],
-        outputcanvas
-      );
-      await pipeline.render();
+      const postProcessingConfig2 = {
+        smoothSegmentationMask: true,
+        jointBilateralFilter: {sigmaSpace: 1, sigmaColor: 0.1},
+        coverage: [0.5, 0.75],
+        lightWrapping: 0.3,
+        blendMode: 'screen',
+      }
+      pipeline2.updatePostProcessingConfig(postProcessingConfig2);
+      await pipeline2.render();
     }
   }
 }
@@ -42,9 +53,9 @@ const oneWebMeetOWT = async () => {
   userMarquee();
 };
 
-
 const ssConfig = async (isSS, effect) => {
   if(isSS && effect) {
+    backgroundImageSource.src = '../assets/img/ssbg/0.jpg'
     continueinputvideo = false
     console.log(isSS + ' ' + effect)
     backgroundType = effect;
@@ -52,9 +63,10 @@ const ssConfig = async (isSS, effect) => {
     await ss()
   } else {
     // gl = outputcanvas.getContext("2d");
+    backgroundImageSource.src = '';
     continueAnimating = false;
     continueinputvideo = true
-    backgroundType = "blur"
+    backgroundType = "none"
     await videoCanvasOnFrame()
   }
 }

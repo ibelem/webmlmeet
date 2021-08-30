@@ -44,6 +44,7 @@ class DeepLabV3MNV2TFLite {
                 enableWebNNDelegate: false,
                 webNNDevicePreference: 0 // 0 - default, 1 - gpu, 2 - cpu
           });
+  
   if (!modelRunnerResult.ok()) {
     throw new Error(
         'Failed to create TFLiteWebModelRunner: ' + modelRunnerResult.errorMessage());

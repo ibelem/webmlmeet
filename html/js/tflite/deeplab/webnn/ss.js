@@ -1,8 +1,6 @@
 'use strict';
 
-let modelName ='deeplabv3mnv2';
-let layout = 'nchw';
-let instanceType = modelName + layout;
+let instanceType = "deeplabtflite";
 let isFirstTimeLoad = true;
 let netInstance = null;
 let labels = null;
@@ -98,12 +96,10 @@ async function ss() {
     // Only do load() and build() when model first time loads and
     // there's new model choosed
     if (isFirstTimeLoad || instanceType !== modelName + layout) {
-      instanceType = modelName + layout;
-      netInstance = new DeepLabV3MNV2();
+      netInstance = new DeepLabV3MNV2TFLite();
       inputOptions = netInstance.inputOptions;
-      labels = await fetchLabels(inputOptions.labelUrl);
       isFirstTimeLoad = false;
-      console.log(`- Model name: ${modelName}, Model layout: ${layout} -`);
+      console.log(`- Model name: ${instanceType} -`);
       // UI shows model loading progress
       console.log('- Loading model... -');
       start = performance.now();

@@ -56,17 +56,19 @@ function buildLoadSegmentationStage(
     gl.useProgram(program);
     gl.activeTexture(gl.TEXTURE1);
     gl.bindTexture(gl.TEXTURE_2D, inputTexture);
-    gl.texSubImage2D(
-      gl.TEXTURE_2D,
-      0,
-      0,
-      0,
-      segmentationWidth,
-      segmentationHeight,
-      gl.RED,
-      gl.FLOAT,
-      outputBuffer,
-    );
+    if(outputBuffer) {
+      gl.texSubImage2D(
+        gl.TEXTURE_2D,
+        0,
+        0,
+        0,
+        segmentationWidth,
+        segmentationHeight,
+        gl.RED,
+        gl.FLOAT,
+        outputBuffer,
+      )
+    };
     gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   };

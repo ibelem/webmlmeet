@@ -17,7 +17,7 @@ class DeepLabV3MNV2TFLite {
         // inputDimensions: [1,256,256,3], // selfie_segmentation
         inputResolution: [321, 321]
       };
-      this.outputDimensions = [1,321, 321,21];
+      this.outputDimensions = [1,321, 321, 21];
     //   this.outputDimensions = [1, 1001];
   }
 
@@ -25,8 +25,6 @@ class DeepLabV3MNV2TFLite {
   // Create the model runner with the model.
 
   const MODEL_PATH = '../../assets/models/deeplab/deeplab_mobilenetv2_321_no_argmax.tflite';
-//   const MODEL_PATH = './models/selfie_segmentation.tflite';
-// const MODEL_PATH = './tflite-support/mobilenetv2.tflite';
 
   // Load WASM module and model.
   const [module, modelArrayBuffer] = await Promise.all([
@@ -46,6 +44,7 @@ class DeepLabV3MNV2TFLite {
                 enableWebNNDelegate: true,
                 webNNDevicePreference: parseInt(parseSearchParams('ds')) // 0 - default, 1 - gpu, 2 - cpu
           });
+
   if (!modelRunnerResult.ok()) {
     throw new Error(
         'Failed to create TFLiteWebModelRunner: ' + modelRunnerResult.errorMessage());

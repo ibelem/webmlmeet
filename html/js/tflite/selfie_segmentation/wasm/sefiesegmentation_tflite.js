@@ -15,6 +15,7 @@ class SefieSegmentation {
         // inputDimensions: [1,224,224,3],
         // inputDimensions: [1,299,299,3],
         // inputDimensions: [1,256,256,3], // selfie_segmentation
+        inputResolution: [256, 256]
       };
       this.outputDimensions = [1,256, 256, 1];
     //   this.outputDimensions = [1, 1001];

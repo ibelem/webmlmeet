@@ -2,7 +2,8 @@
 const inputvideo = $("#inputvideo")[0];
 const outputcanvas = $("#outputcanvas")[0];
 
-const backgroundImageSource = document.querySelector("#bgdefault");
+let backgroundImageSource = document.querySelector("#bgdefault");
+const bg = document.querySelector("#bgdefault");
 const bgpause = document.querySelector("#bgpause");
 const bgfilebutton = document.querySelector("#bgimg");
 
