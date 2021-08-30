@@ -11,8 +11,8 @@ class SefieSegmentation {
         scaledFlag: false,
         inputLayout: 'nhwc',
         // labelUrl: '../../assets/models/labels.txt',
-        inputDimensions: [1, 256, 256, 3],
-        inputResolution: [256, 256]
+        inputDimensions: [1, 144, 256, 3],
+        inputResolution: [256, 144]
       };
       this.outputDimensions = [1,256, 256, 1];
     //   this.outputDimensions = [1, 1001];

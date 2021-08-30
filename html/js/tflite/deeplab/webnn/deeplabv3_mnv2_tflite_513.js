@@ -15,7 +15,7 @@ class DeepLabV3MNV2TFLite {
         // inputDimensions: [1,224,224,3],
         // inputDimensions: [1,299,299,3],
         // inputDimensions: [1,256,256,3], // selfie_segmentation
-        inputResolution: [321, 321]
+        inputResolution: [513, 513]
       };
       this.outputDimensions = [1,513, 513, 21];
     //   this.outputDimensions = [1, 1001];
