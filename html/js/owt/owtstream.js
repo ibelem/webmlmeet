@@ -55,7 +55,7 @@ const oneWebMeetOWT = async () => {
 
 const ssConfig = async (isSS, effect) => {
   if(isSS && effect) {
-    backgroundImageSource.src = '../assets/img/ssbg/0.jpg'
+    backgroundImageSource.src = '../../assets/img/ssbg/0.jpg'
     continueinputvideo = false
     console.log(isSS + ' ' + effect)
     backgroundType = effect;
