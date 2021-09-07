@@ -90,7 +90,7 @@ async function drawOutput(outputBuffer, srcElement) {
   await pipeline.render();
 }
 
-async function ss() {
+async function ssLoad() {
   try {
     let start;
     // Only do load() and build() when model first time loads and
@@ -108,8 +108,14 @@ async function ss() {
       console.log(`  done in ${loadTime} ms.`);
       // UI shows model building progress
     }
-    inputvideo.onloadedmediadata = await renderCamStream();
- 
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function ssCompute() {
+  try {
+    inputvideo.onloadedmediadata = await renderCamStream(); 
   } catch (error) {
     console.log(error);
   }

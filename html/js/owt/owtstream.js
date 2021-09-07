@@ -51,6 +51,7 @@ const oneWebMeetOWT = async () => {
   getProcessedStream();
   initConference();
   userMarquee();
+  await ssLoad();
 };
 
 const ssConfig = async (isSS, effect) => {
@@ -60,7 +61,7 @@ const ssConfig = async (isSS, effect) => {
     console.log(isSS + ' ' + effect)
     backgroundType = effect;
     continueAnimating = true    
-    await ss()
+    await ssCompute()
   } else {
     // gl = outputcanvas.getContext("2d");
     backgroundImageSource.src = '';
