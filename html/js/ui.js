@@ -66,7 +66,7 @@ $(document).ready(function () {
     $("#hd").css("display", "none");
   }
 
-  $(".btnfullscreen").click(function () {
+  $(document).on("click", ".btnfullscreen", function() {
     fullscreen()    
     $("#video-panel .vslot").removeClass("streamfull")
     $(this).parent().parent().addClass("streamfull")
@@ -75,9 +75,8 @@ $(document).ready(function () {
     $('body').addClass("fullscreen")
   })
 
-  $("#btnexitfullscreen").click(function(){
+  $(document).on("click", "#btnexitfullscreen", function(){
     fullscreen()
-    $("#video-panel .vslot").removeClass("streamfull")
     $("#video-panel .vslot").removeClass("streamfull")
     $("#video-panel .vslot").removeClass("zerosize")
     $('body').removeClass("fullscreen")
