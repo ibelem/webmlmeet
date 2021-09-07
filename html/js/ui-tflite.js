@@ -27,7 +27,7 @@ $(".mega-menu").on("mouseleave", function () {
 
 const exit = () => {
     userExit();
-    location.href = '../';
+    location.href = '../index.html';
 }
 
 const toggleBBUI = () => {

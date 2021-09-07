@@ -70,5 +70,5 @@ const toggleBBUI = () => {
 
 const exit = () => {
     userExit();
-    location.href = '../';
+    location.href = '../index.html';
 }
