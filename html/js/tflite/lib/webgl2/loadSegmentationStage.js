@@ -52,11 +52,12 @@ function buildLoadSegmentationStage(
   gl.uniform1i(inputLocation, 1);
 
   const render = function() {
-    gl.viewport(0, 0, segmentationWidth, segmentationHeight);
-    gl.useProgram(program);
-    gl.activeTexture(gl.TEXTURE1);
-    gl.bindTexture(gl.TEXTURE_2D, inputTexture);
     if(outputBuffer) {
+      gl.viewport(0, 0, segmentationWidth, segmentationHeight);
+      gl.useProgram(program);
+      gl.activeTexture(gl.TEXTURE1);
+      gl.bindTexture(gl.TEXTURE_2D, inputTexture);
+
       gl.texSubImage2D(
         gl.TEXTURE_2D,
         0,
@@ -68,9 +69,10 @@ function buildLoadSegmentationStage(
         gl.FLOAT,
         outputBuffer,
       )
-    };
-    gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+      gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
   };
 
   const cleanUp = function() {

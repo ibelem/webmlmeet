@@ -110,30 +110,34 @@ function buildWebGL2Pipeline(
         );
 
   const render = async function() {
-    gl.clearColor(0, 0, 0, 0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    // console.log(sourcePlayback.readyState)
+    // console.log(sourcePlayback.webkitDecodedFrameCount)
+    if(sourcePlayback.readyState === 4 && sourcePlayback.webkitDecodedFrameCount) {
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
 
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, inputFrameTexture);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, inputFrameTexture);
 
-    // texImage2D seems faster than texSubImage2D to upload
-    // video texture
-    gl.texImage2D(
-      gl.TEXTURE_2D,
-      0,
-      gl.RGBA,
-      gl.RGBA,
-      gl.UNSIGNED_BYTE,
-      sourcePlayback,
-    );
+      // texImage2D seems faster than texSubImage2D to upload
+      // video texture
+      gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.RGBA,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        sourcePlayback,
+      );
 
-    gl.bindVertexArray(vertexArray);
+      gl.bindVertexArray(vertexArray);
 
-    resizingStage.render();
+      resizingStage.render();
 
-    loadSegmentationStage.render();
-    jointBilateralFilterStage.render();
-    backgroundStage.render();
+      loadSegmentationStage.render();
+      jointBilateralFilterStage.render();
+      backgroundStage.render();
+    }
   };
 
   const updatePostProcessingConfig = function(postProcessingConfig) {
