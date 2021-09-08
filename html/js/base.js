@@ -54,6 +54,10 @@ const optionsLink = (username) => {
   let olink = $(".options li a")
   for(let i of olink) {
     let t = i.getAttribute('href');
-    i.setAttribute('href', t + '?usr=' + username);
+    if(t.indexOf("?")>-1) {
+      i.setAttribute('href', t + '&usr=' + username);
+    } else {
+      i.setAttribute('href', t + '?usr=' + username);
+    }
   }
 }
