@@ -161,10 +161,11 @@ const control = () => {
 
             <button
             type="button"
-            class="button"
+            class="button disabled"
             id="tbb"
             title="Background Blur"
             onclick="toggleBBUI()"
+            disabled
             >
             <svg
                 id="bboff"
@@ -192,10 +193,11 @@ const control = () => {
 
             <button
             type="button"
-            class="button"
+            class="button disabled"
             id="tbr"
             title="Change background"
             onclick="toggleBRUI()"
+            disabled
             >
             <svg
                 id="broff"

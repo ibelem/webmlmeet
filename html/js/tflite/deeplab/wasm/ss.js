@@ -93,8 +93,19 @@ async function ssLoad() {
       loadTime = (performance.now() - start).toFixed(2);
       console.log(`  done in ${loadTime} ms.`);
       // UI shows model building progress
+
+      $("#modelloadstatus").html('Model Loaded');
+      $("#tbb").prop('disabled', false);
+      $("#tbr").prop('disabled', false);
+      $("#tbb").removeClass('disabled');
+      $("#tbr").removeClass('disabled');
     }
   } catch (error) {
+    $("#modelloadstatus").html('Failed to Load Model');
+    $("#tbb").prop('disabled', true);
+    $("#tbr").prop('disabled', true);
+    $("#tbb").addClass('disabled');
+    $("#tbr").addClass('disabled');
     console.log(error);
   }
 }
