@@ -169,7 +169,7 @@
 
 .join input:focus, 
 .join input:hover {
-    color: #fff;
+    color: #fff;rgba(15, 76, 129, 0.9)
     border: 1px solid rgba(255, 255, 255, 1.0);
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     border-left: 1px solid rgba(255, 255, 255, 0.2);
@@ -202,4 +202,59 @@
     background: rgba(255, 255, 255, 1.0);
     color: rgba(0, 0, 0, 1.0);
     border: 1px solid rgba(255, 255, 255, 1.0);
+  }
+
+  .webmlbadge {
+    margin-top: 1rem;
+    display: inline-block;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.8rem;
+  }
+  
+  .webml-title {
+    display: inline-block;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0.2rem 0.4rem;
+  }
+  
+  .webml-title:hover {
+    border: 1px solid rgba(255, 255, 255, 1.0);
+    background: rgba(213, 213, 213, 0.3);
+  }
+  
+  .webml-status-false {
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    display: inline-block;
+    padding: 0.2rem 0.4rem 0.2rem 0.6rem;
+    margin-left: -8px;
+    border-left: 0px;
+  }
+  
+  .webml-status-false:hover {
+    background: rgba(213, 213, 213, 0.3);
+    color: rgba(255, 255, 255, 1.0);
+  }
+  
+  .webml-status-true {
+    margin-left: -8px;
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    display: inline-block;
+    padding: 0.2rem 0.4rem 0.2rem 0.6rem;
+  }
+  
+  .webml-status-true {
+    border-left: 0px;
+  }
+  
+  .webml-status-true:hover {
+    background: rgba(213, 213, 213, 0.3);
+    border: 1px solid rgba(255, 255, 255, 1.0);
+    color: rgba(255, 255, 255, 1.0);
+    border-left: 0px;
   }

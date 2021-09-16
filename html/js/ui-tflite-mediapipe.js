@@ -9,6 +9,13 @@ $(document).ready(function () {
     selfieSegmentation.setOptions({
         modelSelection: parseInt(model),
     });
+
+    if(location.pathname.toLowerCase().indexOf('selfiesegmentation') > -1) {
+      $("#tbb").prop('disabled', false);
+      $("#tbr").prop('disabled', false);
+      $("#tbb").removeClass('disabled');
+      $("#tbr").removeClass('disabled');
+    }
 })
 
 $(window).on("load", function () {

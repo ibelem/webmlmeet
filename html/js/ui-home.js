@@ -10,6 +10,18 @@ const encodeSearchParams = (obj) => {
   return params.join("&")
 }
 
+const isWebML = () => {
+  if (navigator.ml) {
+    if (!navigator.ml.isPolyfill) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+};
+
 let path = "tflite"
 let model = "deeplab"
 let backend = "wasm"
@@ -106,6 +118,16 @@ $(document).ready(function () {
     $("#btnssl").addClass("selected")
     model = "selfiesegmentationlandscape"
   })
+
+  if (!isWebML()) {
+    $('#WebML').addClass('dnone');
+    $('#l-WebML').addClass('dnone');
+    $('#webmlstatus').addClass('webml-status-false').html('not supported');
+  } else {
+    $('#WebML').removeClass('dnone');
+    $('#l-WebML').removeClass('dnone');
+    $('#webmlstatus').addClass('webml-status-true').html('supported');
+  }
 })
 
 const go = () => {
