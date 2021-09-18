@@ -82,6 +82,7 @@ function getInputTensor(inputElement, inputOptions) {
 
   inputElement.width = inputElement.videoWidth ||
       inputElement.naturalWidth;
+ 
   inputElement.height = inputElement.videoHeight ||
       inputElement.naturalHeight;
 
@@ -134,6 +135,61 @@ function getInputTensor(inputElement, inputOptions) {
   }
   return tensor;
 }
+
+function getInputTensorWorker(inputElement, inputOptions) {
+  const inputDimensions = inputOptions.inputDimensions;
+  const tensor = new Float32Array(
+      inputDimensions.slice(1).reduce((a, b) => a * b));
+  let [channels, height, width] = inputDimensions.slice(1);
+  const mean = inputOptions.mean || [0, 0, 0, 0];
+  const std = inputOptions.std || [1, 1, 1, 1];
+  const normlizationFlag = inputOptions.norm || false;
+  const scaledFlag = inputOptions.scaledFlag || false;
+  const inputLayout = inputOptions.inputLayout;
+  const imageChannels = 4; // RGBA
+
+  if (inputLayout === 'nhwc') {
+    [height, width, channels] = inputDimensions.slice(1);
+  }
+  const canvasElement = document.createElement('canvas');
+  canvasElement.width = width;
+  canvasElement.height = height;
+  const canvasContext = canvasElement.getContext('2d');
+
+  if (scaledFlag) {
+    const resizeRatio = Math.max(
+        Math.max(1280 / width, 720 / height), 1);
+    const scaledWidth = Math.floor(1280 / resizeRatio);
+    const scaledHeight = Math.floor(720 / resizeRatio);
+    canvasContext.drawImage(inputElement, 0, 0, scaledWidth, scaledHeight);
+  } else {
+    canvasContext.drawImage(inputElement, 0, 0, width, height);
+  }
+
+  let pixels = canvasContext.getImageData(0, 0, width, height).data;
+
+  if (normlizationFlag) {
+    pixels = new Float32Array(pixels).map((p) => p / 255);
+  }
+
+  for (let c = 0; c < channels; ++c) {
+    for (let h = 0; h < height; ++h) {
+      for (let w = 0; w < width; ++w) {
+        const value =
+            pixels[h * width * imageChannels + w * imageChannels + c];
+        if (inputLayout === 'nchw') {
+          tensor[c * width * height + h * width + w] =
+              (value - mean[c]) / std[c];
+        } else {
+          tensor[h * width * channels + w * channels + c] =
+              (value - mean[c]) / std[c];
+        }
+      }
+    }
+  }
+  return tensor;
+}
+
 
 // Get median value from an array of Number
 function getMedianValue(array) {
