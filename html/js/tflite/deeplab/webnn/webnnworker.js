@@ -20,7 +20,6 @@ let warmup = async () => {
 let nncompute = (inputBuffer) => {
     let outputBuffer = compute(modelRunner, inputBuffer);
     outputBuffer = new Float32Array(outputBuffer);
-    console.log('outputBuffer in worker: ', outputBuffer);
     postMessage(outputBuffer, [outputBuffer.buffer]);
 }
 
@@ -29,7 +28,7 @@ addEventListener('message', async (e) => {
     const value = e.data.value;
     if(task === "nnwarmup") {
        await warmup();
-       self.postMessage({msg: "modelloaded"});
+       postMessage({msg: "modelloaded"});
     }
     if(task === "nncompute") {
        nncompute(value);

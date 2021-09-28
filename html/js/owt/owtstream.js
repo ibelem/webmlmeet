@@ -1,11 +1,9 @@
 let instanceType = "deeplabtflite";
-let isFirstTimeLoad = true;
-let loadTime = 0;
-let buildTime = 0;
 let computeTime = 0;
-let outputDimensions = [1,321, 321, 21];
+let computeStart = 0;
+const outputDimensions = [1, 321, 321, 21];
 
-let inputOptions = {
+const inputOptions = {
   mean: [127.5, 127.5, 127.5],
   std: [127.5, 127.5, 127.5],
   scaledFlag: false,
@@ -15,7 +13,10 @@ let inputOptions = {
 };
 
 let outputBuffer;
-let continueinputvideo = true
+let continueinputvideo = true;
+console.log("not in worker create context: ", navigator.ml);
+
+const worker = new Worker('../js/tflite/deeplab/webnn/webnnworker.js');
 
 const pipeline2 = buildWebGL2Pipeline(
   inputvideo,
@@ -23,7 +24,7 @@ const pipeline2 = buildWebGL2Pipeline(
   "none",
   [321, 321],
   outputcanvas,
-  null
+  null,
 );
 
 function stopCamera() {
@@ -34,12 +35,13 @@ function stopCamera() {
   });
 }
 
-async function renderCamStream() {
+function renderCamStream() {
   const inputBuffer = getInputTensor(inputvideo, inputOptions);
   let obj = {
     task: 'nncompute',
-    value: inputBuffer
+    value: inputBuffer,
   }
+  computeStart = performance.now();
   worker.postMessage(obj);
 }
 
@@ -69,7 +71,7 @@ async function drawOutput(outputBuffer, srcElement) {
   );
   const postProcessingConfig = {
     smoothSegmentationMask: true,
-    jointBilateralFilter: {sigmaSpace: 1, sigmaColor: 0.1},
+    jointBilateralFilter: { sigmaSpace: 1, sigmaColor: 0.1 },
     coverage: [0.5, 0.75],
     lightWrapping: 0.3,
     blendMode: 'screen',
@@ -81,26 +83,24 @@ async function drawOutput(outputBuffer, srcElement) {
 const createOWTStream = async () => {
   stream = await Owt.Base.MediaStreamFactory.createMediaStream(
     avTrackConstraint
-  )
-  console.log(inputvideo)
+  );
   if ("srcObject" in inputvideo) {
-    inputvideo.srcObject = stream
+    inputvideo.srcObject = stream;
   } else {
-    inputvideo.src = URL.createObjectURL(stream)
+    inputvideo.src = URL.createObjectURL(stream);
   }
 
-  inputvideo.autoplay = true
-  console.log(inputvideo.srcObject)
+  inputvideo.autoplay = true;
 }
 
 const videoCanvasOnFrame = async () => {
-  if(continueinputvideo) {
+  if (continueinputvideo) {
     window.requestAnimationFrame(videoCanvasOnFrame);
     // ctx2d.drawImage(inputvideo, 0, 0, cW, cH);
-    if(stream) {
+    if (stream) {
       const postProcessingConfig2 = {
         smoothSegmentationMask: true,
-        jointBilateralFilter: {sigmaSpace: 1, sigmaColor: 0.1},
+        jointBilateralFilter: { sigmaSpace: 1, sigmaColor: 0.1 },
         coverage: [0.5, 0.75],
         lightWrapping: 0.3,
         blendMode: 'screen',
@@ -111,13 +111,11 @@ const videoCanvasOnFrame = async () => {
   }
 }
 
-let worker;
-worker = new Worker('../js/tflite/deeplab/webnn/webnnworker.js');
 
 const oneWebMeetOWT = async () => {
-  await createOWTStream()
-  backgroundType = "blur"
-  continueinputvideo = true
+  await createOWTStream();
+  backgroundType = "blur";
+  continueinputvideo = true;
   await videoCanvasOnFrame();
   getProcessedStream();
   initConference();
@@ -126,7 +124,7 @@ const oneWebMeetOWT = async () => {
 
   let obj = {
     task: 'nnwarmup',
-    value: null
+    value: null,
   }
   worker.postMessage(obj);
 
@@ -136,7 +134,7 @@ const oneWebMeetOWT = async () => {
   //   console.log("^^^^^^^^^^^^^^^^^ WIN ^^^^^^^^^^^^^^^^^^^^")
   //   let worker = new Worker('../js/tflite/deeplab/webnn/webnnworker.js');
   //   worker.postMessage(['loadtask', 'computetask']);
-  
+
   //   worker.addEventListener('message', (e) => {
   //     const { msg } = e.data;
   //     $("#worker").html(msg);
@@ -155,37 +153,31 @@ worker.addEventListener('message', async (e) => {
     $("#tbb").removeClass('disabled');
     $("#tbr").removeClass('disabled');
   } else {
-    console.log('Msg from worker: ', e.data)
+    // Start receiving computed outputBuffer
     outputBuffer = e.data;
+    computeTime = (performance.now() - computeStart).toFixed(2);
     await drawOutput(outputBuffer, inputvideo);
+    console.log(`  done in ${computeTime} ms.`);
 
-  console.log('- Computing... ');
-  const start = performance.now();
-  computeTime = (performance.now() - start).toFixed(2);
-  console.log(`  done in ${computeTime} ms.`);
-  // await drawOutput(outputBuffer, inputvideo);
-
-  if(continueAnimating)
-  {
-    rafReq = requestAnimationFrame(renderCamStream);
-    spaninference.html(computeTime)
-    let ct = parseInt(computeTime)
-    $("#fps").html((1000/ct).toFixed(0))
+    if (continueAnimating) {
+      renderCamStream();
+      spaninference.html(computeTime);
+      let ct = parseInt(computeTime);
+      $("#fps").html((1000 / ct).toFixed(0));
+    }
   }
-}
-
 });
 
 const ssConfig = async (isSS, effect) => {
-  if(isSS && effect) {
+  if (isSS && effect) {
     backgroundImageSource.src = '../../assets/img/ssbg/0.jpg'
     continueinputvideo = false
     console.log(isSS + ' ' + effect)
     backgroundType = effect;
-    continueAnimating = true
+    continueAnimating = true;
 
     try {
-      inputvideo.onloadedmediadata = await renderCamStream();
+      inputvideo.onloadedmediadata = renderCamStream();
     } catch (error) {
       console.log(error);
     }
@@ -193,8 +185,8 @@ const ssConfig = async (isSS, effect) => {
     // gl = outputcanvas.getContext("2d");
     backgroundImageSource.src = '';
     continueAnimating = false;
-    continueinputvideo = true
-    backgroundType = "none"
-    await videoCanvasOnFrame()
+    continueinputvideo = true;
+    backgroundType = "none";
+    await videoCanvasOnFrame();
   }
 }
