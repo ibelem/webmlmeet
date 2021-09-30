@@ -51,17 +51,18 @@ const oneWebMeetOWT = async () => {
   getProcessedStream();
   initConference();
   userMarquee();
+  ssLoad();
 
-  if(parsePathnameBackend().toLowerCase() === 'webnn' && parseSearchParams("ds") === "1") {
-    console.log("^^^^^^^^^^^^^^^^^ WIN ^^^^^^^^^^^^^^^^^^^^")
-    let worker = new Worker('../js/tflite/deeplab/webnn/webnnworker.js');
-    worker.addEventListener('message', (e) => {
-      const { msg } = e.data;
-      $("#worker").html(msg);
-    });
-  } else {
-    ssLoad();
-  }
+  // if(parsePathnameBackend().toLowerCase() === 'webnn' && parseSearchParams("ds") === "1") {
+  //   console.log("^^^^^^^^^^^^^^^^^ WIN ^^^^^^^^^^^^^^^^^^^^")
+  //   let worker = new Worker('../js/tflite/deeplab/webnn/webnnworker.js');
+  //   worker.addEventListener('message', (e) => {
+  //     const { msg } = e.data;
+  //     $("#worker").html(msg);
+  //   });
+  // } else {
+  //   ssLoad();
+  // }
 };
 
 const ssConfig = async (isSS, effect) => {
