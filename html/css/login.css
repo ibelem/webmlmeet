@@ -258,3 +258,16 @@
     color: rgba(255, 255, 255, 1.0);
     border-left: 0px;
   }
+
+  #pv {
+    margin: 1rem 0;
+    border-collapse: collapse;
+  }
+
+  #pv td {
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(6, 26, 89, 0.2);
+    backdrop-filter: blur(20px);
+    padding: 0.4rem 1.78rem;
+  }

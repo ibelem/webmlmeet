@@ -1076,9 +1076,30 @@
       </svg>
     </div>
 
-    todo:<br>
-    <table>
-      
+    <table id="pv">
+      <tr>
+        <td>Param</td><td>Value</td><td>Note</td>
+      </tr>
+      <tr>
+        <td>b</td>
+        <td>0: wasm, 1: webnn</td>
+        <td>backend</td>
+      </tr>
+      <tr>
+        <td>d</td>
+        <td>0: default, 1: gpu, 2: cpu</td>
+        <td>device selection</td>
+      </tr>
+      <tr>
+        <td>m</td>
+        <td>dl: deeplab 321, dl5: DL513<br/>ss: selfie segmentation, ssl: SS landscape</td>
+        <td>model</td>
+      </tr>
+      <tr>
+        <td>f</td>
+        <td>0: tensorflow lite web, 1: onnx runtime web</td>
+        <td>web ml framework</td>
+      </tr>
     </table>
 
     <div class='webmlbadge'>
