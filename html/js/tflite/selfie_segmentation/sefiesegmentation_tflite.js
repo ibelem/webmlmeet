@@ -11,8 +11,11 @@ class SefieSegmentation {
         scaledFlag: false,
         inputLayout: 'nhwc',
         // labelUrl: '../../assets/models/labels.txt',
-        inputDimensions: [1, 144, 256, 3],
-        inputResolution: [256, 144]
+        inputDimensions: [1, 256, 256, 3], // deeplab
+        // inputDimensions: [1,224,224,3],
+        // inputDimensions: [1,299,299,3],
+        // inputDimensions: [1,256,256,3], // selfie_segmentation
+        inputResolution: [256, 256]
       };
       this.outputDimensions = [1,256, 256, 1];
     //   this.outputDimensions = [1, 1001];
@@ -20,7 +23,13 @@ class SefieSegmentation {
 
   async load() {
   // Create the model runner with the model.
-  const MODEL_PATH = `../../assets/models/selfie_segmentation/selfie_segmentation_landscape.tflite`;
+  let MODEL_PATH = `../../assets/models/selfie_segmentation/selfie_segmentation.tflite`;
+  (modelname === 'selfiesegmentationlandscape') ? MODEL_PATH = `../../assets/models/selfie_segmentation/selfie_segmentation_landscape.tflite` : MODEL_PATH = `../../assets/models/selfie_segmentation/selfie_segmentation.tflite`;
+
+  if(modelname === 'selfiesegmentationlandscape') {
+    this.inputOptions.inputDimensions = [1, 144, 256, 3],
+    this.inputOptions.inputResolution = [256, 144]
+  }
 // const MODEL_PATH = './models/selfie_segmentation.tflite';
 // const MODEL_PATH = './tflite-support/mobilenetv2.tflite';
 
@@ -33,12 +42,25 @@ class SefieSegmentation {
   const offset = module._malloc(modelBytes.length);
   module.HEAPU8.set(modelBytes, offset);
 
+  let isWebNN = false;
+  if(backend === "webnn") isWebNN = true
+  let ds = 2
+  ds = parseSearchParams("ds")
+
+
+  console.log('+++++++++++++++++++++++++++++++++++++>>>>>>>>>>>>>>>')
+  console.log(isWebNN)
+  console.log(ds)
+  console.log('+++++++++++++++++++++++++++++++++++++>>>>>>>>>>>>>>>')
+
   // Create model runner.
   const modelRunnerResult =
       module.TFLiteWebModelRunner.CreateFromBufferAndOptions(
           offset, modelBytes.length, {
             numThreads: Math.min(
-                4, Math.max(1, (navigator.hardwareConcurrency || 1) / 2))
+                4, Math.max(1, (navigator.hardwareConcurrency || 1) / 2)),
+            enableWebNNDelegate: isWebNN,
+            webNNDevicePreference: ds // 0 - default, 1 - gpu, 2 - cpu
           });
   if (!modelRunnerResult.ok()) {
     throw new Error(
