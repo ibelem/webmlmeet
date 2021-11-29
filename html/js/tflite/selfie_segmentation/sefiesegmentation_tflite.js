@@ -46,13 +46,7 @@ class SefieSegmentation {
   if(backend === "webnn") isWebNN = true
   let ds = 2
   ds = parseSearchParams("ds")
-
-
-  console.log('+++++++++++++++++++++++++++++++++++++>>>>>>>>>>>>>>>')
-  console.log(isWebNN)
-  console.log(ds)
-  console.log('+++++++++++++++++++++++++++++++++++++>>>>>>>>>>>>>>>')
-
+  
   // Create model runner.
   const modelRunnerResult =
       module.TFLiteWebModelRunner.CreateFromBufferAndOptions(
@@ -60,7 +54,7 @@ class SefieSegmentation {
             numThreads: Math.min(
                 4, Math.max(1, (navigator.hardwareConcurrency || 1) / 2)),
             enableWebNNDelegate: isWebNN,
-            webNNDevicePreference: ds // 0 - default, 1 - gpu, 2 - cpu
+            webNNDevicePreference: parseInt(ds) // 0 - default, 1 - gpu, 2 - cpu
           });
   if (!modelRunnerResult.ok()) {
     throw new Error(

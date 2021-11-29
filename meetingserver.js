@@ -15,8 +15,8 @@ const config = require('./config');
 // Directory 'public' for static files
 app.use(express.static(__dirname + '/html', {
   setHeaders: (res) => {
-    res.set('Cross-Origin-Opener-Policy', 'same-origin');
     res.set('Cross-Origin-Embedder-Policy', 'require-corp');
+    res.set('Cross-Origin-Opener-Policy', 'same-origin');
   }
 }));
 app.use(express.json());

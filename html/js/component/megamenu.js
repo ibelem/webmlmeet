@@ -54,8 +54,10 @@ const megamenu = () => {
             </div>
             </div>
             <ul class="options">
-            <li><a href="../tflite-webnn-selfiesegmentation">Selfie Segmentation</a></li>
-            <li><a href="../tflite-webnn-selfiesegmentationlandscape">Selfie Segmentation Landscape</a></li>
+            <li><a href="../tflite-webnn-selfiesegmentation?ds=2">Selfie Segmentation - CPU</a></li>
+            <li><a href="../tflite-webnn-selfiesegmentation?ds=1">Selfie Segmentation - GPU</a></li>
+            <li><a href="../tflite-webnn-selfiesegmentationlandscape?ds=2">Selfie Segmentation Landscape - CPU</a></li>
+            <li><a href="../tflite-webnn-selfiesegmentationlandscape?ds=1">Selfie Segmentation Landscape - GPU</a></li>
             <li><a href="../tflite-webnn-deeplab?ds=2">DeepLab v3 321 - CPU</a></li>
             <li><a href="../tflite-webnn-deeplab?ds=1">DeepLab v3 321 - GPU</a></li>
             <li><a href="../tflite-webnn-deeplab-513?ds=2">DeepLab v3 513 - CPU</a></li>
