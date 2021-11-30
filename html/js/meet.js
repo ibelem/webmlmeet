@@ -22,14 +22,25 @@ let camera,
   isbb = false,
   isbeauty = false;
 
-let backend = parsePathnameBackend()
+let backend = parseParamBackend()
 let modelname = parsePathnameModel()
+let mi = parseParamModelI()
+let ds = parseParamDevice()
 let model;
 
-if(modelname === "deeplab") model = "2"
-if(modelname === "selfiesegmentation") model = "0"
-if(modelname === "selfiesegmentationlandscape") model = "1"
 
+if(modelname === "ss" && mi === "ss") model = "0"
+if(modelname === "ss" && mi === "ssl") model = "1"
+if(modelname === "dl" && mi === "3") model = "2"
+if(modelname === "dl" && mi === "5") model = "3"
+
+// console.log("***********************************************")
+// console.log(backend)
+// console.log(modelname)
+// console.log(mi)
+// console.log(ds)
+// console.log(model)
+// console.log("***********************************************")
 
 let ssmodelinfo = [{
     id: 0,
@@ -50,10 +61,19 @@ let ssmodelinfo = [{
   },{
     id: 2,
     name: 'DeepLabV3',
-    inputsize: '',
-    outputsize: '',
+    inputsize: '321x321x3',
+    outputsize: '321x321x21',
     size: '8.4mB',
-    basedon: '',
+    basedon: 'MobileNetV2',
+    format: 'TFLite'
+  }
+  ,{
+    id: 3,
+    name: 'DeepLabV3',
+    inputsize: '513x513x3',
+    outputsize: '513x513x21',
+    size: '8.4mB',
+    basedon: 'MobileNetV2',
     format: 'TFLite'
   }
 ]

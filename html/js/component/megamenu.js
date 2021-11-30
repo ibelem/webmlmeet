@@ -19,10 +19,10 @@ const megamenu = () => {
             </div>
             </div>
             <ul class="options">
-            <li><a href="../tflite-wasm-selfiesegmentation">Selfie Segmentation</a></li>
-            <li><a href="../tflite-wasm-selfiesegmentationlandscape">Selfie Segmentation Landscape</a></li>
-            <li><a href="../tflite-wasm-deeplab">DeepLab v3 321</a></li>
-            <li><a href="../tflite-wasm-deeplab-513">DeepLab v3 513</a></li>
+            <li><a href="../tflite-ss?b=wasm&d=0&i=ss">Selfie Segmentation</a></li>
+            <li><a href="../tflite-ss?b=wasm&d=0&i=ssl">Selfie Segmentation Landscape</a></li>
+            <li><a href="../tflite-dl?b=wasm&d=0&i=3">DeepLab v3 321</a></li>
+            <li><a href="../tflite-dl?b=wasm&d=0&i=5">DeepLab v3 513</a></li>
             </ul>
 
             <div class="megahead">
@@ -42,7 +42,7 @@ const megamenu = () => {
             </div>
             </div>
             <ul class="options">
-            <li><a href="../onnxruntime-wasm-deeplab">DeepLab v3 321</a></li>
+            <li><a href="../ort-dl/?b=wasm&d=0&i=3">DeepLab v3 321</a></li>
             </ul>
         </div>
         <div class="col">
@@ -54,14 +54,14 @@ const megamenu = () => {
             </div>
             </div>
             <ul class="options">
-            <li><a href="../tflite-webnn-selfiesegmentation?ds=2">Selfie Segmentation - CPU</a></li>
-            <li><a href="../tflite-webnn-selfiesegmentation?ds=1">Selfie Segmentation - GPU</a></li>
-            <li><a href="../tflite-webnn-selfiesegmentationlandscape?ds=2">Selfie Segmentation Landscape - CPU</a></li>
-            <li><a href="../tflite-webnn-selfiesegmentationlandscape?ds=1">Selfie Segmentation Landscape - GPU</a></li>
-            <li><a href="../tflite-webnn-deeplab?ds=2">DeepLab v3 321 - CPU</a></li>
-            <li><a href="../tflite-webnn-deeplab?ds=1">DeepLab v3 321 - GPU</a></li>
-            <li><a href="../tflite-webnn-deeplab-513?ds=2">DeepLab v3 513 - CPU</a></li>
-            <li><a href="../tflite-webnn-deeplab-513?ds=1">DeepLab v3 513 - GPU</a></li>
+            <li><a href="../tflite-ss?b=webnn&d=2&i=ss">Selfie Segmentation - CPU</a></li>
+            <li><a href="../tflite-ss?b=webnn&d=1&i=ss">Selfie Segmentation - GPU</a></li>
+            <li><a href="../tflite-ss?b=webnn&d=2&i=ssl">Selfie Segmentation Landscape - CPU</a></li>
+            <li><a href="../tflite-ss?b=webnn&d=1&i=ssl">Selfie Segmentation Landscape - GPU</a></li>
+            <li><a href="../tflite-dl?b=webnn&d=2&i=3">DeepLab v3 321 - CPU</a></li>
+            <li><a href="../tflite-dl?b=webnn&d=1&i=3">DeepLab v3 321 - GPU</a></li>
+            <li><a href="../tflite-dl?b=webnn&d=2&i=5">DeepLab v3 513 - CPU</a></li>
+            <li><a href="../tflite-dl?b=webnn&d=1&i=5">DeepLab v3 513 - GPU</a></li>
             </ul>
         </div>
         <div class="col">
@@ -83,8 +83,8 @@ const megamenu = () => {
             </div>
             </div>
             <ul class="options">
-                <li><a href="../tflite-mediapipe-wasm-selfiesegmentation">Selfie Segmentation</a></li>
-                <li><a href="../tflite-mediapipe-wasm-selfiesegmentationlandscape">Selfie Segmentation Landscape</a></li>
+                <li><a href="../tflite-ss-mp?b=wasm&d=0&i=ss">Selfie Segmentation</a></li>
+                <li><a href="../tflite-ss-mp?b=wasm&d=0&i=ssl>Selfie Segmentation Landscape</a></li>
             </ul>
         </div>
         <div class="col">
@@ -97,8 +97,10 @@ const megamenu = () => {
             </div>
             </div>
             <ul class="options">
-                <li><a href="../tflite-mediapipe-webnn-selfiesegmentation">Selfie Segmentation</a></li>
-                <li><a href="../tflite-mediapipe-webnn-selfiesegmentationlandscape">Selfie Segmentation Landscape</a></li>
+                <li><a href="../tflite-ss-mp?b=webnn&d=2&i=ss">Selfie Segmentation - CPU (Todo)</a></li>
+                <li><a href="../tflite-ss-mp?b=webnn&d=1&i=ss">Selfie Segmentation - GPU</a></li>
+                <li><a href="../tflite-ss-mp?b=webnn&d=2&i=ssl">Selfie Segmentation Landscape - CPU (Todo)</a></li>
+                <li><a href="../tflite-ss-mp?b=webnn&d=1&i=ssl">Selfie Segmentation Landscape - GPU (Todo)</a></li>
             </ul>
         </div>
 

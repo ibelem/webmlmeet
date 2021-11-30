@@ -1078,27 +1078,47 @@
 
     <table id="pv">
       <tr>
-        <td>Param</td><td>Value</td><td>Note</td>
+       <th>URL Path</th><th colspan="2">Page</th>
+      </tr>
+      <tr>
+        <td>tflite-ss-mp</td>
+        <td colspan="2">tflite + mediapipe + selfie segmentation</td>
+      </tr>
+      <tr>
+        <td>tflite-ss</td>
+        <td colspan="2">tflite + selfie segmentation</td>
+      </tr>
+      <tr>
+        <td>tflite-dl</td>
+        <td colspan="2">tflite + deeplab</td>
+      </tr>
+      <tr>
+        <td>ort-dl</td>
+        <td colspan="2">ort web + deeplab</td>
+      </tr>
+
+      <tr>
+        <th>Param</th><th>Value</th><th>Note</th>
       </tr>
       <tr>
         <td>b</td>
-        <td>0: wasm, 1: webnn</td>
+        <td>wasm, webnn</td>
         <td>backend</td>
       </tr>
       <tr>
         <td>d</td>
         <td>0: default, 1: gpu, 2: cpu</td>
-        <td>device selection</td>
+        <td>device</td>
       </tr>
       <tr>
-        <td>m</td>
-        <td>dl: deeplab 321, dl5: DL513<br/>ss: selfie segmentation, ssl: SS landscape</td>
+        <td>i</td>
+        <td>3: deeplab 321, 5: dl 513<br/>ss: selfie segmentation 256<br/>ssl: SS landscape 144</td>
         <td>model</td>
       </tr>
       <tr>
-        <td>f</td>
-        <td>0: tensorflow lite web, 1: onnx runtime web</td>
-        <td>web ml framework</td>
+        <td colspan="3">
+          <a href="https://127.0.0.1:8080/tflite-ss/?usr=belem&b=wasm&d=2&i=ss">?usr=belem&b=wasm&d=2&i=ss</a>
+        </td>
       </tr>
     </table>
 

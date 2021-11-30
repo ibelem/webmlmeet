@@ -260,8 +260,13 @@
   }
 
   #pv {
-    margin: 1rem 0;
+    margin: 0.3rem;
     border-collapse: collapse;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    width: 26vw;
+    font-size: 0.8rem;
   }
 
   #pv td {
@@ -269,5 +274,5 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     background: rgba(6, 26, 89, 0.2);
     backdrop-filter: blur(20px);
-    padding: 0.4rem 1.78rem;
+    padding: 0.2rem 0.6rem;
   }

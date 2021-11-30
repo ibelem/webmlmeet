@@ -8,24 +8,39 @@ const hasSearchParam = (key) => {
   return searchParams.has(key);
 };
 
-const parsePathnameBackend = () => {
-  let pathname = location.pathname;
-  var backends = ["wasm", "webnn", "webgl", "webgpu"];
-  for (var backend of backends) {
-    if (pathname.toLowerCase().indexOf(backend) >-1) {
-      return backend
-    }
-  }
-};
+
 
 const parsePathnameModel = () => {
   let pathname = location.pathname;
-  var models = ["selfiesegmentationlandscape", "selfiesegmentation", "deeplab"];
+  var models = ["ss", "dl"];
   for (var model of models) {
     if (pathname.toLowerCase().indexOf(model) >-1) {
       return model
     }
   }
+};
+
+const parseParamBackend = () => {
+  // let pathname = location.pathname;
+  // var backends = ["wasm", "webnn", "webgl", "webgpu"];
+  // for (var backend of backends) {
+  //   if (pathname.toLowerCase().indexOf(backend) >-1) {
+  //     return backend
+  //   }
+  // }
+  let backend = parseSearchParams("b")
+  return backend.toLowerCase()
+};
+
+const parseParamDevice = () => {
+  let ds = parseSearchParams("d")
+  return parseInt(ds)
+};
+
+
+const parseParamModelI = () => {
+  let mi = parseSearchParams("i")
+  return mi.toLowerCase()
 };
 
 const isElementOverflowing = (ele) => {

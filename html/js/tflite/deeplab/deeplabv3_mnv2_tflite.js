@@ -11,22 +11,22 @@ class DeepLabV3MNV2TFLite {
         scaledFlag: false,
         inputLayout: 'nhwc',
         labelUrl: '../../assets/models/deeplab/labels.txt',
-        inputDimensions: [1, 321, 321, 3], // deeplab
-        // inputDimensions: [1,224,224,3],
-        // inputDimensions: [1,299,299,3],
-        // inputDimensions: [1,256,256,3], // selfie_segmentation
+        inputDimensions: [1, 321, 321, 3],
         inputResolution: [321, 321]
       };
       this.outputDimensions = [1,321, 321, 21];
-    //   this.outputDimensions = [1, 1001];
   }
 
   async load() {
-  // Create the model runner with the model.
+  let MODEL_PATH = '../../assets/models/deeplab/deeplab_mobilenetv2_321_no_argmax.tflite';
+  (modelname === "dl" && mi === "3") ? MODEL_PATH = `../../assets/models/deeplab/deeplab_mobilenetv2_321_no_argmax.tflite` : MODEL_PATH = `../../assets/models/deeplab/deeplab_mobilenetv2_513_no_argmax.tflite`;
 
-  const MODEL_PATH = '../../assets/models/deeplab/deeplab_mobilenetv2_321_no_argmax.tflite';
+  if(modelname === "dl" && mi === "5") {
+    this.inputOptions.inputDimensions = [1, 513, 513, 3],
+    this.inputOptions.inputResolution = [513, 513]
+    this.outputDimensions = [1,513, 513, 21]
+  }
 
-  // Load WASM module and model.
   const [module, modelArrayBuffer] = await Promise.all([
     tflite_model_runner_ModuleFactory(),
     (await fetch(MODEL_PATH)).arrayBuffer(),
@@ -35,14 +35,17 @@ class DeepLabV3MNV2TFLite {
   const offset = module._malloc(modelBytes.length);
   module.HEAPU8.set(modelBytes, offset);
 
+  let iswebnn = false;
+  if(backend === "webnn") iswebnn = true
+
   // Create model runner.
   const modelRunnerResult =
       module.TFLiteWebModelRunner.CreateFromBufferAndOptions(
           offset, modelBytes.length, {
             numThreads: Math.min(
                 4, Math.max(1, (navigator.hardwareConcurrency || 1) / 2)),
-                enableWebNNDelegate: true,
-                webNNDevicePreference: parseInt(parseSearchParams('ds')) // 0 - default, 1 - gpu, 2 - cpu
+                enableWebNNDelegate: iswebnn,
+                webNNDevicePreference: ds // 0 - default, 1 - gpu, 2 - cpu
           });
 
   if (!modelRunnerResult.ok()) {

@@ -3,14 +3,14 @@ $(document).ready(function () {
     $("#navuser").html(localname)
     $("#localname").html(localname)
     $("#localnamefs").html(localname)
-    let ds = parseSearchParams("ds")
+    let ds = parseSearchParams("d")
     let dsname = ''
     if(ds === '2') dsname = "CPU"
     if(ds === '1') dsname = "GPU"
     $('#deviceselection').html(dsname)
     optionsLink(localname);
 
-    if(location.pathname.toLowerCase().indexOf('selfiesegmentation') > -1) {
+    if(location.pathname.toLowerCase().indexOf('-ss') > -1) {
       $("#tbb").prop('disabled', false);
       $("#tbr").prop('disabled', false);
       $("#tbb").removeClass('disabled');

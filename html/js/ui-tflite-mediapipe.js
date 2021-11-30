@@ -10,7 +10,7 @@ $(document).ready(function () {
         modelSelection: parseInt(model),
     });
 
-    if(location.pathname.toLowerCase().indexOf('selfiesegmentation') > -1) {
+    if(location.pathname.toLowerCase().indexOf('ss') > -1) {
       $("#tbb").prop('disabled', false);
       $("#tbr").prop('disabled', false);
       $("#tbb").removeClass('disabled');

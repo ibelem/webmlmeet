@@ -24,9 +24,9 @@ class SefieSegmentation {
   async load() {
   // Create the model runner with the model.
   let MODEL_PATH = `../../assets/models/selfie_segmentation/selfie_segmentation.tflite`;
-  (modelname === 'selfiesegmentationlandscape') ? MODEL_PATH = `../../assets/models/selfie_segmentation/selfie_segmentation_landscape.tflite` : MODEL_PATH = `../../assets/models/selfie_segmentation/selfie_segmentation.tflite`;
+  (modelname === "ss" && mi === "ssl") ? MODEL_PATH = `../../assets/models/selfie_segmentation/selfie_segmentation_landscape.tflite` : MODEL_PATH = `../../assets/models/selfie_segmentation/selfie_segmentation.tflite`;
 
-  if(modelname === 'selfiesegmentationlandscape') {
+  if(modelname === "ss" && mi === "ssl") {
     this.inputOptions.inputDimensions = [1, 144, 256, 3],
     this.inputOptions.inputResolution = [256, 144]
   }
@@ -42,10 +42,14 @@ class SefieSegmentation {
   const offset = module._malloc(modelBytes.length);
   module.HEAPU8.set(modelBytes, offset);
 
-  let isWebNN = false;
-  if(backend === "webnn") isWebNN = true
-  let ds = 2
-  ds = parseSearchParams("ds")
+  let iswebnn = false;
+  if(backend === "webnn") iswebnn = true
+
+  console.log("***********************************************")
+  console.log(mi)
+  console.log(iswebnn)
+  console.log(ds)
+  console.log("***********************************************")
   
   // Create model runner.
   const modelRunnerResult =
@@ -53,8 +57,8 @@ class SefieSegmentation {
           offset, modelBytes.length, {
             numThreads: Math.min(
                 4, Math.max(1, (navigator.hardwareConcurrency || 1) / 2)),
-            enableWebNNDelegate: isWebNN,
-            webNNDevicePreference: parseInt(ds) // 0 - default, 1 - gpu, 2 - cpu
+            enableWebNNDelegate: iswebnn,
+            webNNDevicePreference: ds // 0 - default, 1 - gpu, 2 - cpu
           });
   if (!modelRunnerResult.ok()) {
     throw new Error(
