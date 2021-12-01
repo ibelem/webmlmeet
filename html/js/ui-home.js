@@ -23,9 +23,10 @@ const isWebML = () => {
 };
 
 let path = "tflite"
-let model = "deeplab"
+let model = "dl"
 let backend = "wasm"
 let ds = 0
+let mi = '3'
 
 // const obj = {
 //   backend: "wasm",
@@ -36,19 +37,18 @@ $(document).ready(function () {
   $("#login").fadeIn(1000)
   $(".logos").fadeIn(1500)
 
-  $("#btnwebgl").dis
-
   $("#wi-mp").click(function () {
     $("#wo-mp").removeClass("selected")
     $("#wi-mp").addClass("selected")
-    path = "tflite-mediapipe"
+    path = "tflite-mp"
     $("#btndl").removeClass("selected")
     $("#btnssl").removeClass("selected")
     $("#btnss").addClass("selected")
-    model = "selfiesegmentation"
+    model = "ss"
     $("#btndl").hide()
     $("#btnss").parent().removeClass("vr").addClass("vm")
     // window.history.pushState(null, null, path)
+    mi = "ss"
 
   })
 
@@ -59,7 +59,7 @@ $(document).ready(function () {
     $("#btndl").addClass("selected")
     $("#btnssl").removeClass("selected")
     $("#btnss").removeClass("selected")
-    model = "selfiesegmentation"
+    model = "ss"
     $("#btndl").show()
     $("#btnss").parent().removeClass("vm").addClass("vr")
   })
@@ -70,14 +70,6 @@ $(document).ready(function () {
     $("#btnwebgl").removeClass("selected")
     $("#btnwasm").addClass("selected")
     backend = "wasm"
-  })
-
-  $("#btnwebgl").click(function () {
-    $("#btnwasm").removeClass("selected")
-    $("#btnwebnn").removeClass("selected")
-    $("#btnwebnngpu").removeClass("selected")
-    $("#btnwebgl").addClass("selected")
-    backend = "webgl"
   })
 
   $("#btnwebnn").click(function () {
@@ -102,21 +94,24 @@ $(document).ready(function () {
     $("#btnss").removeClass("selected")
     $("#btnssl").removeClass("selected")
     $("#btndl").addClass("selected")
-    model = "deeplab"
+    model = "dl"
+    mi = '3'
   })
 
   $("#btnss").click(function () {
     $("#btndl").removeClass("selected")
     $("#btnssl").removeClass("selected")
     $("#btnss").addClass("selected")
-    model = "selfiesegmentation"
+    model = "ss"
+    mi = 'ss'
   })
 
   $("#btnssl").click(function () {
     $("#btnss").removeClass("selected")
     $("#btndl").removeClass("selected")
     $("#btnssl").addClass("selected")
-    model = "selfiesegmentationlandscape"
+    model = "ss"
+    mi = 'ssl'
   })
 
   if (!isWebML()) {
@@ -143,8 +138,8 @@ const go = () => {
     // search = encodeSearchParams(obj)
     let usr = $("#inputjoin").val()
     
-    console.log(`${path}-${backend}-${model}?usr=${usr}&ds=${ds}`)
-    location.href = `${path}-${backend}-${model}?usr=${usr}&ds=${ds}`
+    console.log(`${path}-${model}?usr=${usr}&b=${backend}&d=${ds}&i=${mi}`)
+    location.href = `${path}-${model}?usr=${usr}&b=${backend}&d=${ds}&i=${mi}`
   }
 }
 

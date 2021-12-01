@@ -83,8 +83,8 @@ const megamenu = () => {
             </div>
             </div>
             <ul class="options">
-                <li><a href="../tflite-ss-mp?b=wasm&d=0&i=ss">Selfie Segmentation</a></li>
-                <li><a href="../tflite-ss-mp?b=wasm&d=0&i=ssl>Selfie Segmentation Landscape</a></li>
+                <li><a href="../tflite-mp-ss?b=wasm&d=0&i=ss">Selfie Segmentation</a></li>
+                <li><a href="../tflite-mp-ss?b=wasm&d=0&i=ssl>Selfie Segmentation Landscape</a></li>
             </ul>
         </div>
         <div class="col">
@@ -97,10 +97,10 @@ const megamenu = () => {
             </div>
             </div>
             <ul class="options">
-                <li><a href="../tflite-ss-mp?b=webnn&d=2&i=ss">Selfie Segmentation - CPU (Todo)</a></li>
-                <li><a href="../tflite-ss-mp?b=webnn&d=1&i=ss">Selfie Segmentation - GPU</a></li>
-                <li><a href="../tflite-ss-mp?b=webnn&d=2&i=ssl">Selfie Segmentation Landscape - CPU (Todo)</a></li>
-                <li><a href="../tflite-ss-mp?b=webnn&d=1&i=ssl">Selfie Segmentation Landscape - GPU (Todo)</a></li>
+                <li><a href="../tflite-mp-ss?b=webnn&d=2&i=ss">Selfie Segmentation - CPU (Todo)</a></li>
+                <li><a href="../tflite-mp-ss?b=webnn&d=1&i=ss">Selfie Segmentation - GPU</a></li>
+                <li><a href="../tflite-mp-ss?b=webnn&d=2&i=ssl">Selfie Segmentation Landscape - CPU (Todo)</a></li>
+                <li><a href="../tflite-mp-ss?b=webnn&d=1&i=ssl">Selfie Segmentation Landscape - GPU (Todo)</a></li>
             </ul>
         </div>
 
