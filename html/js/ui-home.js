@@ -37,6 +37,12 @@ $(document).ready(function () {
   $("#login").fadeIn(1000)
   $(".logos").fadeIn(1500)
 
+  $("#btnjoin").hover(function() {
+    $("#pv").addClass("pvshow");
+  }, function() {
+    $("#pv").removeClass("pvshow");
+  })
+
   $("#wi-mp").click(function () {
     $("#wo-mp").removeClass("selected")
     $("#wi-mp").addClass("selected")

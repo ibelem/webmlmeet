@@ -267,6 +267,7 @@
     right: 0px;
     width: 26vw;
     font-size: 0.8rem;
+    display: none;
   }
 
   #pv td {
@@ -275,4 +276,8 @@
     background: rgba(6, 26, 89, 0.2);
     backdrop-filter: blur(20px);
     padding: 0.2rem 0.6rem;
+  }
+
+  .pvshow {
+    display: block !important;
   }

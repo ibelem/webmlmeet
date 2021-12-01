@@ -1,4 +1,5 @@
 'use strict';
+
 let instanceType = "deeplabtflite";
 let isFirstTimeLoad = true;
 let netInstance = null;

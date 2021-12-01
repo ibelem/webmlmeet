@@ -19,7 +19,9 @@ class DeepLabV3MNV2ONNX {
 
   async load() {
   // Create the model runner with the model.
-  const session = await ort.InferenceSession.create('../../assets/models/deeplab/deeplab_mobilenetv2_321_no_argmax.onnx');
+  let model = '../../assets/models/deeplab/deeplab_mobilenetv2_321_no_argmax.onnx';
+  const session = await ort.InferenceSession.create(model,  {
+    executionProviders: ['wasm', {name: backend, devicePreference: ds}], logSeverityLevel: 0 });
   return session;
   }
 

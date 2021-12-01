@@ -38,6 +38,7 @@
   width: 100%;
   background: #2a394f;
   color: white;
+  font-size: 0.7rem;
   z-index: 10000;
 }
 
@@ -104,7 +105,7 @@
 
 
 .mega-menu .col ul li {
-  padding: 3px 0;
+  padding: 2px 0;
 }
 
 .mega-menu .col ul li:hover {
