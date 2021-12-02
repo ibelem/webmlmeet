@@ -35,6 +35,12 @@ class DeepLabV3MNV2ONNX {
     let model = '../../assets/models/deeplab/deeplab_mobilenetv2_321_no_argmax.onnx';
     (modelname === "dl" && mi === "3") ? model = `../../assets/models/deeplab/deeplab_mobilenetv2_321_no_argmax.onnx` : model = `../../assets/models/deeplab/deeplab_mobilenetv2_513_no_argmax.onnx`;
 
+    if(modelname === "dl" && mi === "5") {
+      this.inputOptions.inputDimensions = [1, 513, 513, 3],
+      this.inputOptions.inputResolution = [513, 513]
+      this.outputDimensions = [1,513, 513, 21]
+    }
+  
     const session = await ort.InferenceSession.create(model,  {
       executionProviders: ['wasm', {name: backend, devicePreference: ds}], logSeverityLevel: 0 });
     return session;
