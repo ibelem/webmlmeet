@@ -43,6 +43,7 @@ const megamenu = () => {
             </div>
             <ul class="options">
                 <li><a href="../ort-dl/?b=wasm&d=0&i=3">DeepLab v3 321</a></li>
+                <li><a href="../ort-dl/?b=wasm&d=0&i=5">DeepLab v3 513</a></li>
             </ul>
         </div>
         
@@ -75,6 +76,8 @@ const megamenu = () => {
             <ul class="options">
                 <li><a href="../ort-dl/?b=webnn&d=2&i=3">DeepLab v3 321- CPU</a></li>
                 <li><a href="../ort-dl/?b=webnn&d=1&i=3">DeepLab v3 321- GPU</a></li>
+                <li><a href="../ort-dl/?b=webnn&d=2&i=5">DeepLab v3 513- CPU</a></li>
+                <li><a href="../ort-dl/?b=webnn&d=1&i=5">DeepLab v3 513- GPU</a></li>
             </ul>
         </div>
 

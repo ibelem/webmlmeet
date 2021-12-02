@@ -32,6 +32,16 @@ const parseParamBackend = () => {
   return backend.toLowerCase()
 };
 
+const parsePathFwk = () => {
+  let pathname = location.pathname;
+    if (pathname.toLowerCase().indexOf('ort-') >-1) {
+      return 'ONNX'
+    }
+    if (pathname.toLowerCase().indexOf('tflite-') >-1) {
+      return 'TFLite'
+    }
+};
+
 const parseParamDevice = () => {
   let ds = parseSearchParams("d")
   return parseInt(ds)

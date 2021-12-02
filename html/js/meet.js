@@ -27,7 +27,7 @@ let modelname = parsePathnameModel()
 let mi = parseParamModelI()
 let ds = parseParamDevice()
 let model;
-
+let fk = parsePathFwk()
 
 if(modelname === "ss" && mi === "ss") model = "0"
 if(modelname === "ss" && mi === "ssl") model = "1"
@@ -49,7 +49,7 @@ let ssmodelinfo = [{
     outputsize: '256x256x1',
     size: '249.0kB',
     basedon: 'MobileNetV3',
-    format: 'TFLite'
+    format: fk
   },{
     id: 1,
     name: 'Selfie Segmentation Landscape',
@@ -57,7 +57,7 @@ let ssmodelinfo = [{
     outputsize: '144x256x1',
     size: '249.8kB',
     basedon: 'MobileNetV3',
-    format: 'TFLite'
+    format: fk
   },{
     id: 2,
     name: 'DeepLabV3',
@@ -65,7 +65,7 @@ let ssmodelinfo = [{
     outputsize: '321x321x21',
     size: '8.4mB',
     basedon: 'MobileNetV2',
-    format: 'TFLite'
+    format: fk
   }
   ,{
     id: 3,
@@ -74,7 +74,7 @@ let ssmodelinfo = [{
     outputsize: '513x513x21',
     size: '8.4mB',
     basedon: 'MobileNetV2',
-    format: 'TFLite'
+    format: fk
   }
 ]
 

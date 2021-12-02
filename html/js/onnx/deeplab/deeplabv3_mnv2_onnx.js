@@ -33,6 +33,8 @@ class DeepLabV3MNV2ONNX {
 
     // Create the model runner with the model.
     let model = '../../assets/models/deeplab/deeplab_mobilenetv2_321_no_argmax.onnx';
+    (modelname === "dl" && mi === "3") ? model = `../../assets/models/deeplab/deeplab_mobilenetv2_321_no_argmax.onnx` : model = `../../assets/models/deeplab/deeplab_mobilenetv2_513_no_argmax.onnx`;
+
     const session = await ort.InferenceSession.create(model,  {
       executionProviders: ['wasm', {name: backend, devicePreference: ds}], logSeverityLevel: 0 });
     return session;
