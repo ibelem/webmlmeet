@@ -18,11 +18,24 @@ class DeepLabV3MNV2ONNX {
   }
 
   async load() {
-  // Create the model runner with the model.
-  let model = '../../assets/models/deeplab/deeplab_mobilenetv2_321_no_argmax.onnx';
-  const session = await ort.InferenceSession.create(model,  {
-    executionProviders: ['wasm', {name: backend, devicePreference: ds}], logSeverityLevel: 0 });
-  return session;
+
+    // override path of wasm files - for each file
+    ort.env.wasm.wasmPaths = {
+      'ort-wasm.wasm': '../../js/onnx/ort-wasm.wasm',
+      'ort-wasm-simd.wasm': '../../js/onnx/ort-wasm-simd.wasm',
+      'ort-wasm-threaded.wasm': '../../js/onnx/ort-wasm-threaded.wasm',
+      'ort-wasm-simd-threaded.wasm': '../../js/onnx/ort-wasm-simd-threaded.wasm'
+    };
+
+    if(backend === "webnn") {
+      ort.env.wasm.numThreads = 1;
+    }
+
+    // Create the model runner with the model.
+    let model = '../../assets/models/deeplab/deeplab_mobilenetv2_321_no_argmax.onnx';
+    const session = await ort.InferenceSession.create(model,  {
+      executionProviders: ['wasm', {name: backend, devicePreference: ds}], logSeverityLevel: 0 });
+    return session;
   }
 
   async compute(session, inputData) {
