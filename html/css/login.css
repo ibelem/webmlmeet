@@ -43,7 +43,7 @@
 
 #banner { 
   position: absolute; 
-  bottom: 40px;
+  bottom: 50px;
   right: 50px;
   background: url(../assets/img/oneapi.png) no-repeat right;
   background-size: 40px 40px;
