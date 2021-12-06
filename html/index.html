@@ -31,8 +31,6 @@
   </head>
 
   <body id="home">
-    <a href="./ort-dl/?b=webnn&d=2&i=3&usr=asd">ONNX WebNN CPU</a><br>
-    <a href="./ort-dl/?b=webnn&d=1&i=3&usr=asd">ONNX WebNN GPU</a><p>
     <div id="login" class="drop-shadow">
       <div class="glass"></div>
       <div class="join">
@@ -51,17 +49,20 @@
             </div>
           </form>
         </div>
-        <div id="mp-selector">
-          <h4>MediaPipe</h4>
-          <div class="buttonset vo">
-            <a id="wi-mp">Yes</a>
-            <a class="selected" id="wo-mp">No</a>
+        <div id="ml-selector">
+          <div id="fwk-selector">
+            <h4>Web ML Framework</h4>
+            <div class="buttonset vo">
+              <a id="btntflite" class="selected" title="TensorFlowLite Web">TensorFlowLite Web</a
+              ><a id="btnort" title="ONNX Runtime Web">ONNX Runtime Web</a>
+            </div>
           </div>
           <div id="model-selector">
             <h4>Model</h4>
-            <div class="buttonset vr">
-              <a id="btndl" class="selected" title="DeepLabV3">DL</a
-              ><a id="btnss" title="Selfie Segmentation">SS</a
+            <div class="buttonset vf">
+              <a id="btndl321" class="selected" title="DeepLabV3 321">DL 321</a
+              ><a id="btndl513" title="DeepLabV3 513">DL 513</a
+                ><a id="btnss" title="Selfie Segmentation">SS</a
               ><a id="btnssl" title="Selfie Segmentation Landscape">SSL</a>
             </div>
           </div>
@@ -77,6 +78,13 @@
             <div class="buttonset vr">
               <a id="btnwasm" class="selected">Wasm</a><a id="btnwebnn">WebNN CPU</a><a id="btnwebnngpu">WebNN GPU</a
                 >
+            </div>
+          </div>
+          <div id="mp-selector">
+            <h4>MediaPipe</h4>
+            <div class="buttonset v2">
+              <a id="wi-mp">Yes</a>
+              <a class="selected" id="wo-mp">No</a>
             </div>
           </div>
         </div>

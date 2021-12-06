@@ -43,31 +43,63 @@ $(document).ready(function () {
     $("#pv").removeClass("pvshow");
   })
 
+  $("#btnort").click(function () {
+    $("#wi-mp").removeClass("selected");
+    $("#wo-mp").addClass("selected");
+    $("#btntflite").removeClass("selected");
+    $("#btnort").addClass("selected");
+    $("#btndl321").parent().removeClass("vf").removeClass("vm").addClass("vo")
+    $("#btnss").hide()
+    $("#btnssl").hide()
+    $("#btndl321").show()
+    $("#btndl513").show()
+    path = "ort"
+  })
+
+  $("#btntflite").click(function () {
+    $("#btntflite").addClass("selected");
+    $("#btnort").removeClass("selected");
+    $("#btndl321").parent().removeClass("vm").removeClass("vo").addClass("vf")
+    $("#btnss").show()
+    $("#btnssl").show()
+    $("#btndl321").show()
+    $("#btndl513").show()
+    path = "tflite"
+  })
+
   $("#wi-mp").click(function () {
     $("#wo-mp").removeClass("selected")
     $("#wi-mp").addClass("selected")
     path = "tflite-mp"
-    $("#btndl").removeClass("selected")
+    $("#btnort").removeClass("selected")
+    $("#btntflite").addClass("selected")
+    $("#btndl321").removeClass("selected")
+    $("#btndl513").removeClass("selected")
     $("#btnssl").removeClass("selected")
     $("#btnss").addClass("selected")
     model = "ss"
-    $("#btndl").hide()
-    $("#btnss").parent().removeClass("vr").addClass("vm")
+    $("#btnss").show()
+    $("#btnssl").show()
+    $("#btndl321").hide()
+    $("#btndl513").hide()
+    $("#btnss").parent().removeClass("vf").removeClass("vo").addClass("vm")
     // window.history.pushState(null, null, path)
     mi = "ss"
-
   })
 
   $("#wo-mp").click(function () {
     $("#wo-mp").addClass("selected")
     $("#wi-mp").removeClass("selected")
     path = "tflite"
-    $("#btndl").addClass("selected")
     $("#btnssl").removeClass("selected")
     $("#btnss").removeClass("selected")
-    model = "ss"
-    $("#btndl").show()
-    $("#btnss").parent().removeClass("vm").addClass("vr")
+    $("#btndl321").addClass("selected")
+    $("#btndl513").removeClass("selected")
+    model = "dl"
+    mi = "3"
+    $("#btndl321").show()
+    $("#btndl513").show()
+    $("#btnss").parent().removeClass("vo").removeClass("vm").addClass("vf")
   })
 
   $("#btnwasm").click(function () {
@@ -96,16 +128,27 @@ $(document).ready(function () {
     ds = 1
   })
 
-  $("#btndl").click(function () {
+  $("#btndl321").click(function () {
     $("#btnss").removeClass("selected")
     $("#btnssl").removeClass("selected")
-    $("#btndl").addClass("selected")
+    $("#btndl513").removeClass("selected")
+    $("#btndl321").addClass("selected")
     model = "dl"
     mi = '3'
   })
 
+  $("#btndl513").click(function () {
+    $("#btnss").removeClass("selected")
+    $("#btnssl").removeClass("selected")
+    $("#btndl321").removeClass("selected")
+    $("#btndl513").addClass("selected")
+    model = "dl"
+    mi = '5'
+  })
+
   $("#btnss").click(function () {
-    $("#btndl").removeClass("selected")
+    $("#btndl321").removeClass("selected")
+    $("#btndl513").removeClass("selected")
     $("#btnssl").removeClass("selected")
     $("#btnss").addClass("selected")
     model = "ss"
@@ -114,7 +157,8 @@ $(document).ready(function () {
 
   $("#btnssl").click(function () {
     $("#btnss").removeClass("selected")
-    $("#btndl").removeClass("selected")
+    $("#btndl321").removeClass("selected")
+    $("#btndl513").removeClass("selected")
     $("#btnssl").addClass("selected")
     model = "ss"
     mi = 'ssl'

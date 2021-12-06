@@ -1,6 +1,6 @@
 #home .logos {
   backdrop-filter: blur(20px);
-  width: 640px;
+  width: 660px;
   text-align: center;
 }
 
@@ -31,9 +31,9 @@
     0 0.7px 5.3px rgba(0, 0, 0, 0.016), 0 1.3px 10px rgba(0, 0, 0, 0.02),
     0 2.2px 17.9px rgba(0, 0, 0, 0.024), 0 4.2px 33.4px rgba(0, 0, 0, 0.029),
     0 10px 80px rgba(0, 0, 0, 0.04);
-  width: 680px;
+  width: 700px;
   color: #fff;
-  height: 350px;
+  height: 400px;
 }
 
 #login h2 {
@@ -71,7 +71,7 @@
       ". .";
     align-items: center;
     justify-items: center;
-    margin-top: -20px;
+    margin-top: -40px;
 }
 
 .glass {
@@ -112,8 +112,17 @@
   }
 
   .vo a:last-child {
-      margin-left: -4px;
+      margin-left: -1px;
   }
+
+  .v2 a {
+    width: 164px;
+    margin: 0px;
+}
+
+.v2 a:last-child {
+    margin-left: -4px;
+}
 
   .vo a#btnwebnn {
     margin-left: 0px;
@@ -132,6 +141,11 @@
       width: 110px;
       margin: 0px;
   }
+
+  .vf a {
+    width: 82.5px;
+    margin: 0px;
+}
 
   #login-480 {
     margin-left: -1px;
@@ -205,7 +219,7 @@
   }
 
   .webmlbadge {
-    margin-top: 1rem;
+    margin-top: 20px;
     display: inline-block;
     font-weight: 400;
     text-transform: uppercase;

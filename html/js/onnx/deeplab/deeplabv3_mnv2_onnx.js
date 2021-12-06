@@ -49,12 +49,29 @@ class DeepLabV3MNV2ONNX {
   async compute(session, inputData) {
     const inputTensor = new ort.Tensor('float32', inputData, this.inputOptions.inputDimensions);
     // prepare feeds. use model input names as keys.
-    const feeds = {'sub_2': inputTensor};
+    let feeds;
+    
+    if(modelname === "dl" && mi === "3") {
+      feeds = {'sub_2': inputTensor};
+    }
+
+    if(modelname === "dl" && mi === "5") {
+      feeds = {'sub_7': inputTensor};
+    }
     // feed inputs and run
     const results = await session.run(feeds);
 
     // read from results
-    const outputBuffer = results.ResizeBilinear_2.data;
+    let outputBuffer; 
+    
+    if(modelname === "dl" && mi === "3") {
+      outputBuffer =results.ResizeBilinear_2.data;
+    } 
+
+    if(modelname === "dl" && mi === "5") {
+      outputBuffer = results.ResizeBilinear_3.data;
+    }
+
     return outputBuffer;
   }
 }
