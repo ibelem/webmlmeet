@@ -1,0 +1,124 @@
+#right-bar {
+  background-color: var(--bg-lb-color);
+  height: 100%;
+  padding: 0 10px 10px 10px;
+}
+
+#bgscontainer {
+    display: none;
+}
+
+#right-bar #bgs {
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr; 
+    grid-template-rows: 1fr; 
+    gap: 1px 1px; 
+    grid-template-areas: 
+      ". . ."; 
+    justify-content: space-between; 
+    justify-items: center; 
+    align-items: center; 
+}
+
+#right-bar img {
+    width: 100%;
+    max-height: 60px;
+    border-radius: 5px;
+}
+
+.bgselector {
+    margin: 0;
+    padding: 0;
+    margin-top: -5px;
+}
+
+.rb {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-template-areas: ". .";
+}
+
+.rb .title {
+    text-transform: uppercase;
+    margin: 10px 0;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+}
+
+.rb button {
+    justify-self: end;
+}
+
+.rb button svg {
+    height: 14px;
+    width: 14px;
+}
+
+.rb button svg path {
+    fill: var(--text-color); 
+}
+
+.rb button:hover svg path {
+    fill: var(--text2-color);
+}
+
+.bgselector:hover {
+    cursor: pointer;
+}
+
+#bgimage {
+    margin: 0rem auto;
+    text-align: center;
+}
+
+#bgdefault {
+    display: none;
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  
+  .inputfile + label {
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.25rem 1.25rem;
+  }
+  
+  .inputfile:focus + label,
+  .inputfile.has-focus + label {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+  }
+  
+  .inputfile + label svg {
+    width: 100%;
+    height: 1.0em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin: 0;
+  }
+  
+  .inputfile + label span {
+    font-size: 0.8rem;
+  }
+  
+  .inputf + label {
+    color: rgba(255, 255, 255, 0.9);
+    border: 0px solid currentColor;
+  }
+  
+  .inputf:focus + label,
+  .inputf.has-focus + label,
+  .inputf + label:hover {
+    background-color: rgba(255, 255, 255, 0);
+  }

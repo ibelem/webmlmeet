@@ -1,0 +1,181 @@
+
+body.fullscreen {
+    background: transparent;
+} 
+
+.fullscreen .main {
+    margin: 50px;
+}
+
+.fullscreen #localname, .usernamefs {
+    display: none;
+}
+
+.fullscreen .streamfull .usernamefs {
+    position: fixed;
+    display: inline-block;
+    right: 60px;
+    bottom: 60px;
+    top: auto;
+    max-width: 160px;
+    text-align: center;
+    overflow:hidden;
+
+    cursor: pointer;
+    background: var(--han-color);
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    padding: 4px 10px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.fullscreen .inputvideo {
+    left: -10000px !important;
+}
+
+.fullscreen #text-content, .fullscreen #user-list {
+    height: 33vh;
+}
+
+.fullscreen #message {
+    left: 60px;
+    bottom: 150px;
+}
+
+.fullscreen .counter {
+    bottom: 10px;
+}
+
+.fullscreen #ic {
+    margin-right: 100px;
+    height: calc(100vh - 100px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.fullscreen #wrapper, .fullscreen #left-bar, .fullscreen #right-bar, .fullscreen .main, .fullscreen #text-send {
+    background: transparent;
+}
+
+.fullscreen #nav {
+    display: none;
+}
+
+.fullscreen #left-bar {
+    border-right: transparent;
+}
+
+.fullscreen footer {
+    border-top: transparent;
+    bottom: 130px;
+    padding: 0 10px;
+}
+
+.fullscreen footer .control {
+    margin-left: -50px;
+}
+
+.fullscreen #left-bar, .fullscreen #right-bar, .fullscreen .main, .fullscreen .counter, .fullscreen footer {
+    z-index: 1;
+}
+
+.fullscreen .video-panel {
+    display: grid; 
+    grid-template-columns: 1fr; 
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "."
+      "."
+      "."
+      "."
+      "."; 
+    justify-content: end; 
+    justify-items: end; 
+    align-items: center; 
+    /* margin-top: -123px; */
+    padding: 10px;
+}
+
+.fullscreen .norightbar {
+    margin-right: 100px;
+}
+
+.fullscreen .vslot, .fullscreen .vslot canvas, .fullscreen .vslot video {
+    z-index: 1;
+}
+
+.fullscreen .video-panel video, .fullscreen .video-panel canvas {
+    width: 160px;
+    height: 90px;
+    cursor: pointer;
+}
+
+.fullscreen .norightbar .video-panel video, .fullscreen .norightbar .video-panel canvas {
+    width: 200px;
+    height: 112px;
+    cursor: pointer;
+}
+
+.fullscreen .streamfull, .fullscreen .streamfull canvas, .fullscreen .streamfull video {
+    position: fixed;
+    margin: 0;
+    left: 0;
+    bottom: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    object-fit: fill;
+    border: 0px;
+    display: block;
+    z-index: -1000 !important;
+}
+
+.fullscreen .zerosize {
+    width: 0;
+    height: 0;
+}
+
+.fullscreen .bar {
+    display: none;
+}
+
+.fullscreen #btnexitfullscreen {
+    display: inline-block;
+}
+
+.fullscreen .main {
+    box-shadow: none;
+}
+
+.fullscreen #user-list::-webkit-scrollbar-track, .fullscreen #text-content::-webkit-scrollbar-track
+{
+	box-shadow: inset 0 0 5px rgba(255, 255, 255,0.1);
+	background-color: rgba(255, 255, 255, 0);
+}
+
+.fullscreen #user-list::-webkit-scrollbar, .fullscreen #text-content::-webkit-scrollbar
+{
+	background-color: rgba(255, 255, 255,0.1);
+}
+
+.fullscreen #user-list::-webkit-scrollbar-thumb, .fullscreen #text-content::-webkit-scrollbar-thumb
+{
+	background-color: rgba(255, 255, 255,0.1);
+}
+
+.fullscreen #text-send::-webkit-scrollbar-track
+{
+	box-shadow: inset 0 0 5px rgba(255, 255, 255,0.1);
+	background-color: rgba(255, 255, 255, 0);
+}
+
+.fullscreen #text-send::-webkit-scrollbar
+{
+	background-color: rgba(255, 255, 255,0.1);
+}
+
+.fullscreen #text-send::-webkit-scrollbar-thumb
+{
+	background-color: rgba(255, 255, 255,0.1);
+}
