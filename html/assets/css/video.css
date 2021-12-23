@@ -473,9 +473,16 @@ canvas {
   width: 92px;
 }
 
+#ss-panel, #ns-panel {
+  display: inline-block;
+}
+
 #control-panel #fps,
 #control-panel #deviceselection,
 #control-panel #inference,
+#control-panel #nsprep,
+#control-panel #nspostp,
+#control-panel #nsinference,
 #control-panel #cpus,
 #control-panel #cpuu {
   font-size: 24px;
@@ -484,23 +491,35 @@ canvas {
   text-align: center;
 }
 
-#control-panel #inference span {
+#control-panel #inference span,
+#control-panel #nsinference span,
+#control-panel #nsprep span,
+#control-panel #nspostp span  {
   font-size: 24px;
 }
 
 #control-panel #fpsnote,
-#control-panel #inferencenote {
+#control-panel #inferencenote,
+#control-panel #nsinferencenote,
+#control-panel #nsprepnote,
+#control-panel #nspostpnote {
   padding: 2px 10px;
   background-color: rgba(255, 255, 255, 0.2);
   font-size: 0.6rem;
   text-align: center;
 }
 
-#control-panel #inferencenote {
+#control-panel #inferencenote,
+#control-panel #nsinferencenote,
+#control-panel #nsprepnote,
+#control-panel #nspostpnote {
   text-transform: uppercase;
 }
 
-#control-panel #inference {
+#control-panel #inference,
+#control-panel #nsinference,
+#control-panel #nsprep,
+#control-panel #nspostp {
   font-size: 18px;
   text-transform: lowercase;
   min-width: 140px;

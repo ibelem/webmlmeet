@@ -20,7 +20,8 @@ let usr;
 let camera,
   isbr = false,
   isbb = false,
-  isbeauty = false;
+  isbeauty = false,
+  isns = false;
 
 let backend = parseParamBackend()
 let modelname = parsePathnameModel()
@@ -112,6 +113,78 @@ let users = [];
 let localname = "user";
 let start, end, delta;
 let spaninference = $("#spaninference")
+
+const rnnoise = new RNNoiseONNX();
+const audioProcesser = new Processer(rnnoise.steps);
+
+// // Dynamically load the DSP library (Wasm).
+// const wasmScript = document.createElement('script');
+// wasmScript.type = 'text/javascript';
+// wasmScript.onload = function () {
+//   console.log('DSP library (Wasm) Preparing ...');
+//   Module.onRuntimeInitialized = function () {
+//     console.log('DSP library (Wasm) Loaded.');
+//   };
+// };
+// wasmScript.src = 'process/process.js';
+// document.getElementsByTagName('head')[0].appendChild(wasmScript);
+
+// Global MediaStreamTrackProcessor, MediaStreamTrackGenerator, AudioData.
+if (typeof MediaStreamTrackProcessor === 'undefined' ||
+  typeof MediaStreamTrackGenerator === 'undefined') {
+  alert(
+    'Your browser does not support the MediaStreamTrack API for ' +
+    'Insertable Streams of Media.');
+}
+try {
+  new MediaStreamTrackGenerator('audio');
+  console.log('Audio insertable streams supported.');
+} catch (e) {
+  alert('Your browser does not support insertable audio streams.');
+}
+if (typeof AudioData === 'undefined') {
+  alert('Your browser does not support WebCodecs.');
+}
+
+// RNNoise inference session 
+let rnmodel;
+// Audio element
+let audio;
+
+// Transformation chain elements
+let processor;
+let generator;
+let transformer;
+let denoisemode = false;
+
+let abortController;
+
+// // Initialize on page load.
+// async function init() {
+//   audio = document.getElementById('audioOutput');
+//   originalButton = document.getElementById('originalButton');
+//   stopButton = document.getElementById('stopButton');
+//   denoiseButton = document.getElementById('denoiseButton');
+
+//   originalButton.onclick = original;
+//   stopButton.onclick = stop;
+//   denoiseButton.onclick = denoise;
+
+//   rnmodel = await rnnoise.load();
+// }
+
+const nsLoad = async () => {
+  try {
+    rnmodel = await rnnoise.load();
+    $("#modelloadstatus").html('NS Model Loaded');
+    $("#tns").prop('disabled', false);
+    $("#tns").removeClass('disabled');
+  } catch (error) {
+    $("#modelloadstatus").html('Failed to Load Noise Suppression Model');
+    $("#tns").prop('disabled', true);
+    $("#tns").addClass('disabled');
+  }
+}
 
 let createLocal = () => {
   localStream = new Owt.Base.LocalStream(
@@ -632,11 +705,103 @@ const userExit = () => {
   isAudioOnly = false;
 };
 
+// Returns a denosie transform function for use with TransformStream.
+function denoiseFilter() {
+  const frameSize = 480; // 10ms audio data (SampleRate = 48000)
+  const format = 'f32-planar';
+  return async (data, controller) => {
+    const inputBuffer = new Float32Array(frameSize);
+    data.copyTo(inputBuffer, { planeIndex: 0, format });
+    let startPreProcessing = performance.now();
+    const audioFeatures = audioProcesser.preProcessing(inputBuffer);
+    const modelInput = new Float32Array(audioFeatures);
+    let startCompute = performance.now();
+    const modelOutput = await rnnoise.compute(rnmodel, modelInput);
+    let startPostProcessing = performance.now();
+    const audioData = audioProcesser.postProcessing(modelOutput);
+    const audioBuffer = new Float32Array(audioData);
+    let endProcessing = performance.now();
+    controller.enqueue(new AudioData({
+      format,
+      sampleRate: data.sampleRate,
+      numberOfFrames: data.numberOfFrames,
+      numberOfChannels: data.numberOfChannels,
+      timestamp: data.timestamp,
+      data: audioBuffer
+    }));
+    const preProcessingTime = (startCompute - startPreProcessing).toFixed(2);
+    const computeTime = (startPostProcessing - startCompute).toFixed(2);
+    const postProcessingTime = (endProcessing - startPostProcessing).toFixed(2);
+    console.log(
+      `preProcessingTime time: ${preProcessingTime} ms  ` +
+      `computeTime time: ${computeTime} ms  ` +
+      `postProcessingTime time: ${postProcessingTime} ms`
+    );
+    $('#nsspanprep').html(preProcessingTime);
+    $('#nsspaninference').html(computeTime);
+    $('#nsspanpostp').html(postProcessingTime);
+  };
+}
+
 const getProcessedStream = () => {
   processedstream = outputcanvas.captureStream();
+  // const audiotrack = stream.getAudioTracks()[0];
+  // processedstream.addTrack(audiotrack);
+};
+
+async function originalAudio() {
+  try {
+    abortController.abort();
+    abortController = null;
+  } catch (ex) {
+    console.log(ex)
+  }
+  denoisemode = false
   const audiotrack = stream.getAudioTracks()[0];
   processedstream.addTrack(audiotrack);
-};
+}
+
+async function denoise() {
+  denoisemode = true
+  const audiotrack = stream.getAudioTracks()[0];
+  processor = new MediaStreamTrackProcessor(audiotrack);
+  generator = new MediaStreamTrackGenerator('audio');
+  const source = processor.readable;
+  const sink = generator.writable;
+  console.log(processor)
+  console.log(source)
+  transformer = new TransformStream({ transform: denoiseFilter() });
+  abortController = new AbortController();
+  const signal = abortController.signal;
+  const promise = source.pipeThrough(transformer, { signal }).pipeTo(sink);
+  promise.catch((e) => {
+    if (signal.aborted) {
+      console.log('Shutting down streams after abort.');
+    } else {
+      console.error('Error from stream transform:', e);
+    }
+    source.cancel(e);
+    sink.abort(e);
+  });
+  processedstream.addTrack(generator);
+}
+
+// async function stop() {
+//   stopButton.disabled = true;
+//   audio.pause();
+//   audio.srcObject = null;
+//   stream.getTracks().forEach(track => {
+//     track.stop();
+//   });
+//   if (denoiseMode) {
+//     abortController.abort();
+//     abortController = null;
+//     denoiseMode = false;
+//   }
+//   originalButton.disabled = false;
+//   denoiseButton.disabled = false;
+// }
+
 
 $(".bgselector").each(function () {
   $(this).on("click", function (e) {

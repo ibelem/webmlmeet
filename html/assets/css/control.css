@@ -54,6 +54,18 @@
   color: white;
 }
 
+#tns svg path {
+  fill: var(--text-color);
+}
+
+#tns.act svg path {
+  fill: rgba(204, 255, 144, 1);
+}
+
+#tns.disabled svg path {
+  fill: rgb(255, 255, 255, 0.2);
+}
+
 .button.act {
   border-color: rgba(204, 255, 144, 1);
 }

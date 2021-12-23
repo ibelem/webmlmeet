@@ -142,28 +142,50 @@
                       ></path>
                     </svg>
                   </div>
-                  <div class="cp-fps">
-                    <div id="fps"></div>
-                    <div id="fpsnote">FPS</div>
-                  </div>
-                  <div class="cp-fps">
-                    <div id="inference">
-                      <span id="spaninference"></span> ms
+                  <div id="ss-panel" style="display: none;">
+                    <div class="cp-fps">
+                      <div id="fps"></div>
+                      <div id="fpsnote">FPS</div>
                     </div>
-                    <div id="inferencenote">Inference Time</div>
+                    <div class="cp-fps">
+                      <div id="inference">
+                        <span id="spaninference"></span> ms
+                      </div>
+                      <div id="inferencenote">Inference Time</div>
+                    </div>
+                    <!-- <div class="cp-fps">
+                      <div id="cpus"></div>
+                      <div id="fpsnote">CPU Speed</div>
+                    </div>
+                    <div class="cp-fps" title="CPU Utilization">
+                      <div id="cpuu"></div>
+                      <div id="fpsnote">CPU UTE</div>
+                    </div> -->
+                    <div class="cp-fps">
+                      <div id="model"></div>
+                    </div>
                   </div>
-                  <!-- <div class="cp-fps">
-                    <div id="cpus"></div>
-                    <div id="fpsnote">CPU Speed</div>
+                  <div id="ns-panel" style="display: none;">
+                    <div class="cp-fps" title="Niose suppression preprocessing time">
+                      <div id="nsprep">
+                        <span id="nsspanprep"></span> ms
+                      </div>
+                      <div id="nsprepnote">NS PreProcessing</div>
+                    </div>
+                    <div class="cp-fps" title="Niose suppression inference time">
+                      <div id="nsinference">
+                        <span id="nsspaninference"></span> ms
+                      </div>
+                      <div id="nsinferencenote">NS Inference Time</div>
+                    </div>
+                    <div class="cp-fps" title="Niose suppression postprocessing time">
+                      <div id="nspostp">
+                        <span id="nsspanpostp"></span> ms
+                      </div>
+                      <div id="nspostpnote">NS PostProcessing</div>
+                    </div>
                   </div>
-                  <div class="cp-fps" title="CPU Utilization">
-                    <div id="cpuu"></div>
-                    <div id="fpsnote">CPU UTE</div>
-                  </div> -->
-                  <div class="cp-fps">
-                    <div id="model"></div>
-                  </div>
-                </div>
+                </div>  
                 <div class='cleft'>
                   <div class="circle">
                     <div class="outer"></div>
@@ -273,6 +295,12 @@
     <script src="../assets/js/owt/adapter-7.0.0.js" type="text/javascript"></script>
     <script src="../assets/js/owt/owt.js" type="text/javascript"></script>
     <script src="../assets/js/rest.sample.js" type="text/javascript"></script>
+
+    <script src="../assets/js/onnx/ort.min.js" type="text/javascript"></script>
+    <script src="../assets/js/onnx/rnnoise/rnnoise_onnx.js" type="text/javascript"></script>
+    <script src="../assets/js/onnx/rnnoise/processer.js" type="text/javascript"></script>
+    <script src="../assets/js/onnx/rnnoise/process/process.js" type="text/javascript"></script>
+
     <script src="../assets/js/meet.js" type="text/javascript"></script>
     <script src="../assets/js/tflite/tf.min.js"></script>
 
@@ -284,7 +312,6 @@
     <script src="../assets/js/tflite/lib/webgl2/resizingStage.js" type="text/javascript"></script>
     <script src="../assets/js/tflite/lib/webgl2/webgl2Pipeline.js" type="text/javascript"></script>
 
-    <script src="../assets/js/onnx/ort.min.js" type="text/javascript"></script>
     <script src="../assets/js/onnx/deeplab/deeplabv3_mnv2_onnx.js" type="text/javascript"></script>
     <script src="../assets/js/tflite/numpy.js" type="text/javascript"></script>
     <script src="../assets/js/tflite/utils.js" type="text/javascript"></script>

@@ -1,20 +1,17 @@
-import { Processer } from './processer.js';
-import { RNNoiseONNX } from './rnnoise_onnx.js';
-
 const rnnoise = new RNNoiseONNX();
 const audioProcesser = new Processer(rnnoise.steps);
 
-// Dynamically load the DSP library (Wasm).
-const wasmScript = document.createElement('script');
-wasmScript.type = 'text/javascript';
-wasmScript.onload = function () {
-  console.log('DSP library (Wasm) Preparing ...');
-  Module.onRuntimeInitialized = function () {
-    console.log('DSP library (Wasm) Loaded.');
-  };
-};
-wasmScript.src = 'process/process.js';
-document.getElementsByTagName('head')[0].appendChild(wasmScript);
+// // Dynamically load the DSP library (Wasm).
+// const wasmScript = document.createElement('script');
+// wasmScript.type = 'text/javascript';
+// wasmScript.onload = function () {
+//   console.log('DSP library (Wasm) Preparing ...');
+//   Module.onRuntimeInitialized = function () {
+//     console.log('DSP library (Wasm) Loaded.');
+//   };
+// };
+// wasmScript.src = 'process/process.js';
+// document.getElementsByTagName('head')[0].appendChild(wasmScript);
 
 // Global MediaStreamTrackProcessor, MediaStreamTrackGenerator, AudioData.
 if (typeof MediaStreamTrackProcessor === 'undefined' ||
@@ -34,7 +31,7 @@ if (typeof AudioData === 'undefined') {
 }
 
 // RNNoise inference session 
-let model;
+let rnmodel;
 // Audio element
 let audio;
 // Buttons
@@ -65,7 +62,7 @@ async function init() {
   stopButton.onclick = stop;
   denoiseButton.onclick = denoise;
 
-  model = await rnnoise.load();
+  rnmodel = await rnnoise.load();
 }
 
 const constraints = window.constraints = {
@@ -84,7 +81,7 @@ function denoiseFilter() {
     const audioFeatures = audioProcesser.preProcessing(inputBuffer);
     const modelInput = new Float32Array(audioFeatures);
     let startCompute = performance.now();
-    const modelOutput = await rnnoise.compute(model, modelInput);
+    const modelOutput = await rnnoise.compute(rnmodel, modelInput);
     let startPostProcessing = performance.now();
     const audioData = audioProcesser.postProcessing(modelOutput);
     const audioBuffer = new Float32Array(audioData);
@@ -184,5 +181,3 @@ async function stop() {
   originalButton.disabled = false;
   denoiseButton.disabled = false;
 }
-
-window.onload = init;

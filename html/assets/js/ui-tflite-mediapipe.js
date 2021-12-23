@@ -75,7 +75,7 @@ const toggleBBUI = () => {
     }
   }
 
-const exit = () => {
+const exitMeeting = () => {
     userExit();
     location.href = '../index.html';
 }

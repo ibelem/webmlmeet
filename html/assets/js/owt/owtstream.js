@@ -48,10 +48,15 @@ const oneWebMeetOWT = async () => {
   backgroundType = "blur"
   continueinputvideo = true
   await videoCanvasOnFrame();
+
+  await nsLoad();
   getProcessedStream();
+  await originalAudio();
+  // await denoise();
   initConference();
   userMarquee();
   ssLoad();
+
 
   // if(parsePathnameBackend().toLowerCase() === 'webnn' && parseSearchParams("ds") === "1") {
   //   console.log("^^^^^^^^^^^^^^^^^ WIN ^^^^^^^^^^^^^^^^^^^^")

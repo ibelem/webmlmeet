@@ -28,18 +28,26 @@ class RNNoiseONNX {
 
   async load() {
     // Override path of wasm files - for each file
+    
     ort.env.wasm.wasmPaths = {
-      'ort-wasm.wasm': location.pathname + 'onnxruntime-web/js/web/dist/ort-wasm.wasm',
-      'ort-wasm-simd.wasm': location.pathname + 'onnxruntime-web/js/web/dist/ort-wasm-simd.wasm',
-      'ort-wasm-threaded.wasm': location.pathname + 'onnxruntime-web/js/web/dist/ort-wasm-threaded.wasm',
-      'ort-wasm-simd-threaded.wasm': location.pathname + 'onnxruntime-web/js/web/dist/ort-wasm-simd-threaded.wasm'
+      'ort-wasm.wasm': '../../../js/onnx/ort-wasm.wasm',
+      'ort-wasm-simd.wasm': '../../../js/onnx/ort-wasm-simd.wasm',
+      'ort-wasm-threaded.wasm': '../../../js/onnx/ort-wasm-threaded.wasm',
+      'ort-wasm-simd-threaded.wasm': '../../../js/onnx/ort-wasm-simd-threaded.wasm'
     };
     ort.env.wasm.numThreads = 0; // Number of thread(s) will be determined by system.
     ort.env.wasm.simd = true; // Enable SIMD.
+
+    if(backend === "webnn") {
+      ort.env.wasm.numThreads = 1;
+    }
+
     // Create the model runner with the model.
-    const model = './onnxruntime-web/rnnoise_proto.onnx';
-    const sessionOption = { executionProviders: ['wasm'] };
-    const session = ort.InferenceSession.create(model, sessionOption);
+    const model = '../../../../assets/models/rnnoise/rnnoise_proto.onnx';
+    const session = ort.InferenceSession.create(model, {
+      executionProviders: ['wasm', {name: backend, devicePreference: ds}], 
+      logSeverityLevel: 0 
+    });
     return session;
   }
 
@@ -53,6 +61,7 @@ class RNNoiseONNX {
       'denoise_initial_h': this.denoiseGruInitialH
     };
     // Feed inputs and run
+
     const results = await session.run(feeds);
 
     // Read from results

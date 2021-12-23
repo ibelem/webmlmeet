@@ -32,7 +32,7 @@ $(".mega-menu").on("mouseleave", function () {
   $(".mega-menu").fadeOut()
 })
 
-const exit = () => {
+const exitMeeting = () => {
     userExit();
     location.href = '../index.html';
 }
@@ -41,20 +41,25 @@ const toggleBBUI = () => {
   $("#bboff").toggleClass("block")
   $("#bbon").toggleClass("block")
   $("#tbb").toggleClass("act")
+  if (!isns) $("#ns-panel").hide()
 
   isbb = !isbb
 
   if (isbb) {
     $("#control-panel").fadeIn()
+    $("#ss-panel").show()
     showModelInfo()
     isSS = true
     effect = "blur"
     ssConfig(isSS, effect)
   } 
   if (!isbr && !isbb) {
-    $("#control-panel").fadeOut()
+    $("#ss-panel").hide()
     isSS = false
     ssConfig(isSS, effect)
+  }
+  if (!isbr && !isbb && !isns) {
+    $("#control-panel").fadeOut()
   }
 }
 
@@ -74,18 +79,54 @@ const toggleBRUI = () => {
     $("#ic").addClass('norightbar')
     $("#right-bar").hide()
   }
+
+  if (!isns) $("#ns-panel").hide()
   isbr = !isbr
 
   if (isbr) {
     $("#control-panel").fadeIn()
+    $("#ss-panel").show()
     showModelInfo()
     isSS = true
     effect = "image"
     ssConfig(isSS, effect)
   } 
   if (!isbr && !isbb) {
-    $("#control-panel").fadeOut()
+    $("#ss-panel").hide()
     isSS = false
     ssConfig(isSS, effect)
   }
+  if (!isbr && !isbb && !isns) {
+    $("#control-panel").fadeOut()
+  }
+}
+
+const toggleNSUI = async () => {
+  $("#nsoff").toggleClass("block")
+  $("#nson").toggleClass("block")
+  $("#tns").toggleClass("act")
+  if (!isbr && !isbb) {
+    $("#ss-panel").hide()
+  }
+
+  isns = !isns
+
+  if (isns) {
+    await denoise()
+    if(isbb || isbr || isns) {
+      $("#control-panel").fadeIn()
+    }    
+    $("#ns-panel").show()
+    // showModelInfo()
+    // isSS = true
+    // effect = "blur"
+    // ssConfig(isSS, effect)
+  } else {
+    await originalAudio()
+    $("#ns-panel").hide()
+    if (!isbr && !isbb && !isns) {
+      $("#control-panel").fadeOut()
+    }
+  }
+   
 }

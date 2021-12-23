@@ -99,20 +99,20 @@ async function ssLoad() {
       isFirstTimeLoad = false;
       console.log(`- Model name: ${modelName}, Model layout: ${layout} -`);
       // UI shows model loading progress
-      console.log('- Loading model... -');
+      console.log('- Loading DL model... -');
       start = performance.now();
       modelRunner = await netInstance.load();
       loadTime = (performance.now() - start).toFixed(2);
       console.log(`  done in ${loadTime} ms.`);
       // UI shows model building progress
-      $("#modelloadstatus").html('Model Loaded');
+      $("#modelloadstatus").html('DL Model Loaded');
       $("#tbb").prop('disabled', false);
       $("#tbr").prop('disabled', false);
       $("#tbb").removeClass('disabled');
       $("#tbr").removeClass('disabled');
     }
   } catch (error) {
-    $("#modelloadstatus").html('Failed to Load Model');
+    $("#modelloadstatus").html('Failed to Load DL Model');
     $("#tbb").prop('disabled', true);
     $("#tbr").prop('disabled', true);
     $("#tbb").addClass('disabled');

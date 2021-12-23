@@ -42,7 +42,9 @@ class DeepLabV3MNV2ONNX {
     }
   
     const session = await ort.InferenceSession.create(model,  {
-      executionProviders: ['wasm', {name: backend, devicePreference: ds}], logSeverityLevel: 0 });
+      executionProviders: ['wasm', {name: backend, devicePreference: ds}], 
+      logSeverityLevel: 0 
+    });
     return session;
   }
 

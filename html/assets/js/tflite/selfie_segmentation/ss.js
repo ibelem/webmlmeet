@@ -103,14 +103,17 @@ async function ssLoad() {
       isFirstTimeLoad = false;
       console.log(`- Model name: ${modelName}, Model layout: ${layout} -`);
       // UI shows model loading progress
-      console.log('- Loading model... -');
+      console.log('- Loading SS model... -');
       start = performance.now();
       modelRunner = await netInstance.load();
       loadTime = (performance.now() - start).toFixed(2);
       console.log(`  done in ${loadTime} ms.`);
       // UI shows model building progress
+
+      $("#modelloadstatus").html('SS Model Loaded');
     }
   } catch (error) {
+    $("#modelloadstatus").html('Failed to Load SS Model');
     console.log(error);
   }
 }
