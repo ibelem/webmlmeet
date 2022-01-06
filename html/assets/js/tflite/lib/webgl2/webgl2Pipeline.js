@@ -13,7 +13,10 @@ function buildWebGL2Pipeline(
     }
   `;
 
-  const {width: frameWidth, height: frameHeight} = sourcePlayback;
+  // const {width: frameWidth, height: frameHeight} = sourcePlayback;
+  const frameWidth = sourcePlayback.width || sourcePlayback.displayWidth;
+  const frameHeight = sourcePlayback.height || sourcePlayback.displayHeight;
+
   const [segmentationWidth, segmentationHeight] = inputResolution;
 
   const gl = canvas.getContext('webgl2');
