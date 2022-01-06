@@ -31,14 +31,20 @@ function stopCamera() {
  * This method is used to render live camera tab.
  */
 async function renderCamStream() {
+  // If the video element's readyState is 0, the video's width and height are 0.
+  // So check the readState here to make sure it is greater than 0.
+  // if(inputvideo.readyState === 0) {
+  //   rafReq = requestAnimationFrame(renderCamStream);
+  //   return;
+  // }
   const inputBuffer = getInputTensor(inputvideo, inputOptions);
+  const inputCanvas = getVideoFrame(inputvideo);
   console.log('- Computing... -');
   const start = performance.now();
   outputBuffer = await netInstance.compute(modelRunner, inputBuffer);
   computeTime = (performance.now() - start).toFixed(2);
   console.log(`  done in ${computeTime} ms.`);
-  await drawOutput(outputBuffer, inputvideo);
-
+  await drawOutput(outputBuffer, inputCanvas);
   // rafReq = requestAnimationFrame(renderCamStream);
  
   if(continueAnimating)
@@ -65,8 +71,8 @@ async function drawOutput(outputBuffer, srcElement) {
     });
   }
   console.log('output: ', outputBuffer);
-  outputcanvas.width = srcElement.naturalWidth | srcElement.videoWidth;
-  outputcanvas.height = srcElement.naturalHeight | srcElement.videoHeight;
+  outputcanvas.width = srcElement.naturalWidth | srcElement.width;
+  outputcanvas.height = srcElement.naturalHeight | srcElement.height;
   const pipeline = buildWebGL2Pipeline(
     srcElement,
     backgroundImageSource,
@@ -124,7 +130,7 @@ async function ssLoad() {
 
 async function ssCompute() {
   try {
-    inputvideo.onloadedmediadata = await renderCamStream(); 
+    inputvideo.onloadeddata = await renderCamStream(); 
   } catch (error) {
     console.log(error);
   }

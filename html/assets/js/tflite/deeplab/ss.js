@@ -25,13 +25,18 @@ function stopCamera() {
 }
 
 async function renderCamStream() {
+  if(inputvideo.readyState === 0) {
+    rafReq = requestAnimationFrame(renderCamStream);
+    return;
+  }
   const inputBuffer = getInputTensor(inputvideo, inputOptions);
+  const inputCanvas = getVideoFrame(inputvideo);
   console.log('- Computing... ');
   const start = performance.now();
   outputBuffer = netInstance.compute(modelRunner, inputBuffer);
   computeTime = (performance.now() - start).toFixed(2);
   console.log(`  done in ${computeTime} ms.`);
-  await drawOutput(outputBuffer, inputvideo);
+  await drawOutput(outputBuffer, inputCanvas);
 
   if(continueAnimating)
   {
@@ -56,8 +61,8 @@ async function drawOutput(outputBuffer, srcElement) {
     });
   }
   console.log('output: ', outputBuffer);
-  outputcanvas.width = srcElement.naturalWidth | srcElement.videoWidth;
-  outputcanvas.height = srcElement.naturalHeight | srcElement.videoHeight;
+  outputcanvas.width = srcElement.naturalWidth | srcElement.width;
+  outputcanvas.height = srcElement.naturalHeight | srcElement.height;
   const pipeline = buildWebGL2Pipeline(
     srcElement,
     backgroundImageSource,
@@ -113,7 +118,7 @@ async function ssLoad() {
 
 async function ssCompute() {
   try {
-    inputvideo.onloadedmediadata = await renderCamStream();
+    inputvideo.onloadeddata = await renderCamStream();
   } catch (error) {
     console.log(error);
   }
