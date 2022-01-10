@@ -745,8 +745,10 @@ function denoiseFilter() {
 
 const getProcessedStream = () => {
   processedstream = outputcanvas.captureStream();
-  // const audiotrack = stream.getAudioTracks()[0];
-  // processedstream.addTrack(audiotrack);
+  if (location.pathname.indexOf('ort-dl') == -1) {
+    const audiotrack = stream.getAudioTracks()[0];
+    processedstream.addTrack(audiotrack);
+  }
 };
 
 async function originalAudio() {

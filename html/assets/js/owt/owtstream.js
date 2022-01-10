@@ -49,11 +49,17 @@ const oneWebMeetOWT = async () => {
   continueinputvideo = true
   await videoCanvasOnFrame();
 
-  await nsLoad();
-  getProcessedStream();
-  await originalAudio();
-  // await denoise();
-  initConference();
+  if (location.pathname.indexOf('ort-dl')>-1) {
+    await nsLoad();
+    getProcessedStream();
+    await originalAudio();
+    // await denoise();
+    initConference();
+  } else {
+    initConference();
+    getProcessedStream();
+  }
+
   userMarquee();
   ssLoad();
 
