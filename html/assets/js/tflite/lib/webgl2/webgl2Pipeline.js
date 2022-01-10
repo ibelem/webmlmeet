@@ -115,7 +115,7 @@ function buildWebGL2Pipeline(
   const render = async function() {
     // console.log(sourcePlayback.readyState)
     // console.log(sourcePlayback.webkitDecodedFrameCount)
-    if(sourcePlayback.readyState === 4 && sourcePlayback.webkitDecodedFrameCount) {
+    // if(sourcePlayback.readyState === 4 && sourcePlayback.webkitDecodedFrameCount) {
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -140,7 +140,7 @@ function buildWebGL2Pipeline(
       loadSegmentationStage.render();
       jointBilateralFilterStage.render();
       backgroundStage.render();
-    }
+    // }
   };
 
   const updatePostProcessingConfig = function(postProcessingConfig) {
