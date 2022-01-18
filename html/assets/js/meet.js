@@ -177,8 +177,10 @@ const nsLoad = async () => {
   try {
     rnmodel = await rnnoise.load();
     $("#modelloadstatus").html('NS Model Loaded');
-    $("#tns").prop('disabled', false);
-    $("#tns").removeClass('disabled');
+    if(!isPauseAudio) {
+      $("#tns").prop('disabled', false);
+      $("#tns").removeClass('disabled');
+    }
   } catch (error) {
     $("#modelloadstatus").html('Failed to Load Noise Suppression Model');
     $("#tns").prop('disabled', true);
@@ -745,10 +747,10 @@ function denoiseFilter() {
 
 const getProcessedStream = () => {
   processedstream = outputcanvas.captureStream();
-  if (location.pathname.indexOf('ort-dl') == -1) {
-    const audiotrack = stream.getAudioTracks()[0];
-    processedstream.addTrack(audiotrack);
-  }
+  // if (location.pathname.indexOf('ort-dl') == -1) {
+  //   const audiotrack = stream.getAudioTracks()[0];
+  //   processedstream.addTrack(audiotrack);
+  // }
 };
 
 async function originalAudio() {
@@ -761,6 +763,8 @@ async function originalAudio() {
   denoisemode = false
   const audiotrack = stream.getAudioTracks()[0];
   processedstream.addTrack(audiotrack);
+  console.log('============== audio processed =========')
+  console.log(processedstream.getAudioTracks()[0])
 }
 
 async function denoise() {
@@ -786,6 +790,10 @@ async function denoise() {
     sink.abort(e);
   });
   processedstream.addTrack(generator);
+  // localStream = new Owt.Base.LocalStream(
+  //   processedstream,
+  //   new Owt.Base.StreamSourceInfo("mic", "camera")
+  // );
 }
 
 // async function stop() {

@@ -102,31 +102,32 @@ const toggleBRUI = () => {
 }
 
 const toggleNSUI = async () => {
-  $("#nsoff").toggleClass("block")
-  $("#nson").toggleClass("block")
-  $("#tns").toggleClass("act")
-  if (!isbr && !isbb) {
-    $("#ss-panel").hide()
-  }
+  if(!isPauseAudio) {
+    $("#nsoff").toggleClass("block")
+    $("#nson").toggleClass("block")
+    $("#tns").toggleClass("act")
+    if (!isbr && !isbb) {
+      $("#ss-panel").hide()
+    }
 
-  isns = !isns
+    isns = !isns
 
-  if (isns) {
-    await denoise()
-    if(isbb || isbr || isns) {
-      $("#control-panel").fadeIn()
-    }    
-    $("#ns-panel").show()
-    // showModelInfo()
-    // isSS = true
-    // effect = "blur"
-    // ssConfig(isSS, effect)
-  } else {
-    await originalAudio()
-    $("#ns-panel").hide()
-    if (!isbr && !isbb && !isns) {
-      $("#control-panel").fadeOut()
+    if (isns) {
+      await denoise()
+      if(isbb || isbr || isns) {
+        $("#control-panel").fadeIn()
+      }    
+      $("#ns-panel").show()
+      // showModelInfo()
+      // isSS = true
+      // effect = "blur"
+      // ssConfig(isSS, effect)
+    } else {
+      await originalAudio()
+      $("#ns-panel").hide()
+      if (!isbr && !isbb && !isns) {
+        $("#control-panel").fadeOut()
+      }
     }
   }
-   
 }

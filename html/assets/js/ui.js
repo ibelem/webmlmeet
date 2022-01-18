@@ -52,6 +52,23 @@ const switchfullscreen = (e) => {
   $(e).parent().addClass("zerosize")
 }
 
+const toggleNS = () => {
+  if(!isPauseAudio) {
+    $("#tns").prop('disabled', true);
+    $("#tns").addClass("disabled");
+
+    if (isns) {
+      originalAudio()
+      isns = !isns
+      $("#ns-panel").hide()
+    }
+
+  } else {
+    $("#tns").prop('disabled', false);
+    $("#tns").removeClass("disabled");
+  }
+}
+
 $(document).ready(function () {
   $(".buttonset>a").click(function () {
     $(this).siblings("a").removeClass("selected")
@@ -59,6 +76,7 @@ $(document).ready(function () {
   })
 
   updateDocSize()
+  toggleNS()
 
   if (resolution.width == 1280) {
     $("#hd").css("display", "inline-block");
@@ -141,6 +159,7 @@ const toggleVideoUI = () => {
 const toggleAudioUI = () => {
   $("#tan").toggleClass("block")
   $("#tab").toggleClass("block")
+  toggleNS()
   toggleAudio()
 }
 
