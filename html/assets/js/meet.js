@@ -81,7 +81,7 @@ let ssmodelinfo = [{
 
 let isfullscreen = false
 
-let room = null;
+let room = null, pc;
 let roomId, myid;
 let processedstream;
 let localStream;
@@ -195,6 +195,7 @@ let createLocal = () => {
   );
 
   localId = localStream.id;
+
   room.publish(localStream).then((publication) => {
     localPublication = publication;
     isPauseAudio = false;
@@ -226,7 +227,8 @@ const initConference = () => {
       addRoomEventListener();
     }
     console.log('createToken1')
-    console.log(room)
+    console.log("============ room ==================")
+    console.log(room.peerConnection)
     room.join(token).then(resp => {
       // myid = resp.self.id
       console.log('createToken2')
@@ -393,7 +395,7 @@ const subscribeStream = (remotestream) => {
   });
 
   remotestream.addEventListener("updated", () => {
-    //
+    console.log('SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS')
   });
 };
 
@@ -754,6 +756,9 @@ const getProcessedStream = () => {
 };
 
 async function originalAudio() {
+  if (processedstream.getAudioTracks().length > 0) {
+    processedstream.removeTrack(processedstream.getAudioTracks()[0]);
+  }
   try {
     abortController.abort();
     abortController = null;
@@ -763,12 +768,21 @@ async function originalAudio() {
   denoisemode = false
   const audiotrack = stream.getAudioTracks()[0];
   processedstream.addTrack(audiotrack);
-  console.log('============== audio processed =========')
+  console.log('============== audio =========')
+  console.log(processedstream.getAudioTracks())
   console.log(processedstream.getAudioTracks()[0])
+  try {
+    console.log(processedstream.getAudioTracks()[0].constructor.name)
+  } catch (ex) {
+    
+  }
 }
 
 async function denoise() {
   denoisemode = true
+  if (processedstream.getAudioTracks().length > 0) {
+    processedstream.removeTrack(processedstream.getAudioTracks()[0]);
+  }
   const audiotrack = stream.getAudioTracks()[0];
   processor = new MediaStreamTrackProcessor(audiotrack);
   generator = new MediaStreamTrackGenerator('audio');
@@ -790,10 +804,16 @@ async function denoise() {
     sink.abort(e);
   });
   processedstream.addTrack(generator);
-  // localStream = new Owt.Base.LocalStream(
-  //   processedstream,
-  //   new Owt.Base.StreamSourceInfo("mic", "camera")
-  // );
+
+  console.log('============== audio processed aaa =========')
+  console.log(processedstream.getAudioTracks())
+  console.log(processedstream.getAudioTracks()[0])
+  try {
+    console.log(processedstream.getAudioTracks()[0].constructor.name)
+  } catch (ex) {
+
+  }
+
 }
 
 // async function stop() {
