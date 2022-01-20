@@ -381,7 +381,7 @@ const subscribeStream = (remotestream) => {
         });
       }
 
-      addVideo(remotestream, getUserFromId(remotestream.origin).userId)
+      addVideo(subscription, remotestream, getUserFromId(remotestream.origin).userId)
 
     },
     (err) => {
@@ -395,11 +395,11 @@ const subscribeStream = (remotestream) => {
   });
 
   remotestream.addEventListener("updated", () => {
-    console.log('SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS')
+    
   });
 };
 
-function addVideo(remotestream, username) {
+function addVideo(subscription, remotestream, username) {
   let usernametag = ''
   if(username) {
     usernametag = `<div class="username">${username}</div><div class="usernamefs">${username}</div>`
@@ -427,7 +427,7 @@ function addVideo(remotestream, username) {
   );
   $("#video-panel").append($video);
   let vid = "#v" + remotestream.id;
-  document.querySelector(vid).srcObject = remotestream.mediaStream;
+  document.querySelector(vid).srcObject = subscription.stream;
 
   userMarquee();
 }
@@ -572,11 +572,15 @@ function addRoomEventListener() {
       console.log('localScreenId: '+ localScreenId  + '!=='  + stream.id)
       console.log('localname: '+ localname + ' !== getUserFromId(stream.origin).userId: ' + getUserFromId(stream.origin).userId)
 
-      if (localId !== stream.id && localScreenId !== stream.id && localname !== getUserFromId(stream.origin).userId) {
-        console.log('add video')
-        subscribeStream(stream);
+      try {
+        if (localId !== stream.id && localScreenId !== stream.id && localname !== getUserFromId(stream.origin).userId) {
+          console.log('add video')
+          subscribeStream(stream);
+        }
+      } catch(ex) {
+        console.warn("= $$$$$$$$$$$$$$ =")
+        console.warn(ex)
       }
-
     }
 
     // mixStream(room, stream.id, "common");
