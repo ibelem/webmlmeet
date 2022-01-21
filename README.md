@@ -3,43 +3,47 @@ A Web Intelligent Collaboration (Video Conference) demo with AI features based o
 
 > [Web Neural Network (WebNN) API](https://webmachinelearning.github.io/webnn/) is a dedicated low-level API for neural network inference hardware acceleration. It is published by the [W3C Machine Learning for the Web Community Group](https://www.w3.org/community/webmachinelearning/).
 
-## Web Machine Learning Features
+## Features 
+
+### Web Machine Learning Features
 
 - Background blur
 - Background replacement
 - Noise suppression
 - More to come
 
-## Normal Video Conference Features
+### Normal Video Conference Features
 
 - Video and audio
 - Screen sharing
 - Conversation / Text message
 - ...
 
-## Screenshot
+### Screenshot
 
 <img src="doc/screenshot1.png" alt="WebNN Meeting" width="60%">
 <img src="doc/screenshot2.png" alt="WebNN Meeting" width="60%">
 
-## Supported Backends for Web Machine Learning Features
+### Supported Backends for Web Machine Learning Features
 
 - Slowest: WebAssembly (Wasm) + SIMD
 - Fastest: Web Neural Network (WebNN) API
 
 Mordern browsers including Google Chrome doesn't support WebNN API now, you can try Wasm backend automatically with your browser. 
 
-## Web Machine Learning JavaScript Frameworks
+### Web Machine Learning JavaScript Frameworks
 
 - [TensorFlow Lite Web](https://github.com/tensorflow/tfjs/tree/master/tfjs-tflite) +/- [MediaPipe in JavaScript](https://google.github.io/mediapipe/getting_started/javascript)
 - [TensorFlow.js](https://www.tensorflow.org/js)
 - [ONNX Runtime Web](https://github.com/microsoft/onnxruntime/tree/master/js/web#readme)
 
-## Precondition - Intel Open WebRTC Toolkit (OWT) Server Setup
+## Precondition and Setup
+
+### Intel Open WebRTC Toolkit (OWT) Server Setup
 
 The WebNN Meeting requires WebRTC server support, please read [Server Setup](doc/Server.md) for setting up Intel Open WebRTC Toolkit (OWT) Server on CentOS* 7.6 or Ubuntu 18.04 LTS.
 
-## HTTPS Configuration
+### HTTPS Configuration
 
 Go to project main dir like `/home/belem/github/webnnmeeting` and create private and public key, the certificate path need to be filled in `certificate`.`key` and `certificate`.`cert` of `config.js`.
 
@@ -49,7 +53,7 @@ $ chmod 400 webnnmeeting.key
 $ openssl req -new -x509 -nodes -sha256 -days 365 -key webnnmeeting.key -out webnnmeeting.crt
 ```
 
-## Environment Configuration
+### Environment Configuration
 
 Please update configurations in `config.js` under main folder.
 
@@ -79,18 +83,18 @@ key: fs.readFileSync('cert/webmlmeet.key'),
 ```
 
 
-## Build Setup and Run
+### Build
 
 ``` bash
 $ npm install
 $ node meetingserver.js 
 ```
 
-## Port Conflict
+### Port Conflict
 
 If error happens related to port conflict, you could change ports in `config.js`.
 
-## How to Run
+### How to Run
 
 If you are running the code locally, the browser will show "Your connection is not private" when accessing Intel OWT server and WebNN Meeting web pages.
 
@@ -107,11 +111,13 @@ Once you are using macOS and it says "Your connection is not private", click som
 
 The License of oneWebMeet is Apache 2.0.
 
-## Code Hacks
+## Code
+
+### Hacks
 
 There are some code hacks in Intel Open WebRTC Toolkit (OWT), please refer to [code hacks](doc/CodeHacks.md).
 
-## Error Handling
+### Error Handling
 
 If you encounter the error `ENOSPC: System limit for number of file watchers reached, watch`  when build the project on Ubuntu, please try: 
 
@@ -123,23 +129,23 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
 
 This project is using several latest W3C Web APIs implemented in morden browsers.
 
-### [Open WebRTC Toolkit JavaScript SDK 5.1+](https://github.com/open-webrtc-toolkit/owt-client-javascript)
+[Open WebRTC Toolkit JavaScript SDK 5.1+](https://github.com/open-webrtc-toolkit/owt-client-javascript)
 
-### [W3C WebRTC 1.0: Real-Time Communication Between Browsers](https://w3c.github.io/webrtc-pc/)
+[W3C WebRTC 1.0: Real-Time Communication Between Browsers](https://w3c.github.io/webrtc-pc/)
 
 | API  | Chrome |
 | ------------- | ------------- |
 | `RTCPeerConnection`  | 97  |
 | `RTCRtpTransceiver` | 97 |
 
-### [W3C MediaStreamTrack Insertable Media Processing using Streams](https://w3c.github.io/mediacapture-transform/)
+[W3C MediaStreamTrack Insertable Media Processing using Streams](https://w3c.github.io/mediacapture-transform/)
 
 | API  | Chrome |
 | ------------- | ------------- |
 | `MediaStreamTrackProcessor`  | 97 |
 | `MediaStreamTrackGenerator`  | The version that the WebRTC WG is [currently iterating](https://github.com/webmachinelearning/webnn/issues/226) on for MediaStreamTrackGenerator is slightly different from what Chrome 87 implements |
 
-### [W3C Web Neural Network API](https://webmachinelearning.github.io/webnn/)
+[W3C Web Neural Network API](https://webmachinelearning.github.io/webnn/)
 
 | API  | Chrome |
 | ------------- | ------------- |
