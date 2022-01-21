@@ -82,7 +82,6 @@ cert: fs.readFileSync('cert/webmlmeet.crt'),
 key: fs.readFileSync('cert/webmlmeet.key'),
 ```
 
-
 ### Build
 
 ``` bash
@@ -111,9 +110,9 @@ Once you are using macOS and it says "Your connection is not private", click som
 
 The License of oneWebMeet is Apache 2.0.
 
-## Code
+## Code and Errors
 
-### Hacks
+### Code Hacks
 
 There are some code hacks in Intel Open WebRTC Toolkit (OWT), please refer to [code hacks](doc/CodeHacks.md).
 
