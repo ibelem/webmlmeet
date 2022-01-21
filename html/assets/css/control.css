@@ -125,6 +125,17 @@
   text-transform: uppercase;
 }
 
+.counter .hdnone {
+  border: 1px solid var(--border-color);
+  margin-left: 8px;
+  padding: 1px 6px;
+  display: none;
+  color: rgba(204, 255, 144, 1);
+  font-size: 0.6rem;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+
 .counter .hd:last-child {
   margin-left: 0rem;
 }

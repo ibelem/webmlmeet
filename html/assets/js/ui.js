@@ -62,7 +62,6 @@ const toggleNS = () => {
       isns = !isns
       $("#ns-panel").hide()
     }
-
   } else {
     $("#tns").prop('disabled', false);
     $("#tns").removeClass("disabled");
@@ -161,6 +160,13 @@ const toggleAudioUI = () => {
   $("#tab").toggleClass("block")
   toggleNS()
   toggleAudio()
+  if (!isPauseAudio) {
+    $("#mstracklabel").removeClass("hd")
+    $("#mstracklabel").addClass("hdnone")
+   } else {
+    $("#mstracklabel").removeClass("hdnone")
+    $("#mstracklabel").addClass("hd")
+   }
 }
 
 $("#rbclose").on("click", function () {

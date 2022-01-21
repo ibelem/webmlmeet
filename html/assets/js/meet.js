@@ -747,7 +747,7 @@ async function originalAudio() {
   processedstream.addTrack(audiotrack);
   l('============== audio =========')
   l(processedstream.getAudioTracks())
-
+  $("#mstracklabel").html(processedstream.getAudioTracks()[0].label.toLowerCase().replace('default - ', ''));
   if (audiotransceiver) {
     audiotransceiver.sender.replaceTrack(audiotrack);
   }
@@ -779,7 +779,14 @@ async function denoise() {
   processedstream.addTrack(generator);
   l('============== audio processed =========')
   l(processedstream.getAudioTracks())
-  audiotransceiver.sender.replaceTrack(generator);
+  if(processedstream.getAudioTracks()[0].writable) {
+    $("#mstracklabel").html(processedstream.getAudioTracks()[0].writable);
+  } else {
+    $("#mstracklabel").html(processedstream.getAudioTracks()[0].label.toLowerCase());
+  }
+  if (audiotransceiver) {
+    audiotransceiver.sender.replaceTrack(generator);
+  }
 }
 
 // async function stop() {
