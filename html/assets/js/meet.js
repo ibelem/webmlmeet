@@ -35,13 +35,13 @@ if(modelname === "ss" && mi === "ssl") model = "1"
 if(modelname === "dl" && mi === "3") model = "2"
 if(modelname === "dl" && mi === "5") model = "3"
 
-// console.log("***********************************************")
-// console.log(backend)
-// console.log(modelname)
-// console.log(mi)
-// console.log(ds)
-// console.log(model)
-// console.log("***********************************************")
+// l("***********************************************")
+// l(backend)
+// l(modelname)
+// l(mi)
+// l(ds)
+// l(model)
+// l("***********************************************")
 
 let ssmodelinfo = [{
     id: 0,
@@ -81,7 +81,7 @@ let ssmodelinfo = [{
 
 let isfullscreen = false
 
-let room = null, pc;
+let room = null, pc, videotransceiver, audiotransceiver;
 let roomId, myid;
 let processedstream;
 let localStream;
@@ -98,6 +98,7 @@ let avTrackConstraint = {
     source: "camera",
   },
 };
+
 let isPauseAudio = true;
 let isPauseVideo = false;
 let isAudioOnly = false;
@@ -114,6 +115,10 @@ let localname = "user";
 let start, end, delta;
 let spaninference = $("#spaninference")
 
+const l = (msg) => {
+  console.log(msg);
+} 
+
 const rnnoise = new RNNoiseONNX();
 const audioProcesser = new Processer(rnnoise.steps);
 
@@ -121,9 +126,9 @@ const audioProcesser = new Processer(rnnoise.steps);
 // const wasmScript = document.createElement('script');
 // wasmScript.type = 'text/javascript';
 // wasmScript.onload = function () {
-//   console.log('DSP library (Wasm) Preparing ...');
+//   l('DSP library (Wasm) Preparing ...');
 //   Module.onRuntimeInitialized = function () {
-//     console.log('DSP library (Wasm) Loaded.');
+//     l('DSP library (Wasm) Loaded.');
 //   };
 // };
 // wasmScript.src = 'process/process.js';
@@ -138,7 +143,7 @@ if (typeof MediaStreamTrackProcessor === 'undefined' ||
 }
 try {
   new MediaStreamTrackGenerator('audio');
-  console.log('Audio insertable streams supported.');
+  l('Audio insertable streams supported.');
 } catch (e) {
   alert('Your browser does not support insertable audio streams.');
 }
@@ -188,7 +193,7 @@ const nsLoad = async () => {
   }
 }
 
-let createLocal = () => {
+let createLocal = async () => {
   localStream = new Owt.Base.LocalStream(
     processedstream,
     new Owt.Base.StreamSourceInfo("mic", "camera")
@@ -196,46 +201,45 @@ let createLocal = () => {
 
   localId = localStream.id;
 
-  room.publish(localStream).then((publication) => {
-    localPublication = publication;
-    isPauseAudio = false;
-    toggleAudio();
-    isPauseVideo = true;
-    toggleVideo();
-    mixStream(roomId, localPublication.id, "common");
-    console.info('publish success');
-    publication.addEventListener("error", (err) => {
-      console.log("Publication error: " + err.error.message);
-    });
+  pc = room.peerConnection;
+  l(pc)
+  videotransceiver = pc.addTransceiver(processedstream.getVideoTracks()[0], { direction: "sendonly", streams: [stream] });
+  audiotransceiver = pc.addTransceiver(processedstream.getAudioTracks()[0], { direction: "sendonly", streams: [stream] });
+
+  let publication = await room.publish(localStream, [videotransceiver, audiotransceiver])
+  
+  localPublication = publication;
+
+  isPauseAudio = false;
+  toggleAudio();
+  isPauseVideo = true;
+  toggleVideo();
+  
+  mixStream(roomId, localPublication.id, "common");
+  console.info('publish success');
+  publication.addEventListener("error", (err) => {
+    l("Publication error: " + err.error.message);
   });
+ 
 }
 
 const initConference = () => {
-  // resolution = { width: 320, height: 240 };
-  // if ($("#login-480").hasClass("selected")) {
-  //   resolution = { width: 640, height: 480 };
-  // } else if ($("#login-720").hasClass("selected")) {
-  //   resolution = { width: 1280, height: 720 };
-  // }
-
   createToken(roomId, localname, "presenter", function (response) {
-    console.log('createToken0')
+    l('createToken0')
     let token = response;
-    console.log(token)
+    l(token)
     if (!room) {
       room = new Owt.Conference.ConferenceClient();
       addRoomEventListener();
     }
-    console.log('createToken1')
-    console.log("============ room ==================")
-    console.log(room.peerConnection)
+    l('createToken1')
     room.join(token).then(resp => {
       // myid = resp.self.id
-      console.log('createToken2')
+      l('createToken2')
       roomId = resp.id;
       let getLoginUsers = resp.participants;
       let streams = resp.remoteStreams;
-      console.log(users)
+      l(users)
       getLoginUsers.map(function(participant){
         participant.addEventListener('left', () => {
           //TODO:send message for notice everyone the participant has left maybe no need
@@ -246,28 +250,29 @@ const initConference = () => {
           userId: participant.userId,
           role: participant.role
         });
-        console.log(users)
+        l(users)
       });
       loadUserList();
       createLocal();
 
       for (const stream of streams) {
-        console.log("stream.source.video: " + stream.source.video)
+        l("stream.source.video: " + stream.source.video)
         if (stream.source.audio !== "mixed" || stream.source.video === 'screen-cast' ) {
           
-          console.log("stream.source.video:" + stream.source.video)
+          l("stream.source.video:" + stream.source.video)
           subscribeStream(stream);
         }
       }
 
-      // console.log("Streams in conference:", streams.length);
-      // console.log("Participants in conference: " + resp.participants.length);
-      // console.log("Participants: ");
-      // console.log(resp.participants);
+      // l("Streams in conference:", streams.length);
+      // l("Participants in conference: " + resp.participants.length);
+      // l("Participants: ");
+      // l(resp.participants);
 
       // document.querySelector("#pnumber").innerHTML = resp.participants.length
+
     }, err => {
-      console.log("server connect failed: " + err.message);
+      l("server connect failed: " + err.message);
 
       const certmessage =
       `No remote camera stream show in page (caused by certificate in test
@@ -363,16 +368,16 @@ const toggleAudio = () => {
 }
 
 const subscribeStream = (remotestream) => {
-  console.log("-- remotestream.source.video -- 1 --")
-  console.log(remotestream.source.video)
+  l("-- remotestream.source.video -- 1 --")
+  l(remotestream.source.video)
 
   let videoOption = !isAudioOnly;
 
   room.subscribe(remotestream, {video: videoOption}).then(
     (subscription) => {
       subList[subscription.id] = subscription;
-      console.log("-- remotestream.source.video -- 2 --")
-      console.log(remotestream.source.video)
+      l("-- remotestream.source.video -- 2 --")
+      l(remotestream.source.video)
 
       if(remotestream.source.video === 'screen-cast'){
         screenSub = subscription;
@@ -385,8 +390,8 @@ const subscribeStream = (remotestream) => {
 
     },
     (err) => {
-      console.log("subscribe failed:");
-      console.log(err);
+      l("subscribe failed:");
+      l(err);
     }
   );
 
@@ -442,10 +447,10 @@ function getUserFromName(name) {
 }
 
 function getUserFromId(id) {
-  console.log("id: " + id)
+  l("id: " + id)
   for (var i = 0; i < users.length; ++i) {
     if (users[i] && users[i].id === id) {
-      console.log(users[i].id + ': ' + users[i].userId + ' ' + users[i].role)
+      l(users[i].id + ': ' + users[i].userId + ' ' + users[i].role)
       return users[i];
     }
   }
@@ -465,8 +470,8 @@ function deleteUser(id) {
 }
 
 function loadUserList() {
-  console.log('loadUserList: ')
-  console.log(users)
+  l('loadUserList: ')
+  l(users)
   for (var u in users) {
     addUserListItem(users[u], true);
   }
@@ -559,22 +564,22 @@ function sendIm(msg, sender) {
 
 function addRoomEventListener() {
   room.addEventListener("streamadded", (streamEvent) => {
-    console.log("Stream added ", streamEvent);
+    l("Stream added ", streamEvent);
 
     let stream = streamEvent.stream;
-    console.log(stream);
+    l(stream);
 
     if (localStream && localStream.id === stream.id) {
       return;
     } else {
 
-      console.log('localId: ' + localId + '!=='  + 'stream.id: ' + stream.id)
-      console.log('localScreenId: '+ localScreenId  + '!=='  + stream.id)
-      console.log('localname: '+ localname + ' !== getUserFromId(stream.origin).userId: ' + getUserFromId(stream.origin).userId)
+      l('localId: ' + localId + '!=='  + 'stream.id: ' + stream.id)
+      l('localScreenId: '+ localScreenId  + '!=='  + stream.id)
+      l('localname: '+ localname + ' !== getUserFromId(stream.origin).userId: ' + getUserFromId(stream.origin).userId)
 
       try {
         if (localId !== stream.id && localScreenId !== stream.id && localname !== getUserFromId(stream.origin).userId) {
-          console.log('add video')
+          l('add video')
           subscribeStream(stream);
         }
       } catch(ex) {
@@ -585,18 +590,17 @@ function addRoomEventListener() {
 
     // mixStream(room, stream.id, "common");
     stream.addEventListener("ended", () => {
-      console.log(stream.id + " is ended.");
+      l(stream.id + " is ended.");
     });
   });
 
   room.addEventListener('participantjoined', (event) => {
-    console.log('-----------------');
-    console.log('participantjoined', event);
-    console.log(event.participant.userId)
+    l('participantjoined', event);
+    l(event.participant.userId)
     if(event.participant.userId !== 'user' && getUserFromId(event.participant.id) === null){
       //new user
-      console.log(users)
-      console.log('---- new user ----')
+      l(users)
+      l('---- new user ----')
       users.push({
         id: event.participant.id,
         userId: event.participant.userId,
@@ -610,16 +614,15 @@ function addRoomEventListener() {
           sendIm('Anonymous has left the room.', 'System');
         }
       });
-      console.log("join user: " + event.participant.userId);
+      l("join user: " + event.participant.userId);
       addUserListItem(event.participant,true);
-      console.log(users)
-      console.log('-----------------');
+      l(users)
       //no need: send message to all for initId
     }
   });
 
   room.addEventListener('messagereceived', (event) => {
-    console.log('messagereceived', event);
+    l('messagereceived', event);
     var user = getUserFromId(event.origin);
     if (!user) return;
     var receivedMsg = JSON.parse(event.message);
@@ -740,7 +743,7 @@ function denoiseFilter() {
     const preProcessingTime = (startCompute - startPreProcessing).toFixed(2);
     const computeTime = (startPostProcessing - startCompute).toFixed(2);
     const postProcessingTime = (endProcessing - startPostProcessing).toFixed(2);
-    console.log(
+    l(
       `preProcessingTime time: ${preProcessingTime} ms  ` +
       `computeTime time: ${computeTime} ms  ` +
       `postProcessingTime time: ${postProcessingTime} ms`
@@ -767,19 +770,14 @@ async function originalAudio() {
     abortController.abort();
     abortController = null;
   } catch (ex) {
-    console.log(ex)
+    l(ex)
   }
   denoisemode = false
   const audiotrack = stream.getAudioTracks()[0];
   processedstream.addTrack(audiotrack);
-  console.log('============== audio =========')
-  console.log(processedstream.getAudioTracks())
-  console.log(processedstream.getAudioTracks()[0])
-  try {
-    console.log(processedstream.getAudioTracks()[0].constructor.name)
-  } catch (ex) {
-    
-  }
+  l('============== audio =========')
+  l(processedstream.getAudioTracks())
+  audiotransceiver.sender.replaceTrack(audiotrack);
 }
 
 async function denoise() {
@@ -792,15 +790,15 @@ async function denoise() {
   generator = new MediaStreamTrackGenerator('audio');
   const source = processor.readable;
   const sink = generator.writable;
-  console.log(processor)
-  console.log(source)
+  l(processor)
+  l(source)
   transformer = new TransformStream({ transform: denoiseFilter() });
   abortController = new AbortController();
   const signal = abortController.signal;
   const promise = source.pipeThrough(transformer, { signal }).pipeTo(sink);
   promise.catch((e) => {
     if (signal.aborted) {
-      console.log('Shutting down streams after abort.');
+      l('Shutting down streams after abort.');
     } else {
       console.error('Error from stream transform:', e);
     }
@@ -808,16 +806,9 @@ async function denoise() {
     sink.abort(e);
   });
   processedstream.addTrack(generator);
-
-  console.log('============== audio processed aaa =========')
-  console.log(processedstream.getAudioTracks())
-  console.log(processedstream.getAudioTracks()[0])
-  try {
-    console.log(processedstream.getAudioTracks()[0].constructor.name)
-  } catch (ex) {
-
-  }
-
+  l('============== audio processed =========')
+  l(processedstream.getAudioTracks())
+  audiotransceiver.sender.replaceTrack(generator);
 }
 
 // async function stop() {

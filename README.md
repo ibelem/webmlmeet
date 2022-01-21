@@ -5,8 +5,9 @@ A Web Intelligent Collaboration (Video Conference) demo with AI features based o
 
 ## Web Machine Learning Features
 
-- Blur my background
-- Change my background
+- Background blur
+- Background replacement
+- Noise suppression
 - More to come
 
 ## Normal Video Conference Features
@@ -23,15 +24,20 @@ A Web Intelligent Collaboration (Video Conference) demo with AI features based o
 
 ## Supported Backends for Web Machine Learning Features
 
-- Slowest: WebAssembly (WASM) + SIMD
-- Slower: WebGL (Will upgrade to WebGPU later)
-- Fastest: Web Neural Network (WebNN) API 
+- Slowest: WebAssembly (Wasm) + SIMD
+- Fastest: Web Neural Network (WebNN) API
 
-Mordern browsers including Google Chrome doesn't support WebNN API now, you can try WebGL backend automatically with your browser. 
+Mordern browsers including Google Chrome doesn't support WebNN API now, you can try Wasm backend automatically with your browser. 
+
+## Web Machine Learning JavaScript Frameworks
+
+- [TensorFlow Lite Web](https://github.com/tensorflow/tfjs/tree/master/tfjs-tflite) +/- [MediaPipe in JavaScript](https://google.github.io/mediapipe/getting_started/javascript)
+- [TensorFlow.js](https://www.tensorflow.org/js)
+- [ONNX Runtime Web](https://github.com/microsoft/onnxruntime/tree/master/js/web#readme)
 
 ## Precondition - Intel Open WebRTC Toolkit (OWT) Server Setup
 
-The WebNN Meeting requires WebRTC server support, please read [Server.md](doc/Server.md) for setting up Intel Open WebRTC Toolkit (OWT) Server on CentOS* 7.6 or Ubuntu 18.04 LTS.
+The WebNN Meeting requires WebRTC server support, please read [Server Setup](doc/Server.md) for setting up Intel Open WebRTC Toolkit (OWT) Server on CentOS* 7.6 or Ubuntu 18.04 LTS.
 
 ## HTTPS Configuration
 
@@ -112,3 +118,31 @@ If you encounter the error `ENOSPC: System limit for number of file watchers rea
 ```
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 ```
+
+## Can I Use
+
+This project is using several latest W3C Web APIs implemented in morden browsers.
+
+### [Open WebRTC Toolkit JavaScript SDK 5.1+](https://github.com/open-webrtc-toolkit/owt-client-javascript)
+
+### [W3C WebRTC 1.0: Real-Time Communication Between Browsers](https://w3c.github.io/webrtc-pc/)
+
+| API  | Chrome |
+| ------------- | ------------- |
+| `RTCPeerConnection`  | 97  |
+| `RTCRtpTransceiver` | 97 |
+
+### [W3C MediaStreamTrack Insertable Media Processing using Streams](https://w3c.github.io/mediacapture-transform/)
+
+| API  | Chrome |
+| ------------- | ------------- |
+| `MediaStreamTrackProcessor`  | 97 |
+| `MediaStreamTrackGenerator`  | The version that the WebRTC WG is [currently iterating](https://github.com/webmachinelearning/webnn/issues/226) on for MediaStreamTrackGenerator is slightly different from what Chrome 87 implements |
+
+### [W3C Web Neural Network API](https://webmachinelearning.github.io/webnn/)
+
+| API  | Chrome |
+| ------------- | ------------- |
+| `navigator.ml`  | Not supported in 2022 |
+| `MLGraphBuilder`  | Not supported in 2022 |
+
