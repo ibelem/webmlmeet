@@ -35,14 +35,6 @@ if(modelname === "ss" && mi === "ssl") model = "1"
 if(modelname === "dl" && mi === "3") model = "2"
 if(modelname === "dl" && mi === "5") model = "3"
 
-// l("***********************************************")
-// l(backend)
-// l(modelname)
-// l(mi)
-// l(ds)
-// l(model)
-// l("***********************************************")
-
 let ssmodelinfo = [{
     id: 0,
     name: 'Selfie Segmentation',
@@ -137,18 +129,19 @@ const audioProcesser = new Processer(rnnoise.steps);
 // Global MediaStreamTrackProcessor, MediaStreamTrackGenerator, AudioData.
 if (typeof MediaStreamTrackProcessor === 'undefined' ||
   typeof MediaStreamTrackGenerator === 'undefined') {
-  alert(
-    'Your browser does not support the MediaStreamTrack API for ' +
-    'Insertable Streams of Media.');
+  l(
+    `Your browser does not support the MediaStreamTrack API for
+    Insertable Streams of Media.`);
 }
+
 try {
   new MediaStreamTrackGenerator('audio');
-  l('Audio insertable streams supported.');
 } catch (e) {
-  alert('Your browser does not support insertable audio streams.');
+  l('Your browser does not support insertable audio streams.');
 }
+
 if (typeof AudioData === 'undefined') {
-  alert('Your browser does not support WebCodecs.');
+  l('Your browser does not support WebCodecs.');
 }
 
 // RNNoise inference session 
@@ -202,12 +195,19 @@ let createLocal = async () => {
   localId = localStream.id;
 
   pc = room.peerConnection;
+  l('room.peerConnection')
   l(pc)
+
   videotransceiver = pc.addTransceiver(processedstream.getVideoTracks()[0], { direction: "sendonly", streams: [stream] });
   audiotransceiver = pc.addTransceiver(processedstream.getAudioTracks()[0], { direction: "sendonly", streams: [stream] });
 
+  l('videotransceiver')
+  l(videotransceiver)
+
+  l('audiotransceiver')
+  l(audiotransceiver)
+
   let publication = await room.publish(localStream, [videotransceiver, audiotransceiver])
-  
   localPublication = publication;
 
   isPauseAudio = false;
@@ -216,7 +216,8 @@ let createLocal = async () => {
   toggleVideo();
   
   mixStream(roomId, localPublication.id, "common");
-  console.info('publish success');
+  l('publish success');
+
   publication.addEventListener("error", (err) => {
     l("Publication error: " + err.error.message);
   });
@@ -225,21 +226,17 @@ let createLocal = async () => {
 
 const initConference = () => {
   createToken(roomId, localname, "presenter", function (response) {
-    l('createToken0')
     let token = response;
-    l(token)
     if (!room) {
       room = new Owt.Conference.ConferenceClient();
       addRoomEventListener();
     }
-    l('createToken1')
+
     room.join(token).then(resp => {
       // myid = resp.self.id
-      l('createToken2')
       roomId = resp.id;
       let getLoginUsers = resp.participants;
       let streams = resp.remoteStreams;
-      l(users)
       getLoginUsers.map(function(participant){
         participant.addEventListener('left', () => {
           //TODO:send message for notice everyone the participant has left maybe no need
@@ -256,10 +253,7 @@ const initConference = () => {
       createLocal();
 
       for (const stream of streams) {
-        l("stream.source.video: " + stream.source.video)
         if (stream.source.audio !== "mixed" || stream.source.video === 'screen-cast' ) {
-          
-          l("stream.source.video:" + stream.source.video)
           subscribeStream(stream);
         }
       }
@@ -273,23 +267,22 @@ const initConference = () => {
 
     }, err => {
       l("server connect failed: " + err.message);
-
       const certmessage =
-      `No remote camera stream show in page (caused by certificate in test
-      environment)?<br><br>
+        `No remote camera stream show in page (caused by certificate in test
+        environment)?<br><br>
 
-      NET::ERR_CERT_AUTHORITY_INVALID
+        NET::ERR_CERT_AUTHORITY_INVALID
 
-      <ol>
-        <li>
-          Visit
-          <a href="https://10.239.115.78:8080/socket.io/?EIO=3&transport=polling">the test page</a>
-        </li>
-        <li>
-        "Your connection is not private" -&gt; Click "Advanced" button -&gt; Click "Proceed to 10.239.115.78 (unsafe)"
-        </li>
-        <li>Go back and refresh this page.</li>
-      </ol>`
+        <ol>
+          <li>
+            Visit
+            <a href="https://10.239.115.78:8080/socket.io/?EIO=3&transport=polling">the test page</a>
+          </li>
+          <li>
+          "Your connection is not private" -&gt; Click "Advanced" button -&gt; Click "Proceed to 10.239.115.78 (unsafe)"
+          </li>
+          <li>Go back and refresh this page.</li>
+        </ol>`
       $("#errormsg").html(certmessage); 
       $("#errormsg").fadeIn();
     });
@@ -368,30 +361,22 @@ const toggleAudio = () => {
 }
 
 const subscribeStream = (remotestream) => {
-  l("-- remotestream.source.video -- 1 --")
-  l(remotestream.source.video)
 
   let videoOption = !isAudioOnly;
 
   room.subscribe(remotestream, {video: videoOption}).then(
     (subscription) => {
       subList[subscription.id] = subscription;
-      l("-- remotestream.source.video -- 2 --")
-      l(remotestream.source.video)
 
       if(remotestream.source.video === 'screen-cast'){
         screenSub = subscription;
-        remotestream.addEventListener('ended', function(event) {
-          //
-        });
+        remotestream.addEventListener('ended', function(event) {});
       }
 
       addVideo(subscription, remotestream, getUserFromId(remotestream.origin).userId)
-
     },
     (err) => {
-      l("subscribe failed:");
-      l(err);
+      l("subscribe failed:" + err);
     }
   );
 
@@ -399,9 +384,7 @@ const subscribeStream = (remotestream) => {
     $(`#div${remotestream.id}`).remove();
   });
 
-  remotestream.addEventListener("updated", () => {
-    
-  });
+  remotestream.addEventListener("updated", () => {});
 };
 
 function addVideo(subscription, remotestream, username) {
@@ -447,10 +430,8 @@ function getUserFromName(name) {
 }
 
 function getUserFromId(id) {
-  l("id: " + id)
   for (var i = 0; i < users.length; ++i) {
     if (users[i] && users[i].id === id) {
-      l(users[i].id + ': ' + users[i].userId + ' ' + users[i].role)
       return users[i];
     }
   }
@@ -470,8 +451,6 @@ function deleteUser(id) {
 }
 
 function loadUserList() {
-  l('loadUserList: ')
-  l(users)
   for (var u in users) {
     addUserListItem(users[u], true);
   }
@@ -573,18 +552,16 @@ function addRoomEventListener() {
       return;
     } else {
 
-      l('localId: ' + localId + '!=='  + 'stream.id: ' + stream.id)
-      l('localScreenId: '+ localScreenId  + '!=='  + stream.id)
+      l('localId: ' + localId + ' !== stream.id: ' + stream.id)
+      l('localScreenId: ' + localScreenId  + ' !== stream.id: ' + stream.id)
       l('localname: '+ localname + ' !== getUserFromId(stream.origin).userId: ' + getUserFromId(stream.origin).userId)
 
       try {
         if (localId !== stream.id && localScreenId !== stream.id && localname !== getUserFromId(stream.origin).userId) {
-          l('add video')
           subscribeStream(stream);
         }
       } catch(ex) {
-        console.warn("= $$$$$$$$$$$$$$ =")
-        console.warn(ex)
+        l(ex)
       }
     }
 
@@ -595,12 +572,7 @@ function addRoomEventListener() {
   });
 
   room.addEventListener('participantjoined', (event) => {
-    l('participantjoined', event);
-    l(event.participant.userId)
     if(event.participant.userId !== 'user' && getUserFromId(event.participant.id) === null){
-      //new user
-      l(users)
-      l('---- new user ----')
       users.push({
         id: event.participant.id,
         userId: event.participant.userId,
@@ -614,15 +586,11 @@ function addRoomEventListener() {
           sendIm('Anonymous has left the room.', 'System');
         }
       });
-      l("join user: " + event.participant.userId);
       addUserListItem(event.participant,true);
-      l(users)
-      //no need: send message to all for initId
     }
   });
 
   room.addEventListener('messagereceived', (event) => {
-    l('messagereceived', event);
     var user = getUserFromId(event.origin);
     if (!user) return;
     var receivedMsg = JSON.parse(event.message);
@@ -744,9 +712,9 @@ function denoiseFilter() {
     const computeTime = (startPostProcessing - startCompute).toFixed(2);
     const postProcessingTime = (endProcessing - startPostProcessing).toFixed(2);
     l(
-      `preProcessingTime time: ${preProcessingTime} ms  ` +
-      `computeTime time: ${computeTime} ms  ` +
-      `postProcessingTime time: ${postProcessingTime} ms`
+      `preProcessingTime time: ${preProcessingTime} ms
+      computeTime time: ${computeTime} ms
+      postProcessingTime time: ${postProcessingTime} ms`
     );
     $('#nsspanprep').html(preProcessingTime);
     $('#nsspaninference').html(computeTime);
@@ -767,8 +735,10 @@ async function originalAudio() {
     processedstream.removeTrack(processedstream.getAudioTracks()[0]);
   }
   try {
-    abortController.abort();
-    abortController = null;
+    if(abortController) {
+      abortController.abort();
+      abortController = null;
+    }
   } catch (ex) {
     l(ex)
   }
@@ -777,7 +747,10 @@ async function originalAudio() {
   processedstream.addTrack(audiotrack);
   l('============== audio =========')
   l(processedstream.getAudioTracks())
-  audiotransceiver.sender.replaceTrack(audiotrack);
+
+  if (audiotransceiver) {
+    audiotransceiver.sender.replaceTrack(audiotrack);
+  }
 }
 
 async function denoise() {
@@ -790,8 +763,6 @@ async function denoise() {
   generator = new MediaStreamTrackGenerator('audio');
   const source = processor.readable;
   const sink = generator.writable;
-  l(processor)
-  l(source)
   transformer = new TransformStream({ transform: denoiseFilter() });
   abortController = new AbortController();
   const signal = abortController.signal;

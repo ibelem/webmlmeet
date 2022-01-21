@@ -2,7 +2,6 @@ const createOWTStream = async () => {
   stream = await Owt.Base.MediaStreamFactory.createMediaStream(
     avTrackConstraint
   )
-  console.log(inputvideo)
   if ("srcObject" in inputvideo) {
     inputvideo.srcObject = stream
   } else {
@@ -10,7 +9,7 @@ const createOWTStream = async () => {
   }
 
   inputvideo.autoplay = true
-  console.log(inputvideo.srcObject)
+  // console.log(inputvideo.srcObject)
 }
 
 let continueinputvideo = true
