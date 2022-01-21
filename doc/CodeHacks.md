@@ -2,7 +2,7 @@ There are some code hacks for running the app better.
 
 ## Intel Open WebRTC Toolkit (OWT)
 
-Updated `js/owt/conference/channel.js` code
+### Update `js/owt/conference/channel.js` code
 
 ```
   if (options.audio === undefined) {
@@ -21,13 +21,43 @@ to following for fixing a screen sharing mode issue caused by audio option:
   }
 ```
 
-Added code below in `createMediaStream()` of `assets/js/owt/base/mediastream-factory.js` for supporting Echo Cancellation and Noise Suppression standard Web API.
+```
+  const publicationId =
+    await this._signaling.sendSignalingMessage('publish', {
+      media: {tracks: trackOptions},
+      attributes: stream.attributes,
+      transport: {id: this._id, type: 'webrtc'},
+    }).id;
+```
+to
+```
+  const publishResp =
+    await this._signaling.sendSignalingMessage('publish', {
+      media: {tracks: trackOptions},
+      attributes: stream.attributes,
+      transport: {id: this._id, type: 'webrtc'},
+    });
+  const publicationId = publishResp.id;
+
+  const messageEvent = new MessageEvent('id', {
+    message: publicationId,
+    origin: this._remoteId,
+  });
+  this.dispatchEvent(messageEvent);
+
+  this._id = publishResp.transportId;
+```
+
+### Update `js/owt/conference/client.js` code
 
 ```
-  if (constraints.audio.echoCancellation) {
-    mediaConstraints.audio.echoCancellation = constraints.audio.echoCancellation;
+  function sendSignalingMessage(type, message) {
+    return signaling.send(type, message);
   }
-  if (constraints.audio.noiseSuppression) {
-    mediaConstraints.audio.noiseSuppression = constraints.audio.noiseSuppression;
+```
+to
+```
+  async function sendSignalingMessage(type, message) {
+    return signaling.send(type, message);
   }
 ```
