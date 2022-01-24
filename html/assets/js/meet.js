@@ -304,6 +304,7 @@ const toggleVideo = () => {
       subList[temp].mute(Owt.Base.TrackKind.VIDEO);
     }
     localStream.mediaStream.getVideoTracks()[0].enabled = false;
+
     localPublication.mute(Owt.Base.TrackKind.VIDEO).then(
       () => {
         console.info("mute video");
@@ -313,6 +314,14 @@ const toggleVideo = () => {
         console.error("mute video failed");
       }
     );
+
+    // const { error, tVideo } = await asyncUtils(localPublication.mute(Owt.Base.TrackKind.VIDEO));
+    // if (!error) {
+    //   console.info("mute video");
+    //   isPauseVideo = !isPauseVideo;
+    // }
+    // console.error("mute video failed: " + error);
+
   } else {
     //remoteMixedSub.unmute(Owt.Base.TrackKind.VIDEO);
     for (var temp in subList) {
@@ -322,6 +331,7 @@ const toggleVideo = () => {
       subList[temp].unmute(Owt.Base.TrackKind.VIDEO);
     }
     localStream.mediaStream.getVideoTracks()[0].enabled = true;
+
     localPublication.unmute(Owt.Base.TrackKind.VIDEO).then(
       () => {
         console.info("unmute video");
@@ -331,6 +341,13 @@ const toggleVideo = () => {
         console.error("unmute video failed");
       }
     );
+
+    // const { error, tVideo } = await asyncUtils(localPublication.unmute(Owt.Base.TrackKind.VIDEO));
+    // if (!error) {
+    //   console.info("unmute video");
+    //   isPauseVideo = !isPauseVideo;
+    // }
+    // console.error("unmute video failed: " + error);
   }
 }
 
@@ -618,7 +635,6 @@ function addRoomEventListener() {
   }); 
 }
 
-
 const shareScreen = () => {
   let width = screen.width,
   height = screen.height;
@@ -747,7 +763,9 @@ async function originalAudio() {
   processedstream.addTrack(audiotrack);
   l('============== audio =========')
   l(processedstream.getAudioTracks())
-  $("#mstracklabel").html(processedstream.getAudioTracks()[0].label.toLowerCase().replace('default - ', ''));
+  let mstrack = processedstream.getAudioTracks()[0].label.toLowerCase().replace('default - ', '')
+  $("#mstracklabel").html(mstrack);
+  $("#mstracklabel").attr('title', mstrack);
   if (audiotransceiver) {
     audiotransceiver.sender.replaceTrack(audiotrack);
   }
@@ -779,11 +797,12 @@ async function denoise() {
   processedstream.addTrack(generator);
   l('============== audio processed =========')
   l(processedstream.getAudioTracks())
-  if(processedstream.getAudioTracks()[0].writable) {
-    $("#mstracklabel").html(processedstream.getAudioTracks()[0].writable);
-  } else {
-    $("#mstracklabel").html(processedstream.getAudioTracks()[0].label.toLowerCase());
+  let mstrack = processedstream.getAudioTracks()[0].constructor.name
+  if(mstrack.toLowerCase() == "mediastreamtrackgenerator") {
+    mstrack = "denoising"
   }
+  $("#mstracklabel").html(mstrack);
+  $("#mstracklabel").attr('title', mstrack);
   if (audiotransceiver) {
     audiotransceiver.sender.replaceTrack(generator);
   }

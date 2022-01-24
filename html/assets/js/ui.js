@@ -166,6 +166,8 @@ const toggleAudioUI = () => {
    } else {
     $("#mstracklabel").removeClass("hdnone")
     $("#mstracklabel").addClass("hd")
+    $("#tns").removeClass("act")
+    originalAudio()
    }
 }
 

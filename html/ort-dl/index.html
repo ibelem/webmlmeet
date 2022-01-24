@@ -151,7 +151,10 @@
                       <div id="inference">
                         <span id="spaninference"></span> ms
                       </div>
-                      <div id="inferencenote">Inference Time</div>
+                      <div id="inferencenote">Inference</div>
+                    </div>
+                    <div class="cp-fps">
+                      <div id="model"></div>
                     </div>
                     <!-- <div class="cp-fps">
                       <div id="cpus"></div>
@@ -161,28 +164,25 @@
                       <div id="cpuu"></div>
                       <div id="fpsnote">CPU UTE</div>
                     </div> -->
-                    <div class="cp-fps">
-                      <div id="model"></div>
-                    </div>
                   </div>
                   <div id="ns-panel" style="display: none;">
                     <div class="cp-fps" title="Niose suppression preprocessing time">
                       <div id="nsprep">
                         <span id="nsspanprep"></span> ms
                       </div>
-                      <div id="nsprepnote">NS PreProcessing</div>
+                      <div id="nsprepnote">PreProcessing</div>
                     </div>
                     <div class="cp-fps" title="Niose suppression inference time">
                       <div id="nsinference">
                         <span id="nsspaninference"></span> ms
                       </div>
-                      <div id="nsinferencenote">NS Inference Time</div>
+                      <div id="nsinferencenote">NS Inference</div>
                     </div>
                     <div class="cp-fps" title="Niose suppression postprocessing time">
                       <div id="nspostp">
                         <span id="nsspanpostp"></span> ms
                       </div>
-                      <div id="nspostpnote">NS PostProcessing</div>
+                      <div id="nspostpnote">PostProcessing</div>
                     </div>
                   </div>
                 </div>  
@@ -197,12 +197,11 @@
                   <span class="hd" id="hd">HD</span>
                   <span class="hd">FP32</span>
                   <span class="hd" id="docsize"></span>
-                  <a class="hd" href="https://10.239.115.78:8080/socket.io/?EIO=3&transport=polling&t=Nikq042">socket.io</a>
                   <span class="hd hda hdanimation" id="modelloadstatus">
                     <span>L</span><span>o</span><span>a</span><span>d</span><span>i</span><span>n</span><span>g</span><span>&nbsp;</span>
                     <span>M</span><span>o</span><span>d</span><span>e</span><span>l</span><span>&nbsp;</span>
                   </span>
-                  <span class="hdnone" id="mstracklabel"></span>
+                  <span class="hdnone" id="mstracklabel" title=""></span>
                 </div>
               </div>
             </div>

@@ -89,8 +89,6 @@ $ npm install
 $ node meetingserver.js 
 ```
 
-### Port Conflict
-
 If error happens related to port conflict, you could change ports in `config.js`.
 
 ### How to Run
@@ -123,31 +121,3 @@ If you encounter the error `ENOSPC: System limit for number of file watchers rea
 ```
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 ```
-
-## Can I Use
-
-This project is using several latest W3C Web APIs implemented in morden browsers.
-
-[Open WebRTC Toolkit JavaScript SDK 5.1+](https://github.com/open-webrtc-toolkit/owt-client-javascript)
-
-[W3C WebRTC 1.0: Real-Time Communication Between Browsers](https://w3c.github.io/webrtc-pc/)
-
-| API  | Chrome |
-| ------------- | ------------- |
-| `RTCPeerConnection`  | 97  |
-| `RTCRtpTransceiver` | 97 |
-
-[W3C MediaStreamTrack Insertable Media Processing using Streams](https://w3c.github.io/mediacapture-transform/)
-
-| API  | Chrome |
-| ------------- | ------------- |
-| `MediaStreamTrackProcessor`  | 97 |
-| `MediaStreamTrackGenerator`  | The version that the WebRTC WG is [currently iterating](https://github.com/webmachinelearning/webnn/issues/226) on for MediaStreamTrackGenerator is slightly different from what Chrome 87 implements |
-
-[W3C Web Neural Network API](https://webmachinelearning.github.io/webnn/)
-
-| API  | Chrome |
-| ------------- | ------------- |
-| `navigator.ml`  | Not supported in 2022 |
-| `MLGraphBuilder`  | Not supported in 2022 |
-

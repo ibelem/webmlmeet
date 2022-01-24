@@ -145,6 +145,13 @@
   color: #fff;
 }
 
+#mstracklabel {
+  max-width: 160px;
+  overflow: hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
 .mill {
   width: 24px;
   display: inline-block;

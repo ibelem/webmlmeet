@@ -1,3 +1,9 @@
+const asyncUtils = promise => (
+  promise
+    .then(data => ({ data, error: null }))
+    .catch(error => ({ error, data: null }))
+);
+
 const parseSearchParams = (key) => {
   let searchParams = new URLSearchParams(location.search);
   return searchParams.get(key);
@@ -7,8 +13,6 @@ const hasSearchParam = (key) => {
   let searchParams = new URLSearchParams(location.search);
   return searchParams.has(key);
 };
-
-
 
 const parsePathnameModel = () => {
   let pathname = location.pathname;

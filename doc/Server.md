@@ -27,7 +27,7 @@ The external stream output and mp4 format recording rely on AAC encoder libfdk_a
 
 ## OWT Server Dependencies
 
-- [Node.js](http://nodejs.org/)	with NPM - 8.15.0
+- [Node.js](http://nodejs.org/)	with NPM - 14
 - [MongoDB](http://mongodb.org) -	2.6.10
 - System libraries
 
