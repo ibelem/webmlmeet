@@ -110,14 +110,27 @@ async function ssLoad() {
       modelRunner = await netInstance.load();
       loadTime = (performance.now() - start).toFixed(2);
       console.log(`  done in ${loadTime} ms.`);
-      // UI shows model building progress
-      $("#modelloadstatus").html('DL Model Loaded');
+
+      mDL = true
+      let loadedmodels = ''
+
+      if (mRN && mDL) {
+        loadedmodels = "DL/NS Models Loaded"
+      } else if (!mRN && mDL) {
+        loadedmodels = "DL Model Loaded"
+      } else if (mRN) {
+        loadedmodels = "NS Model Loaded"
+      }
+
+      $("#modelloadstatus").html(loadedmodels);
+
       $("#tbb").prop('disabled', false);
       $("#tbr").prop('disabled', false);
       $("#tbb").removeClass('disabled');
       $("#tbr").removeClass('disabled');
     }
   } catch (error) {
+    mDL = false
     $("#modelloadstatus").html('Failed to Load DL Model');
     $("#tbb").prop('disabled', true);
     $("#tbr").prop('disabled', true);

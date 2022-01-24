@@ -12,6 +12,7 @@ let backgroundType = 'img'; // 'none', 'blur', 'image'
 let cW = $("#outputcanvas")[0].width;
 let cH = $("#outputcanvas")[0].height;
 let isSS = false, effect;
+let mDL = false, mSS = false, mRN = false; 
 let rafReq;
 let continueAnimating = true;
 
@@ -174,12 +175,14 @@ let abortController;
 const nsLoad = async () => {
   try {
     rnmodel = await rnnoise.load();
+    mRN = true
     $("#modelloadstatus").html('NS Model Loaded');
     if(!isPauseAudio) {
       $("#tns").prop('disabled', false);
       $("#tns").removeClass('disabled');
     }
   } catch (error) {
+    mRN = false
     $("#modelloadstatus").html('Failed to Load Noise Suppression Model');
     $("#tns").prop('disabled', true);
     $("#tns").addClass('disabled');
