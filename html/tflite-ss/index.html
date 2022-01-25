@@ -460,18 +460,52 @@
                       ></path>
                     </svg>
                   </div>
-                  <div class="cp-fps">
-                    <div id="fps"></div>
-                    <div id="fpsnote">FPS</div>
-                  </div>
-                  <div class="cp-fps">
-                    <div id="inference">
-                      <span id="spaninference"></span> ms
+                  <div id="ss-panel" style="display: none;">
+                    <div class="cp-fps">
+                      <div id="fps"></div>
+                      <div id="fpsnote">FPS</div>
                     </div>
-                    <div id="inferencenote">Inference Time</div>
+                    <div class="cp-fps">
+                      <div id="inference">
+                        <span id="spaninference"></span> ms
+                      </div>
+                      <div id="inferencenote">Inference</div>
+                    </div>
+                    <div class="cp-fps">
+                      <div id="model"></div>
+                    </div>
+                    <!-- <div class="cp-fps">
+                      <div id="cpus"></div>
+                      <div id="fpsnote">CPU Speed</div>
+                    </div>
+                    <div class="cp-fps" title="CPU Utilization">
+                      <div id="cpuu"></div>
+                      <div id="fpsnote">CPU UTE</div>
+                    </div> -->
                   </div>
-                  <div class="cp-fps">
-                    <div id="model"></div>
+                  <div id="ns-panel" style="display: none;">
+                    <div class="cp-fps" title="Niose suppression preprocessing time">
+                      <div id="nsprep">
+                        <span id="nsspanprep"></span> ms
+                      </div>
+                      <div id="nsprepnote">Pre</div>
+                    </div>
+                    <div class="cp-fps" title="Niose suppression inference time">
+                      <div id="nsinference">
+                        <span id="nsspaninference"></span> ms
+                      </div>
+                      <div id="nsinferencenote">NS Inference</div>
+                    </div>
+                    <div class="cp-fps" title="Niose suppression postprocessing time">
+                      <div id="nspostp">
+                        <span id="nsspanpostp"></span> ms
+                      </div>
+                      <div id="nspostpnote">Post</div>
+                    </div>
+                    <div class="cp-fps" id="denoisecontainer">
+                      <div id="originwave" title="Origin audio stream"></div>
+                      <div id="processedwave" title="Denoised audio stream"></div>
+                    </div>
                   </div>
                 </div>
                 <div class='cleft'>
@@ -489,6 +523,7 @@
                     <span>L</span><span>o</span><span>a</span><span>d</span><span>i</span><span>n</span><span>g</span><span>&nbsp;</span>
                     <span>M</span><span>o</span><span>d</span><span>e</span><span>l</span><span>&nbsp;</span>
                   </span>
+                  <span class="hdnone" id="mstracklabel" title=""></span>
                 </div>
               </div>
             </div>
@@ -610,5 +645,7 @@
     <script src="../assets/js/component/megamenu.js" type="text/javascript"></script>
     <script src="../assets/js/ui.js" type="text/javascript"></script>
     <script src="../assets/js/ui-tflite.js" type="text/javascript"></script>
+
+    <script type="module" src="../assets/js/component/audiomotion.js"></script>
   </body>
 </html>

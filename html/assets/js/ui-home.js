@@ -194,7 +194,6 @@ const go = () => {
 }
 
 $("#inputjoin").on("keypress", function (e) {
-    console.log(e.which)
   if (e.which === 13) {
     e.preventDefault()
     go()

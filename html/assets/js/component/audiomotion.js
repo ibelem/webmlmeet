@@ -3,8 +3,8 @@ import AudioMotionAnalyzer from 'https://cdn.skypack.dev/audiomotion-analyzer?mi
 const audioMotion = new AudioMotionAnalyzer(
 document.querySelector('#originwave'),
 {
-    gradient: 'classic',
-    height: 25,
+    gradient: 'rainbow',
+    height: 26,
     width: 120,
     mode:1,
     showScaleX: false,
@@ -19,7 +19,7 @@ const audioMotionProcessed = new AudioMotionAnalyzer(
 document.querySelector('#processedwave'),
 {
     gradient: 'rainbow',
-    height: 25,
+    height: 26,
     width: 120,
     mode:1,
     showScaleX: false,

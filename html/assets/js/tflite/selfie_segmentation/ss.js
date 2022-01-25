@@ -115,9 +115,21 @@ async function ssLoad() {
       console.log(`  done in ${loadTime} ms.`);
       // UI shows model building progress
 
-      $("#modelloadstatus").html('SS Model Loaded');
+      mSS = true
+      let loadedmodels = ''
+
+      if (mRN && mSS) {
+        loadedmodels = "SS/NS Models Loaded"
+      } else if (!mRN && mSS) {
+        loadedmodels = "SS Model Loaded"
+      } else if (mRN) {
+        loadedmodels = "NS Model Loaded"
+      }
+
+      $("#modelloadstatus").html(loadedmodels);
     }
   } catch (error) {
+    mSS = false
     $("#modelloadstatus").html('Failed to Load SS Model');
     console.log(error);
   }

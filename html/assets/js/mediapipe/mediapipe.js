@@ -87,7 +87,9 @@ const onBRResults = (results) => {
     initMediaPipeStream();
     ctx = $("#outputcanvas")[0].getContext("2d");
     await camera.start();
+    await nsLoad();
     getProcessedStream();
+    await originalAudio();
     initConference();
     userMarquee();
   };
