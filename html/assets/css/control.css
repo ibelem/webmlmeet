@@ -296,3 +296,10 @@
 		opacity: 1;
 	}
 }
+
+#originwave canvas, #processedwave canvas {
+  display: block;
+  height: auto !important;
+  width: auto !important;
+  margin-top: 2px;
+}

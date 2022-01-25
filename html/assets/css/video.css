@@ -400,9 +400,9 @@ canvas {
   background: rgba(0, 0, 0, 0.4);
 }
 
-#control-panel {
+/* #control-panel {
   height: 68px;
-}
+} */
 
 .cp-wasm,
 .cp-fps {
