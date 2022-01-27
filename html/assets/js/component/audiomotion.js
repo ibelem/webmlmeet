@@ -1,15 +1,17 @@
 import AudioMotionAnalyzer from 'https://cdn.skypack.dev/audiomotion-analyzer?min';
 
 const audioMotion = new AudioMotionAnalyzer(
-document.querySelector('#originwave'),
+document.querySelector('#originalwave'),
 {
     gradient: 'rainbow',
-    height: 26,
-    width: 120,
+    height: 22,
+    width: 80,
     mode:1,
     showScaleX: false,
     showScaleY: false,
+    showPeaks: false,
     overlay: true,
+    bgAlpha: 0,
     showBgColor: false
 }
 );
@@ -19,13 +21,14 @@ const audioMotionProcessed = new AudioMotionAnalyzer(
 document.querySelector('#processedwave'),
 {
     gradient: 'rainbow',
-    height: 26,
-    width: 120,
+    height: 22,
+    width: 80,
     mode:1,
     showScaleX: false,
     showScaleY: false,
     showPeaks: true,
     overlay: true,
+    bgAlpha: 0,
     showBgColor: false
 }
 );
@@ -47,16 +50,44 @@ $(document).on("click", "#tns", function () {
     }
 })
 
-$("#denoisecontainer").hover(
+$("#mstracklabel").mouseover(
     function() {
-        $(this).addClass("nslarge");
+        $("#denoisecontainer").addClass("nslarge");
+        $("#denoisecontainer").fadeIn();
         audioMotion.setOptions({ 
             height: 220,
-            width: 400
+            width: 400,
+            showPeaks: true,
+            showScaleX: true,
+            showScaleY: true
         });
         audioMotionProcessed.setOptions({ 
             height: 220,
-            width: 400
+            width: 400,
+            showPeaks: true,
+            showScaleX: true,
+            showScaleY: true
+        });
+    }
+);
+
+$("#mstracklabel").mouseout(
+    function() {
+        $("#denoisecontainer").removeClass("nslarge");
+        $("#denoisecontainer").fadeIn();
+        audioMotion.setOptions({ 
+            height: 22,
+            width: 80,
+            showPeaks: true,
+            showScaleX: false,
+            showScaleY: false,
+        });
+        audioMotionProcessed.setOptions({ 
+            height: 22,
+            width: 80,
+            showPeaks: true,
+            showScaleX: false,
+            showScaleY: false
         });
     }
 );
