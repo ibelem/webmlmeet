@@ -158,20 +158,6 @@ let denoisemode = false;
 
 let abortController;
 
-// // Initialize on page load.
-// async function init() {
-//   audio = document.getElementById('audioOutput');
-//   originalButton = document.getElementById('originalButton');
-//   stopButton = document.getElementById('stopButton');
-//   denoiseButton = document.getElementById('denoiseButton');
-
-//   originalButton.onclick = original;
-//   stopButton.onclick = stop;
-//   denoiseButton.onclick = denoise;
-
-//   rnmodel = await rnnoise.load();
-// }
-
 const nsLoad = async () => {
   try {
     rnmodel = await rnnoise.load();
@@ -755,10 +741,8 @@ function denoiseFilter() {
 
 const getProcessedStream = () => {
   processedstream = outputcanvas.captureStream();
-  // if (location.pathname.indexOf('ort-dl') == -1) {
   //   const audiotrack = stream.getAudioTracks()[0];
   //   processedstream.addTrack(audiotrack);
-  // }
 };
 
 async function originalAudio() {
@@ -822,22 +806,6 @@ async function denoise() {
     audiotransceiver.sender.replaceTrack(generator);
   }
 }
-
-// async function stop() {
-//   stopButton.disabled = true;
-//   audio.pause();
-//   audio.srcObject = null;
-//   stream.getTracks().forEach(track => {
-//     track.stop();
-//   });
-//   if (denoiseMode) {
-//     abortController.abort();
-//     abortController = null;
-//     denoiseMode = false;
-//   }
-//   originalButton.disabled = false;
-//   denoiseButton.disabled = false;
-// }
 
 
 $(".bgselector").each(function () {

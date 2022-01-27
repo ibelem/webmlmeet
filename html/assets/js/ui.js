@@ -1,17 +1,17 @@
 const checkMP = () => {
-  if(mediapipe === "1") {
-    $("#mplogo").removeClass("dnoneimp");
+  if(mediapipe === '1') {
+    $('#mplogo').removeClass('dnoneimp');
   } else {
-    $("#mplogo").addClass("dnoneimp");
+    $('#mplogo').addClass('dnoneimp');
   }
 }
 
 const loginDisableVideo = () => {
-  $("#login-resolution").slideUp()
+  $('#login-resolution').slideUp()
 }
 
 const loginEnableVideo = () => {
-  $("#login-resolution").slideDown()
+  $('#login-resolution').slideDown()
 }
 
 
@@ -29,88 +29,89 @@ const fullscreen = () => {
     }
   }
   isfullscreen = !isfullscreen
-  console.log("Fullscren :" + isfullscreen)
+  console.log('Fullscren :' + isfullscreen)
 }
 
 const updateDocSize = () => {
-  $("#docsize").html($(document).width() + "x" + $(document).height())
+  $('#docsize').html($(document).width() + 'x' + $(document).height())
 }
 
 const remotefullscreen = (e) => {
   fullscreen()    
-  $("#video-panel .vslot").removeClass("streamfull")
-  $(e).parent().parent().addClass("streamfull")
-  $("#video-panel .vslot").removeClass("zerosize")
-  $(e).parent().parent().addClass("zerosize")
-  $('body').addClass("fullscreen")
+  $('#video-panel .vslot').removeClass('streamfull')
+  $(e).parent().parent().addClass('streamfull')
+  $('#video-panel .vslot').removeClass('zerosize')
+  $(e).parent().parent().addClass('zerosize')
+  $('body').addClass('fullscreen')
 }
 
 const switchfullscreen = (e) => {
-  $("#video-panel .vslot").removeClass("streamfull")
-  $(e).parent().addClass("streamfull")
-  $("#video-panel .vslot").removeClass("zerosize")
-  $(e).parent().addClass("zerosize")
+  $('#video-panel .vslot').removeClass('streamfull')
+  $(e).parent().addClass('streamfull')
+  $('#video-panel .vslot').removeClass('zerosize')
+  $(e).parent().addClass('zerosize')
 }
 
 const toggleNS = () => {
   if(!isPauseAudio) {
-    $("#tns").prop('disabled', true);
-    $("#tns").addClass("disabled");
+    $('#tns').prop('disabled', true);
+    $('#tns').addClass('disabled');
 
     if (isns) {
       originalAudio()
       isns = !isns
-      $("#ns-panel").hide()
+      $('#ns-panel').hide()
     }
   } else {
-    $("#tns").prop('disabled', false);
-    $("#tns").removeClass("disabled");
+    $('#tns').prop('disabled', false);
+    $('#tns').removeClass('disabled');
   }
 }
 
 $(document).ready(function () {
-  $(".buttonset>a").click(function () {
-    $(this).siblings("a").removeClass("selected")
-    $(this).addClass("selected")
+
+  $('.buttonset>a').click(function () {
+    $(this).siblings('a').removeClass('selected')
+    $(this).addClass('selected')
   })
 
   updateDocSize()
   toggleNS()
 
   if (resolution.width == 1280) {
-    $("#hd").css("display", "inline-block");
+    $('#hd').css('display', 'inline-block');
   } else {
-    $("#hd").css("display", "none");
+    $('#hd').css('display', 'none');
   }
 
-  $(document).on("click", ".btnfullscreen", function() {
+  $(document).on('click', '.btnfullscreen', function() {
     fullscreen()    
-    $("#video-panel .vslot").removeClass("streamfull")
-    $(this).parent().parent().addClass("streamfull")
-    $("#video-panel .vslot").removeClass("zerosize")
-    $(this).parent().parent().addClass("zerosize")
-    $('body').addClass("fullscreen")
+    $('#video-panel .vslot').removeClass('streamfull')
+    $(this).parent().parent().addClass('streamfull')
+    $('#video-panel .vslot').removeClass('zerosize')
+    $(this).parent().parent().addClass('zerosize')
+    $('body').addClass('fullscreen')
   })
 
-  $(document).on("click", "#btnexitfullscreen", function(){
+  $(document).on('click', '#btnexitfullscreen', function(){
     fullscreen()
-    $("#video-panel .vslot").removeClass("streamfull")
-    $("#video-panel .vslot").removeClass("zerosize")
-    $('body').removeClass("fullscreen")
+    $('#video-panel .vslot').removeClass('streamfull')
+    $('#video-panel .vslot').removeClass('zerosize')
+    $('body').removeClass('fullscreen')
   })
 
-  $(document).on("click", "#pauseVideo", function () {
+  $(document).on('click', '#pauseVideo', function () {
     toggleVideo()
   })
 
-  $(document).on("click", "#pauseAudio", function () {
+  $(document).on('click', '#pauseAudio', function () {
     toggleAudio()
   })
 
-  $("#text-send").keypress(function (event) {
+  $('#text-send').keypress(function (event) {
     if ($(this)[0].scrollHeight > $(this)[0].clientHeight) {
       $(this).height($(this)[0].scrollHeight)
-      $("#text-content").css("bottom", $(this)[0].scrollHeight + "px")
+      $('#text-content').css('bottom', $(this)[0].scrollHeight + 'px')
     }
     if (event.keyCode === 13) {
       event.preventDefault()
@@ -125,67 +126,67 @@ $(document).ready(function () {
 
   setInterval(() => {
     const d = new Date()
-    $("#clock").html(getTime() + ":")
-    $("#mill").html(d.getMilliseconds())
+    $('#clock').html(getTime() + ':')
+    $('#mill').html(d.getMilliseconds())
   }, 1)
 
-  $("#mega-menu").html(megamenu())
-  $("footer").html(control())
+  $('#mega-menu').html(megamenu())
+  $('footer').html(control())
 
 })
 
-$(window).on("unload", function () {
+$(window).on('unload', function () {
   userExit()
 })
  
 const getTime = () => {
   const time = new Date()
   let hour = time.getHours()
-  hour = hour > 9 ? hour.toString() : "0" + hour.toString()
+  hour = hour > 9 ? hour.toString() : '0' + hour.toString()
   let mini = time.getMinutes()
-  mini = mini > 9 ? mini.toString() : "0" + mini.toString()
+  mini = mini > 9 ? mini.toString() : '0' + mini.toString()
   let sec = time.getSeconds()
-  sec = sec > 9 ? sec.toString() : "0" + sec.toString()
-  return hour + ":" + mini + ":" + sec
+  sec = sec > 9 ? sec.toString() : '0' + sec.toString()
+  return hour + ':' + mini + ':' + sec
 }
 
 const toggleVideoUI = () => {
-  $("#tvn").toggleClass("block")
-  $("#tvb").toggleClass("block")
+  $('#tvn').toggleClass('block')
+  $('#tvb').toggleClass('block')
   toggleVideo()
   console.log('======== isPause ======')
   console.log(isPauseVideo)
   if (location.pathname.toLowerCase().indexOf('tflite-mp-ss') < 0) {
     if (!isPauseVideo) {
-      $("#outputcanvas").addClass("dnoneimp");
-      $("#outputimg").removeClass("dnoneimp");
+      $('#outputcanvas').addClass('dnoneimp');
+      $('#outputimg').removeClass('dnoneimp');
     } else {
-      $("#outputcanvas").removeClass("dnoneimp");
-      $("#outputimg").addClass("dnoneimp");
+      $('#outputcanvas').removeClass('dnoneimp');
+      $('#outputimg').addClass('dnoneimp');
     }
   }
 }
 
 const toggleAudioUI = () => {
-  $("#tan").toggleClass("block")
-  $("#tab").toggleClass("block")
+  $('#tan').toggleClass('block')
+  $('#tab').toggleClass('block')
   toggleNS()
   toggleAudio()
   if (!isPauseAudio) {
-    $("#mstracklabel").removeClass("hd")
-    $("#mstracklabel").addClass("hdnone")
+    $('#mstracklabel').removeClass('hd')
+    $('#mstracklabel').addClass('hdnone')
    } else {
-    $("#mstracklabel").removeClass("hdnone")
-    $("#mstracklabel").addClass("hd")
-    $("#tns").removeClass("act")
+    $('#mstracklabel').removeClass('hdnone')
+    $('#mstracklabel').addClass('hd')
+    $('#tns').removeClass('act')
     originalAudio()
    }
 }
 
-$("#rbclose").on("click", function () {
-  $("#bgscontainer").hide()
-  $("#right-bar").hide()
-  $("#ic").addClass('norightbar')
+$('#rbclose').on('click', function () {
+  $('#bgscontainer').hide()
+  $('#right-bar').hide()
+  $('#ic').addClass('norightbar')
 })
 
 const showModelInfo = () => {
@@ -199,65 +200,65 @@ const showModelInfo = () => {
   $('#model').html(modelinfo)
 }
 
-$("#ebeauty").click(() => {
+$('#ebeauty').click(() => {
   isbeauty = !isbeauty
 })
 
-$("#ocbar").click(() => {
-  if ($("#opcanvasdiv").hasClass("x4")) {
-    $("#opcanvasdiv").removeClass("x4")
-    $("#ocbar").html("4x")
+$('#ocbar').click(() => {
+  if ($('#opcanvasdiv').hasClass('x4')) {
+    $('#opcanvasdiv').removeClass('x4')
+    $('#ocbar').html('4x')
   } else {
-    $("#opcanvasdiv").addClass("x4")
-    $("#ocbar").html("1x")
+    $('#opcanvasdiv').addClass('x4')
+    $('#ocbar').html('1x')
   }
 })
 
 const checkLeftBar = () => {
   if (
-    $("#participants").css("display") == "block" ||
-    $("#conversation").css("display") == "block"
+    $('#participants').css('display') == 'block' ||
+    $('#conversation').css('display') == 'block'
   ) {
-    $("#left-bar").fadeIn()
-    $("footer").addClass("moveleft")
+    $('#left-bar').fadeIn()
+    $('footer').addClass('moveleft')
   }
 
   if (
-    $("#participants").css("display") !== "block" &&
-    $("#conversation").css("display") !== "block"
+    $('#participants').css('display') !== 'block' &&
+    $('#conversation').css('display') !== 'block'
   ) {
-    $("#left-bar").fadeOut()
-    $("footer").removeClass("moveleft")
+    $('#left-bar').fadeOut()
+    $('footer').removeClass('moveleft')
   }
 
   if (
-    $("#participants").css("display") == "block" &&
-    $("#conversation").css("display") !== "block"
+    $('#participants').css('display') == 'block' &&
+    $('#conversation').css('display') !== 'block'
   ) {
-    $("#user-list").addClass("full")
-    $("#text-content").removeClass("full")
+    $('#user-list').addClass('full')
+    $('#text-content').removeClass('full')
   } else if (
-    $("#participants").css("display") !== "block" &&
-    $("#conversation").css("display") == "block"
+    $('#participants').css('display') !== 'block' &&
+    $('#conversation').css('display') == 'block'
   ) {
-    $("#user-list").removeClass("full")
-    $("#text-content").addClass("full")
+    $('#user-list').removeClass('full')
+    $('#text-content').addClass('full')
   } else {
-    $("#user-list").removeClass("full")
-    $("#text-content").removeClass("full")
+    $('#user-list').removeClass('full')
+    $('#text-content').removeClass('full')
   }
 }
 
 const toggleUserList = () => {
-  $("#participants").toggle()
+  $('#participants').toggle()
   checkLeftBar()
-  $("#tuloff").toggleClass("block")
-  $("#tulon").toggleClass("block")
+  $('#tuloff').toggleClass('block')
+  $('#tulon').toggleClass('block')
 }
 
 const toggleMessage = () => {
-  $("#conversation").toggle()
+  $('#conversation').toggle()
   checkLeftBar()
-  $("#tmoff").toggleClass("block")
-  $("#tmon").toggleClass("block")
+  $('#tmoff').toggleClass('block')
+  $('#tmon').toggleClass('block')
 }
