@@ -153,6 +153,17 @@ const toggleVideoUI = () => {
   $("#tvn").toggleClass("block")
   $("#tvb").toggleClass("block")
   toggleVideo()
+  console.log('======== isPause ======')
+  console.log(isPauseVideo)
+  if (location.pathname.toLowerCase().indexOf('tflite-mp-ss') < 0) {
+    if (!isPauseVideo) {
+      $("#outputcanvas").addClass("dnoneimp");
+      $("#outputimg").removeClass("dnoneimp");
+    } else {
+      $("#outputcanvas").removeClass("dnoneimp");
+      $("#outputimg").addClass("dnoneimp");
+    }
+  }
 }
 
 const toggleAudioUI = () => {
@@ -195,7 +206,7 @@ $("#ebeauty").click(() => {
 $("#ocbar").click(() => {
   if ($("#opcanvasdiv").hasClass("x4")) {
     $("#opcanvasdiv").removeClass("x4")
-    $("#ocbar").html("9x")
+    $("#ocbar").html("4x")
   } else {
     $("#opcanvasdiv").addClass("x4")
     $("#ocbar").html("1x")

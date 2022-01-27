@@ -317,7 +317,8 @@
   }
 
   video,
-  canvas {
+  canvas,
+  #outputimg {
     width: 280px !important;
     height: 156px !important;
   }
@@ -331,7 +332,8 @@
 }
 
 video,
-canvas {
+canvas,
+#outputimg {
   width: 320px;
   height: 180px;
 }
@@ -377,13 +379,13 @@ canvas {
   width: 320px;
 }
 
-.x4 canvas {
-  width: 960px !important;
-  height: 622px;
+.x4 canvas, .x4 #outputimg {
+  width: 640px !important;
+  height: 360px;
 }
 
 .x4 .bar {
-  width: 960px;
+  width: 640px;
 }
 
 .spx4 {

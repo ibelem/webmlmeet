@@ -30,20 +30,33 @@ document.querySelector('#processedwave'),
 }
 );
 
-
 $(document).on("click", "#tns", function () {
-if(isns) {
-    const originStream = audioMotion.audioCtx.createMediaStreamSource(stream);
-    audioMotion.connectInput(originStream);
-    audioMotion.volume = 0;
-    audioMotion.setFreqRange(50, 10000);
+    if(isns) {
+        const originStream = audioMotion.audioCtx.createMediaStreamSource(stream);
+        audioMotion.connectInput(originStream);
+        audioMotion.volume = 0;
+        audioMotion.setFreqRange(50, 10000);
 
-    const processedStream = audioMotionProcessed.audioCtx.createMediaStreamSource(processedstream);
-    audioMotionProcessed.connectInput(processedStream);
-    audioMotionProcessed.volume = 0;
-    audioMotionProcessed.setFreqRange(50, 10000);      
-} else {
-    audioMotion.disconnectInput();
-    audioMotionProcessed.disconnectInput();
-}
+        const processedStream = audioMotionProcessed.audioCtx.createMediaStreamSource(processedstream);
+        audioMotionProcessed.connectInput(processedStream);
+        audioMotionProcessed.volume = 0;
+        audioMotionProcessed.setFreqRange(50, 10000);      
+    } else {
+        audioMotion.disconnectInput();
+        audioMotionProcessed.disconnectInput();
+    }
 })
+
+$("#denoisecontainer").hover(
+    function() {
+        $(this).addClass("nslarge");
+        audioMotion.setOptions({ 
+            height: 220,
+            width: 400
+        });
+        audioMotionProcessed.setOptions({ 
+            height: 220,
+            width: 400
+        });
+    }
+);

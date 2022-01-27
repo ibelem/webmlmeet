@@ -102,23 +102,23 @@ body.fullscreen {
     margin-right: 100px;
 }
 
-.fullscreen .vslot, .fullscreen .vslot canvas, .fullscreen .vslot video {
+.fullscreen .vslot, .fullscreen .vslot canvas, .fullscreen .vslot video, .fullscreen .vslot #outputimg {
     z-index: 1;
 }
 
-.fullscreen .video-panel video, .fullscreen .video-panel canvas {
+.fullscreen .video-panel video, .fullscreen .video-panel canvas, .fullscreen .video-panel #outputimg {
     width: 160px;
     height: 90px;
     cursor: pointer;
 }
 
-.fullscreen .norightbar .video-panel video, .fullscreen .norightbar .video-panel canvas {
+.fullscreen .norightbar .video-panel video, .fullscreen .norightbar .video-panel canvas, .fullscreen .norightbar .video-panel #outputimg {
     width: 200px;
     height: 112px;
     cursor: pointer;
 }
 
-.fullscreen .streamfull, .fullscreen .streamfull canvas, .fullscreen .streamfull video {
+.fullscreen .streamfull, .fullscreen .streamfull canvas, .fullscreen .streamfull video, .fullscreen .streamfull #outputimg {
     position: fixed;
     margin: 0;
     left: 0;

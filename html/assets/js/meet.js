@@ -300,6 +300,12 @@ const toggleVideo = () => {
   if (!isPauseVideo) {
     //TODO: pause all video?
     //remoteMixedSub.mute(Owt.Base.TrackKind.VIDEO);
+    stream.getTracks().forEach((track) => {
+      if (track.readyState === 'live' && track.kind === 'video') {
+        track.enabled = false;
+      }
+    });
+
     for (var temp in subList) {
       if (subList[temp] === screenSub) {
         continue;
@@ -326,6 +332,12 @@ const toggleVideo = () => {
     // console.error("mute video failed: " + error);
 
   } else {
+    stream.getTracks().forEach((track) => {
+      if (track.readyState === 'live' && track.kind === 'video') {
+        track.enabled = true;
+      }
+    });
+
     //remoteMixedSub.unmute(Owt.Base.TrackKind.VIDEO);
     for (var temp in subList) {
       if (subList[temp] === screenSub) {

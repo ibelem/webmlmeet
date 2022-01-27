@@ -303,3 +303,13 @@
   width: auto !important;
   margin-top: 2px;
 }
+
+.nslarge {
+  position: fixed;
+  right: 0px;
+  top: 0px;
+  height: 60vh;
+  width: 50vw;
+  display: block !important;
+  border: 1px solid red;
+}
