@@ -176,7 +176,7 @@ const nsLoad = async () => {
   try {
     rnmodel = await rnnoise.load();
     mRN = true
-    $("#modelloadstatus").html('NS Model Loaded');
+    $("#modelloadstatus").html('NS Loaded');
     if(!isPauseAudio) {
       $("#tns").prop('disabled', false);
       $("#tns").removeClass('disabled');

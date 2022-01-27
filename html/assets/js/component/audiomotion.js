@@ -9,7 +9,7 @@ document.querySelector('#originalwave'),
     mode:1,
     showScaleX: false,
     showScaleY: false,
-    showPeaks: false,
+    showPeaks: true,
     overlay: true,
     bgAlpha: 0,
     showBgColor: false

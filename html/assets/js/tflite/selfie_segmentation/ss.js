@@ -119,11 +119,11 @@ async function ssLoad() {
       let loadedmodels = ''
 
       if (mRN && mSS) {
-        loadedmodels = "SS/NS Models Loaded"
+        loadedmodels = "SS/NS Loaded"
       } else if (!mRN && mSS) {
-        loadedmodels = "SS Model Loaded"
+        loadedmodels = "SS Loaded"
       } else if (mRN) {
-        loadedmodels = "NS Model Loaded"
+        loadedmodels = "NS Loaded"
       }
 
       $("#modelloadstatus").html(loadedmodels);
