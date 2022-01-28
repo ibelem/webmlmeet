@@ -1,28 +1,21 @@
-
-const mpfeatures = async () => {
-    await selfieSegmentation.send({ image: inputvideo });
-  };
-  
-  const initMediaPipeStream = () => {
-    camera = new Camera(inputvideo, {
-      onFrame: async () => {
-        await mpfeatures();
-      },
-      onSourceChanged: () => {
-        selfieSegmentation.reset();
-      },
-      width: resolution.width,
-      height: resolution.height,
-    });
-  };
+const initMediaPipeStream = () => {
+  camera = new Camera(inputvideo, {
+    onFrame: async () => {
+      await selfieSegmentation.send({ image: inputvideo });
+    },
+    onSourceChanged: () => {
+      selfieSegmentation.reset();
+    },
+    width: resolution.width,
+    height: resolution.height,
+  });
+};
 
 const onBRResults = (results) => {
     if(isPauseVideo) {
       ctx.drawImage(bgpause, 0, 0, cW, cH);
     } else {
-  
       if(!isbb && !isbr) {
-  
         ctx.drawImage(results.image, 0, 0, cW, cH);
         if(isbeauty) {
           ctx.filter = "saturate(105%) brightness(120%) contrast(110%) blur(1px)"
@@ -30,7 +23,6 @@ const onBRResults = (results) => {
           ctx.filter = "saturate(100%) brightness(100%) contrast(100%) blur(0px)"
         }
       } else {
-  
         end = performance.now()
         if(start) {
           delta = end - start
