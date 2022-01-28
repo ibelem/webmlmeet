@@ -500,6 +500,11 @@
                     facingMode: b.facingMode,
                     width: b.width,
                     height: b.height
+                },
+                audio: {
+                  source: "mic",
+                  echoCancellation: true,
+                  noiseSuppression: true
                 }
             }).then(function(f) {
                 stream = f
