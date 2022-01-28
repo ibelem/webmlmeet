@@ -691,15 +691,15 @@
         return !1
     }
 
-    function U(a) {
-        var b = a.options.querySelector(".selected");
-        b && (b.classList.remove("selected"), a.h.textContent = "")
+    function qa(a, b) {
+        var c = a.options.querySelector(".selected");
+        c && (c.classList.remove("selected"), a.h.textContent = void 0 === b ? "" : b)
     };
 
-    function V(a) {
+    function U(a) {
         this.g = a
     }
-    V.prototype.create = function(a, b, c) {
+    U.prototype.create = function(a, b, c) {
         var d = this,
             f = c.appendChild(document.createElement("div"));
         f.classList.add("control-panel-entry");
@@ -728,15 +728,15 @@
         }, f);
         0 < this.g.options.length && T(c, this.g.options[0].value)
     };
-    V.prototype.update = function() {};
+    U.prototype.update = function() {};
 
-    function W() {
+    function V() {
         this.i = this.counter = 0;
         this.g = Array.from({
             length: 10
         }).fill(0)
     }
-    W.prototype.create = function(a, b, c) {
+    V.prototype.create = function(a, b, c) {
         // b = c.appendChild(document.createElement("div"));
         // b.classList.add("control-panel-entry");
         // b.classList.add("control-panel-fps");
@@ -752,12 +752,12 @@
         // a.width = 100;
         // a.height = 100;
         // this.j = a.getContext("2d");
-        qa(this, 0)
+        ra(this, 0)
     };
-    W.prototype.update = function() {};
-    W.prototype.tick = function() {
+    V.prototype.update = function() {};
+    V.prototype.tick = function() {
         var a = Math.floor(performance.now() / 1E3);
-        1 <= a - this.i && (qa(this, this.counter), this.i = a, this.counter = 0);
+        1 <= a - this.i && (ra(this, this.counter), this.i = a, this.counter = 0);
         ++this.counter
     };
 
@@ -767,13 +767,13 @@
         divfps = document.querySelector("#fps")
     }, false)
 
-    function qa(a, b) {
+    function ra(a, b) {
         if(divfps) {
             divfps.innerHTML = b.toFixed(0);
         }
     }
 
-    // function qa(a, b) {
+    // function ra(a, b) {
     //     a.g.shift();
     //     a.g.push(b);
     //     var c = a.j;
@@ -797,10 +797,10 @@
     //     a.h.textContent = b.toFixed(0) + " fps"
     // };
 
-    function X(a) {
+    function W(a) {
         this.g = a
     }
-    X.prototype.create = function(a, b, c) {
+    W.prototype.create = function(a, b, c) {
         var d = this;
         this.options = b;
         b = this.g;
@@ -816,7 +816,7 @@
         b.range ? (g.min = "" + b.range[0], g.max = "" + b.range[1],
             g.step = void 0 === b.step ? "any" : "" + b.step) : b.discrete && (g.min = "0", g.max = "" + (Object.keys(b.discrete).length - 1), g.step = "1");
         g.oninput = function() {
-            ra(d, Number(g.value))
+            sa(d, Number(g.value))
         };
         g.onchange = function() {
             var e = Number(g.value);
@@ -826,23 +826,23 @@
         };
         f.textContent = b.title
     };
-    X.prototype.update = function() {
+    W.prototype.update = function() {
         var a = this.options[this.g.field];
         a = this.g.discrete && !Array.isArray(this.g.discrete) ? Object.keys(this.g.discrete).indexOf(a) : a;
         this.i.value = "" + a;
-        ra(this, a)
+        sa(this, a)
     };
 
-    function ra(a, b) {
+    function sa(a, b) {
         b = a.g.discrete ? Object.values(a.g.discrete)[b] : b;
         a.h.textContent = "" + b
     };
-    var sa = {
+    var ta = {
             facingMode: "user",
             width: 640,
             height: 480
         },
-        ta = {
+        ua = {
             allowVideo: !0,
             allowImage: !0,
             examples: {
@@ -851,7 +851,7 @@
             }
         };
 
-    function ua(a) {
+    function X(a) {
         return "https://fonts.gstatic.com/s/i/googlematerialicons/" + a + "/v8/white-24dp/1x/gm_" + a + "_white_24dp.png"
     }
 
@@ -859,8 +859,8 @@
         this.l = [];
         this.A = 0;
         this.j = !1;
-        this.g = Object.assign(Object.assign({}, ta), a);
-        this.g.cameraOptions = Object.assign(Object.assign({}, this.g.cameraOptions || {}), sa)
+        this.g = Object.assign(Object.assign({}, ua), a);
+        this.g.cameraOptions = Object.assign(Object.assign({}, this.g.cameraOptions || {}), ta)
     }
 
     function va(a) {
@@ -874,7 +874,7 @@
                 d = k.l;
                 f = [];
                 g = v(d);
-                for (e = g.next(); !e.done; e = g.next()) h = e.value, "" !== h.label && f.push({
+                for (e = g.next(); !e.done; e = g.next()) h = e.value, "" !== h.label && "videoinput" === h.kind && f.push({
                     label: h.label,
                     deviceId: h.deviceId
                 });
@@ -971,7 +971,7 @@
         return L(a, function d() {
             var f = this;
             return I(d, function(g) {
-                1 == g.g ? g = F(g, za(f), 2) : 3 != g.g ? g = F(g, b.start(), 3) : f.g.onSourceChanged ? g = F(g, f.g.onSourceChanged(), 0) : (g.g = 0, g = void 0);
+                1 == g.g ? g = F(g, za(f), 2) : 3 != g.g ? f.g.onSourceChanged ? g = F(g, f.g.onSourceChanged(b.label, b.type), 3) : (g.g = 3, g = void 0) : g = F(g, b.start(), 0);
                 return g
             })
         })
@@ -981,7 +981,6 @@
         return L(a, function d() {
             var f = this;
             return I(d, function(g) {
-                U(f.o);
                 f.g && f.g.onFrame ? g = F(g, f.g.onFrame(b, {
                     width: b.naturalWidth,
                     height: b.naturalHeight
@@ -996,7 +995,6 @@
             var d = this;
             return I(c, function(f) {
                 if (1 == f.g) {
-                    U(d.o);
                     if (!d.g || !d.g.onFrame) {
                         f.g = 0;
                         return
@@ -1016,23 +1014,25 @@
     function Ba(a, b) {
         return L(a, function d() {
             var f = this,
-                g;
-            return I(d, function(e) {
+                g, e;
+            return I(d, function(h) {
                 g = f;
-                return e.return(navigator.mediaDevices.getUserMedia({
+                e = Object.assign({
                     video: {
-                        deviceId: {
-                            exact: b.deviceId
-                        }
-                    },
-                    audio: !1
-                }).then(function(h) {
-                    g.m = h;
-                    ya(g, h)
-                }).catch(function(h) {
-                    console.error("Failed to acquire camera feed: " + h);
-                    alert("Failed to acquire camera feed: " + h);
-                    throw h;
+                        deviceId: b.deviceId
+                    }
+                }, f.g.cameraOptions ? {
+                    facingMode: f.g.cameraOptions.facingMode,
+                    width: f.g.cameraOptions.width,
+                    height: f.g.cameraOptions.height
+                } : {});
+                return h.return(navigator.mediaDevices.getUserMedia(e).then(function(k) {
+                    g.m = k;
+                    ya(g, k)
+                }).catch(function(k) {
+                    console.error("Failed to acquire camera feed: " + k);
+                    alert("Failed to acquire camera feed: " + k);
+                    throw k;
                 }))
             })
         })
@@ -1068,7 +1068,7 @@
         var c = b.appendChild(document.createElement("input"));
         c.type = "file";
         c.style.display = "none";
-        b.appendChild(R("file-selection", [b = Q("", [S(ua("file_upload"))])]));
+        b.appendChild(R("file-selection", [b = Q("", [S(X("file_upload"))])]));
         b.onclick = function() {
             c.click()
         };
@@ -1081,12 +1081,12 @@
                         h = e.substring(0, e.indexOf("/"));
                         var u = g[0];
                         var m = u.type.match(/^([^;]+)(?:;\w+=(?:\w+|"[\w;,= ]+"))*$/i);
-                        if (2 !== (null === m || void 0 === m ? void 0 : m.length) ||
-                            !(/^image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp|x-icon)$/i.test(m[1]) || /^video\/(?:mpeg|mp4|ogg|webm|x-matroska|quicktime|x-ms-wmv)$/i.test(m[1]) || /^audio\/(?:3gpp2|3gpp|aac|L16|midi|mp3|mp4|mpeg|oga|ogg|opus|x-m4a|x-matroska|x-wav|wav|webm)$/i.test(m[1]))) throw Error("unsafe blob MIME type: " + u.type);
+                        if (2 !== (null === m || void 0 === m ? void 0 : m.length) || !(/^image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp|x-icon)$/i.test(m[1]) ||
+                                /^video\/(?:mpeg|mp4|ogg|webm|x-matroska|quicktime|x-ms-wmv)$/i.test(m[1]) || /^audio\/(?:3gpp2|3gpp|aac|L16|midi|mp3|mp4|mpeg|oga|ogg|opus|x-m4a|x-matroska|x-wav|wav|webm)$/i.test(m[1]))) throw Error("unsafe blob MIME type: " + u.type);
                         if (URL && URL.createObjectURL) u = new M(URL.createObjectURL(u), na);
                         else throw Error("cannot find createObjectURL");
                         k = u.toString();
-                        "image" === h ? Da(l, k) : "video" === h && Ca(l, k)
+                        "image" === h ? (qa(l.o, g[0].name), Da(l, k)) : "video" === h && Ca(l, k)
                     }
                     n.g = 0
                 })
@@ -1158,16 +1158,18 @@
             e = g.appendChild(document.createElement("div"));
             e.classList.add("inputs");
             d.video = e.appendChild(document.createElement("video"));
+            d.video.setAttribute("crossorigin", "anonymous");
+            d.video.setAttribute("playsinline", "true");
             d.h = e.appendChild(document.createElement("img"));
+            d.h.setAttribute("crossorigin", "anonymous");
             Ja(d, f);
-            0 < d.l.length && (e = d.l[0], T(d.o, e.label) || U(d.o),
-                e.start())
+            0 < d.l.length && (e = d.l[0], T(d.o, e.label) || qa(d.o), e.start())
         })
     };
 
     function Ja(a, b) {
-        var c = ua("pause"),
-            d = ua("play_arrow"),
+        var c = X("pause"),
+            d = X("play_arrow"),
             f, g, e, h;
         b.append(e = Q("video-controls", [h = S(c), g = Q("video-track"), f = Q("video-slider-ball"), b = R("video-time")]));
         a.i = {
@@ -1190,8 +1192,7 @@
                 k.preventDefault();
                 var q = e.getBoundingClientRect(),
                     E = f.getBoundingClientRect(),
-                    A =
-                    g.getBoundingClientRect();
+                    A = g.getBoundingClientRect();
                 m = m.clientX - q.left - E.width / 2;
                 q = A.left - q.left;
                 m < q ? m = q : m > q + A.width && (m = q + A.width);
@@ -1296,10 +1297,10 @@
         a.i && a.i(a.options)
     }
     K("ControlPanel", Ma);
-    K("Slider", X);
+    K("Slider", W);
     K("StaticText", Ka);
     K("Toggle", La);
     K("SourcePicker", Y);
-    K("FPS", W);
-    K("DropDownControl", V);
+    K("FPS", V);
+    K("DropDownControl", U);
 }).call(this);
