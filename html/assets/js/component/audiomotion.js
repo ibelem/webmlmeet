@@ -9,7 +9,7 @@ document.querySelector('#originalwave'),
     mode:1,
     showScaleX: false,
     showScaleY: false,
-    showPeaks: true,
+    showPeaks: false,
     overlay: true,
     bgAlpha: 0,
     showBgColor: false
@@ -26,7 +26,7 @@ document.querySelector('#processedwave'),
     mode:1,
     showScaleX: false,
     showScaleY: false,
-    showPeaks: true,
+    showPeaks: false,
     overlay: true,
     bgAlpha: 0,
     showBgColor: false
@@ -50,44 +50,46 @@ $(document).on("click", "#tns", function () {
     }
 })
 
-$("#mstracklabel").mouseover(
-    function() {
-        $("#denoisecontainer").addClass("nslarge");
-        $("#denoisecontainer").fadeIn();
-        audioMotion.setOptions({ 
-            height: 220,
-            width: 400,
-            showPeaks: true,
-            showScaleX: true,
-            showScaleY: true
-        });
-        audioMotionProcessed.setOptions({ 
-            height: 220,
-            width: 400,
-            showPeaks: true,
-            showScaleX: true,
-            showScaleY: true
-        });
-    }
-);
-
-$("#mstracklabel").mouseout(
-    function() {
-        $("#denoisecontainer").removeClass("nslarge");
-        $("#denoisecontainer").fadeIn();
-        audioMotion.setOptions({ 
-            height: 22,
-            width: 80,
-            showPeaks: true,
-            showScaleX: false,
-            showScaleY: false,
-        });
-        audioMotionProcessed.setOptions({ 
-            height: 22,
-            width: 80,
-            showPeaks: true,
-            showScaleX: false,
-            showScaleY: false
-        });
+let isLargeWaveform = false
+$("#mstracklabel").click(
+    function(){
+        if (isLargeWaveform) {
+            $("#denoisecontainer").addClass("nslarge");
+            $("#denoisecontainer").fadeIn();
+            audioMotion.setOptions({ 
+                height: 220,
+                width: 400,
+                showPeaks: true,
+                showScaleX: true,
+                showScaleY: true
+            });
+            audioMotionProcessed.setOptions({ 
+                height: 220,
+                width: 400,
+                showPeaks: true,
+                showScaleX: true,
+                showScaleY: true
+            });
+            isLargeWaveform = !isLargeWaveform;
+        } else {
+    
+            $("#denoisecontainer").removeClass("nslarge");
+            $("#denoisecontainer").fadeIn();
+            audioMotion.setOptions({ 
+                height: 22,
+                width: 80,
+                showPeaks: false,
+                showScaleX: false,
+                showScaleY: false,
+            });
+            audioMotionProcessed.setOptions({ 
+                height: 22,
+                width: 80,
+                showPeaks: false,
+                showScaleX: false,
+                showScaleY: false
+            });
+            isLargeWaveform = !isLargeWaveform;
+        }
     }
 );
