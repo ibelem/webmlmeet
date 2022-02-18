@@ -1,7 +1,30 @@
+#fg, #bg {
+  width:100%;
+  overflow:hidden;
+}
+
+#bg div, #fg div {
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  position:absolute;
+  top:0;
+}
+
+#fg sub {
+  font-size:12px;
+  display:block;
+}
+
+#fg p {
+  padding:12px;
+}
+
 #home .logos {
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(1px);
   width: 660px;
   text-align: center;
+  margin-top: 10px;
 }
 
 #home .logos svg {
@@ -26,14 +49,15 @@
 
 #login {
   background: transparent;
+  backdrop-filter: blur(20px);
   border-radius: 5px;
   box-shadow: 0 0.3px 2.2px rgba(0, 0, 0, 0.011),
     0 0.7px 5.3px rgba(0, 0, 0, 0.016), 0 1.3px 10px rgba(0, 0, 0, 0.02),
     0 2.2px 17.9px rgba(0, 0, 0, 0.024), 0 4.2px 33.4px rgba(0, 0, 0, 0.029),
     0 10px 80px rgba(0, 0, 0, 0.04);
-  width: 700px;
+  width: 660px;
   color: #fff;
-  height: 400px;
+  height: 320px;
 }
 
 #login h2 {
@@ -42,14 +66,10 @@
 
 
 #banner { 
-  position: absolute; 
-  bottom: 50px;
-  right: 50px;
+  margin-top: 3rem;
   background: url(../img/oneapi.png) no-repeat right;
   background-size: 40px 40px;
-  height: 40px;
-  line-height: 40px;
-  padding-right: 40px;
+  max-width: 212px;
 }
 
 #cnote {
@@ -71,8 +91,9 @@
       ". .";
     align-items: center;
     justify-items: center;
-    margin-top: -40px;
 }
+
+/* 
 
 .glass {
     height: 100%;
@@ -81,12 +102,14 @@
     left: 0;
     top: 0;
     border-radius: 25px;
-    background-image: url("../img/03.jpg");
+    background-image: url("../img/03.jpg"); 
     background-size: cover;
     background-position: center;
     clip-path: inset(20px);
     filter: blur(20px);
   }
+
+*/
 
   .drop-shadow {
     height: 100%;

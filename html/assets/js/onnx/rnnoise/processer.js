@@ -46,7 +46,7 @@ class Processer {
       audio[i] = Module.HEAPF32[(audioPtr >> 2) + i];
     }
     Module._free(gainsPtr, audioPtr);
-
+    
     return audio;
   }
 }

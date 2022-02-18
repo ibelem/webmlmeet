@@ -26,7 +26,7 @@ body {
   margin: 0;
   justify-content: center;
   flex-direction: column;
-  overflow: auto;
+  overflow: hidden;
   width: 100%;
   height: 100vh;
   padding: 0px;
@@ -35,8 +35,8 @@ body {
   /* 
     background-image: linear-gradient(21deg, rgba(64, 83, 206, 0.3697003235) 68%, rgba(255, 206, 196, 0.5) 163%), linear-gradient(163deg, rgba(49, 146, 170, 0.0794448997) 86%, rgba(239, 112, 138, 0.5) 40%), linear-gradient(30deg, rgba(76, 79, 173, 0.6173675717) 22%, rgba(237, 106, 134, 0.5) 169%), linear-gradient(48deg, rgba(31, 85, 147, 0.7323890642) 64%, rgba(247, 126, 132, 0.5) 43%);
   */
-  background: url("../img/03.jpg") no-repeat fixed center;
-  background-size:100% 100%;
+  /* background: url("../img/03.jpg") no-repeat fixed center;
+  background-size:100% 100%; */
   background-blend-mode: overlay, multiply, color, normal;
   color: var(--text-color);
 }
