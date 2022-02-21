@@ -14,10 +14,17 @@
 #fg sub {
   font-size:12px;
   display:block;
+  border-top: 2px var(--text-color) solid;
+  display: block;
+  width: 36px;
+  margin-top: 0.5rem;
 }
 
 #fg p {
   padding:12px;
+  position: fixed;
+  bottom: 12px;
+  max-width: 100px;
 }
 
 #home .logos {
