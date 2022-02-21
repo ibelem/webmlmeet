@@ -28,10 +28,12 @@
 }
 
 #home .logos {
-  backdrop-filter: blur(1px);
+  backdrop-filter: blur(10px);
   width: 660px;
   text-align: center;
   margin-top: 10px;
+  box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
 
 #home .logos svg {
@@ -58,10 +60,7 @@
   background: transparent;
   backdrop-filter: blur(20px);
   border-radius: 5px;
-  box-shadow: 0 0.3px 2.2px rgba(0, 0, 0, 0.011),
-    0 0.7px 5.3px rgba(0, 0, 0, 0.016), 0 1.3px 10px rgba(0, 0, 0, 0.02),
-    0 2.2px 17.9px rgba(0, 0, 0, 0.024), 0 4.2px 33.4px rgba(0, 0, 0, 0.029),
-    0 10px 80px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.2);
   width: 660px;
   color: #fff;
   height: 320px;
