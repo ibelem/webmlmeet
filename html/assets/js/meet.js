@@ -156,7 +156,7 @@ let generator;
 let transformer;
 let denoisemode = false;
 
-let abortController;
+let videoAbortController, audioAbortController;
 
 const nsLoad = async () => {
   try {
@@ -750,9 +750,9 @@ async function originalAudio() {
     processedstream.removeTrack(processedstream.getAudioTracks()[0]);
   }
   try {
-    if(abortController) {
-      abortController.abort();
-      abortController = null;
+    if(audioAbortController) {
+      audioAbortController.abort();
+      audioAbortController = null;
     }
   } catch (ex) {
     cl(ex)
@@ -781,8 +781,8 @@ async function denoise() {
   const source = processor.readable;
   const sink = generator.writable;
   transformer = new TransformStream({ transform: denoiseFilter() });
-  abortController = new AbortController();
-  const signal = abortController.signal;
+  audioAbortController = new AbortController();
+  const signal = audioAbortController.signal;
   const promise = source.pipeThrough(transformer, { signal }).pipeTo(sink);
   promise.catch((e) => {
     if (signal.aborted) {

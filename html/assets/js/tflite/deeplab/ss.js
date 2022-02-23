@@ -10,26 +10,10 @@ let inputOptions;
 let outputBuffer;
 let modelRunner;
 
-async function fetchLabels(url) {
-  const response = await fetch(url);
-  const data = await response.text();
-  return data.split('\n');
-}
-
-function stopCamera() {
-  stream.getTracks().forEach((track) => {
-    if (track.readyState === 'live' && track.kind === 'video') {
-      track.stop();
-    }
-  });
-  abortController.abort();
-  abortController = null;
-}
-
 function segmentSemantic() {
-  return async (inputvideo, controller) => {
-    const inputBuffer = getInputTensor(inputvideo, inputOptions);
-    const inputCanvas = getVideoFrame(inputvideo);
+  return async (videoFrame, controller) => {
+    const inputBuffer = getInputTensor(videoFrame, inputOptions);
+    // const inputCanvas = getVideoFrame(inputvideo);
     console.log('- Computing... ');
     const start = performance.now();
     if (instanceType === 'deeplabnchw' || instanceType === 'deeplabnhwc') {
@@ -42,11 +26,11 @@ function segmentSemantic() {
     computeTime = (performance.now() - start).toFixed(2);
     console.log(`  done in ${computeTime} ms.`);
 
-    await drawOutput(outputBuffer, inputCanvas);
-    let framefromcanvas = new VideoFrame(inputvideo, { timestamp: 0 });
+    await drawOutput(outputBuffer, videoFrame);
+    let framefromcanvas = new VideoFrame(outputcanvas, { timestamp: 0 });
     // const barcodes = await detectBarcodes(videoFrame);
     // const newFrame = highlightBarcodes(videoFrame, barcodes);
-    // videoFrame.close();
+    videoFrame.close();
     controller.enqueue(framefromcanvas);
 
     spaninference.html(computeTime)
@@ -55,10 +39,13 @@ function segmentSemantic() {
   };
 }
 
+async function renderOriginalStream() {
+  inputvideo.srcObject = stream;
+  videoAbortController.abort();
+  videoAbortController = null;
+}
+
 async function renderCamStream() {
-  if (processedstream.getVideoTracks().length > 0) {
-    processedstream.removeTrack(processedstream.getVideoTracks()[0]);
-  }
   const videoTrack = stream.getVideoTracks()[0];
   const processor = new MediaStreamTrackProcessor({ track: videoTrack });
   const generator = new MediaStreamTrackGenerator({ kind: 'video' });
@@ -66,8 +53,8 @@ async function renderCamStream() {
   const source = processor.readable;
   const sink = generator.writable;
   const transformer = new TransformStream({ transform: segmentSemantic() });
-  abortController = new AbortController();
-  const signal = abortController.signal;
+  videoAbortController = new AbortController();
+  const signal = videoAbortController.signal;
 
   const popeThroughPromise = source.pipeThrough(transformer, { signal }).pipeTo(sink);
 
@@ -84,12 +71,6 @@ async function renderCamStream() {
   const processedStream = new MediaStream();
   processedStream.addTrack(generator);
   inputvideo.srcObject = processedStream;
-  await inputvideo.play();
-
-  if (videotransceiver) {
-    videotransceiver.sender.replaceTrack(generator);
-  }
- 
 }
 
 async function drawOutput(outputBuffer, srcElement) {
@@ -106,8 +87,9 @@ async function drawOutput(outputBuffer, srcElement) {
     });
   }
   console.log('output: ', outputBuffer);
-  outputcanvas.width = srcElement.naturalWidth | srcElement.displayWidthh;
+  outputcanvas.width = srcElement.naturalWidth | srcElement.displayWidth;
   outputcanvas.height = srcElement.naturalHeight | srcElement.displayHeight;
+  console.log('output Canvas Element:', outputcanvas.width, 'x', outputcanvas.height);
   const pipeline = buildWebGL2Pipeline(
     srcElement,
     backgroundImageSource,

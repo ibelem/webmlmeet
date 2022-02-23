@@ -37,7 +37,7 @@ const exitMeeting = () => {
     location.href = '../index.html';
 }
 
-const toggleBBUI = () => {
+const toggleBBUI = async () => {
   $("#bboff").toggleClass("block")
   $("#bbon").toggleClass("block")
   $("#tbb").toggleClass("act")
@@ -57,13 +57,14 @@ const toggleBBUI = () => {
     $("#ss-panel").hide()
     isSS = false
     ssConfig(isSS, effect)
+    await renderOriginalStream()
   }
   if (!isbr && !isbb && !isns) {
     $("#control-panel").fadeOut()
   }
 }
 
-const toggleBRUI = () => {
+const toggleBRUI = async () => {
   $("#right-bar").fadeIn()
 
   $("#broff").toggleClass("block")
@@ -95,6 +96,7 @@ const toggleBRUI = () => {
     $("#ss-panel").hide()
     isSS = false
     ssConfig(isSS, effect)
+    await renderOriginalStream()
   }
   if (!isbr && !isbb && !isns) {
     $("#control-panel").fadeOut()

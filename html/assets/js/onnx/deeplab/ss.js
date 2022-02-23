@@ -13,49 +13,68 @@ let inputOptions;
 let outputBuffer;
 let modelRunner;
 
-async function fetchLabels(url) {
-  const response = await fetch(url);
-  const data = await response.text();
-  return data.split('\n');
-}
-
-function stopCamera() {
-  stream.getTracks().forEach((track) => {
-    if (track.readyState === 'live' && track.kind === 'video') {
-      track.stop();
+function segmentSemantic() {
+  return async (videoFrame, controller) => {
+    const inputBuffer = getInputTensor(videoFrame, inputOptions);
+    // const inputCanvas = getVideoFrame(inputvideo);
+    console.log('- Computing... ');
+    const start = performance.now();
+    if (instanceType === 'deeplabnchw' || instanceType === 'deeplabnhwc') {
+      netInstance.compute(inputBuffer, outputBuffer);
+    } else if (instanceType === 'deeplabonnx') {
+      outputBuffer = await netInstance.compute(modelRunner, inputBuffer);
+    } else {
+      outputBuffer = netInstance.compute(modelRunner, inputBuffer);
     }
-  });
-}
+    computeTime = (performance.now() - start).toFixed(2);
+    console.log(`  done in ${computeTime} ms.`);
 
-/**
- * This method is used to render live camera tab.
- */
-async function renderCamStream() {
-  // If the video element's readyState is 0, the video's width and height are 0.
-  // So check the readState here to make sure it is greater than 0.
-  // if(inputvideo.readyState === 0) {
-  //   rafReq = requestAnimationFrame(renderCamStream);
-  //   return;
-  // }
-  const inputBuffer = getInputTensor(inputvideo, inputOptions);
-  const inputCanvas = getVideoFrame(inputvideo);
-  console.log('- Computing... -');
-  const start = performance.now();
-  outputBuffer = await netInstance.compute(modelRunner, inputBuffer);
-  computeTime = (performance.now() - start).toFixed(2);
-  console.log(`  done in ${computeTime} ms.`);
-  await drawOutput(outputBuffer, inputCanvas);
-  // rafReq = requestAnimationFrame(renderCamStream);
- 
-  if(continueAnimating)
-  {
-    requestAnimationFrame(renderCamStream); 
+    await drawOutput(outputBuffer, videoFrame);
+    let framefromcanvas = new VideoFrame(outputcanvas, { timestamp: 0 });
+    // const barcodes = await detectBarcodes(videoFrame);
+    // const newFrame = highlightBarcodes(videoFrame, barcodes);
+    videoFrame.close();
+    controller.enqueue(framefromcanvas);
+
     spaninference.html(computeTime)
     let ct = parseInt(computeTime)
     $("#fps").html((1000/ct).toFixed(0))
-  }
+  };
 }
- 
+
+async function renderOriginalStream() {
+  inputvideo.srcObject = stream;
+  videoAbortController.abort();
+  videoAbortController = null;
+}
+
+async function renderCamStream() {
+  const videoTrack = stream.getVideoTracks()[0];
+  const processor = new MediaStreamTrackProcessor({ track: videoTrack });
+  const generator = new MediaStreamTrackGenerator({ kind: 'video' });
+
+  const source = processor.readable;
+  const sink = generator.writable;
+  const transformer = new TransformStream({ transform: segmentSemantic() });
+  videoAbortController = new AbortController();
+  const signal = videoAbortController.signal;
+
+  const popeThroughPromise = source.pipeThrough(transformer, { signal }).pipeTo(sink);
+
+  popeThroughPromise.catch((e) => {
+    if (signal.aborted) {
+      console.log('Shutting down streams after abort.');
+    } else {
+      console.error('Error from stream transform:', e);
+    }
+    source.cancel(e);
+    sink.abort(e);
+  });
+
+  const processedStream = new MediaStream();
+  processedStream.addTrack(generator);
+  inputvideo.srcObject = processedStream;
+}
 
 async function drawOutput(outputBuffer, srcElement) {
   if (instanceType.startsWith('deeplab')) {
@@ -71,8 +90,9 @@ async function drawOutput(outputBuffer, srcElement) {
     });
   }
   console.log('output: ', outputBuffer);
-  outputcanvas.width = srcElement.naturalWidth | srcElement.width;
-  outputcanvas.height = srcElement.naturalHeight | srcElement.height;
+  outputcanvas.width = srcElement.naturalWidth | srcElement.displayWidth;
+  outputcanvas.height = srcElement.naturalHeight | srcElement.displayHeight;
+  console.log('output Canvas Element:', outputcanvas.width, 'x', outputcanvas.height);
   const pipeline = buildWebGL2Pipeline(
     srcElement,
     backgroundImageSource,
@@ -101,7 +121,6 @@ async function ssLoad() {
       instanceType = modelName + layout;
       netInstance = new DeepLabV3MNV2ONNX();
       inputOptions = netInstance.inputOptions;
-      labels = await fetchLabels(inputOptions.labelUrl);
       isFirstTimeLoad = false;
       console.log(`- Model name: ${modelName}, Model layout: ${layout} -`);
       // UI shows model loading progress
