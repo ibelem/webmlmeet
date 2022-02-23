@@ -18,13 +18,13 @@ function segmentSemantic() {
     const inputBuffer = getInputTensor(videoFrame, inputOptions);
     console.log('- Computing... ');
     const start = performance.now();
-    if (instanceType === 'deeplabnchw' || instanceType === 'deeplabnhwc') {
-      netInstance.compute(inputBuffer, outputBuffer);
-    } else if (instanceType === 'deeplabonnx') {
-      outputBuffer = await netInstance.compute(modelRunner, inputBuffer);
-    } else {
-      outputBuffer = netInstance.compute(modelRunner, inputBuffer);
-    }
+    // if (instanceType === 'deeplabnchw' || instanceType === 'deeplabnhwc') {
+    //   netInstance.compute(inputBuffer, outputBuffer);
+    // } else if (instanceType === 'deeplabonnx') {
+    //   outputBuffer = await netInstance.compute(modelRunner, inputBuffer);
+    // } else {
+    outputBuffer = await netInstance.compute(modelRunner, inputBuffer);
+    // }
     computeTime = (performance.now() - start).toFixed(2);
     console.log(`  done in ${computeTime} ms.`);
 

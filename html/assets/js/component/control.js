@@ -195,7 +195,7 @@ const control = () => {
             type="button"
             class="button disabled"
             id="tbr"
-            title="Change background"
+            title="Background replacement"
             onclick="toggleBRUI()"
             disabled
             >
