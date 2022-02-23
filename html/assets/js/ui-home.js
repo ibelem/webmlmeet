@@ -35,7 +35,7 @@ let mi = '3'
 
 $(document).ready(function () {
   $("#login").fadeIn(1000)
-  $(".logos").fadeIn(1500)
+  $("#home .logos").fadeIn(1500)
 
   // $("#btnjoin").hover(function() {
   //   $("#pv").addClass("pvshow");

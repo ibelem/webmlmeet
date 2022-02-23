@@ -28,12 +28,18 @@
 }
 
 #home .logos {
-  backdrop-filter: blur(10px);
+  display: none;
   width: 660px;
   text-align: center;
   margin-top: 10px;
-  box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0);
   border-radius: 5px;
+  backdrop-filter: blur(1px);
+}
+
+#home .logos:hover {
+  backdrop-filter: blur(10px);
+  box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.2);
 }
 
 #home .logos svg {
@@ -212,7 +218,7 @@
 
 .join input:focus, 
 .join input:hover {
-    color: #fff;rgba(15, 76, 129, 0.9)
+    color: #fff;
     border: 1px solid rgba(255, 255, 255, 1.0);
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     border-left: 1px solid rgba(255, 255, 255, 0.2);
