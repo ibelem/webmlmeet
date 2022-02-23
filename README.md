@@ -1,5 +1,5 @@
 # oneWebmeet (Intelligent Collaboration)
-A Web Intelligent Collaboration (Video Conference) demo with AI features based on up to date W3C Web Neural Network API and powered by Intel Open WebRTC Toolkit (OWT).
+A Web-based Intelligent Collaboration (Video Conference) demo with AI features based on up to date W3C Web Neural Network API and powered by Intel Open WebRTC Toolkit (OWT).
 
 > [Web Neural Network (WebNN) API](https://webmachinelearning.github.io/webnn/) is a dedicated low-level API for neural network inference hardware acceleration. It is published by the [W3C Machine Learning for the Web Community Group](https://www.w3.org/community/webmachinelearning/).
 
