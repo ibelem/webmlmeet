@@ -15,7 +15,6 @@ let modelRunner;
 function segmentSemantic() {
   return async (videoFrame, controller) => {
     const inputBuffer = getInputTensor(videoFrame, inputOptions);
-    // const inputCanvas = getVideoFrame(inputvideo);
     console.log('- Computing... ');
     const start = performance.now();
     if (instanceType === 'deeplabnchw' || instanceType === 'deeplabnhwc') {
