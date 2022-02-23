@@ -22,29 +22,74 @@ function stopCamera() {
       track.stop();
     }
   });
+  abortController.abort();
+  abortController = null;
 }
 
-async function renderCamStream() {
-  if(inputvideo.readyState === 0) {
-    rafReq = requestAnimationFrame(renderCamStream);
-    return;
-  }
-  const inputBuffer = getInputTensor(inputvideo, inputOptions);
-  const inputCanvas = getVideoFrame(inputvideo);
-  console.log('- Computing... ');
-  const start = performance.now();
-  outputBuffer = netInstance.compute(modelRunner, inputBuffer);
-  computeTime = (performance.now() - start).toFixed(2);
-  console.log(`  done in ${computeTime} ms.`);
-  await drawOutput(outputBuffer, inputCanvas);
+function segmentSemantic() {
+  return async (inputvideo, controller) => {
+    const inputBuffer = getInputTensor(inputvideo, inputOptions);
+    const inputCanvas = getVideoFrame(inputvideo);
+    console.log('- Computing... ');
+    const start = performance.now();
+    if (instanceType === 'deeplabnchw' || instanceType === 'deeplabnhwc') {
+      netInstance.compute(inputBuffer, outputBuffer);
+    } else if (instanceType === 'deeplabonnx') {
+      outputBuffer = await netInstance.compute(modelRunner, inputBuffer);
+    } else {
+      outputBuffer = netInstance.compute(modelRunner, inputBuffer);
+    }
+    computeTime = (performance.now() - start).toFixed(2);
+    console.log(`  done in ${computeTime} ms.`);
 
-  if(continueAnimating)
-  {
-    rafReq = requestAnimationFrame(renderCamStream);
+    await drawOutput(outputBuffer, inputCanvas);
+    let framefromcanvas = new VideoFrame(inputvideo, { timestamp: 0 });
+    // const barcodes = await detectBarcodes(videoFrame);
+    // const newFrame = highlightBarcodes(videoFrame, barcodes);
+    // videoFrame.close();
+    controller.enqueue(framefromcanvas);
+
     spaninference.html(computeTime)
     let ct = parseInt(computeTime)
     $("#fps").html((1000/ct).toFixed(0))
+  };
+}
+
+async function renderCamStream() {
+  if (processedstream.getVideoTracks().length > 0) {
+    processedstream.removeTrack(processedstream.getVideoTracks()[0]);
   }
+  const videoTrack = stream.getVideoTracks()[0];
+  const processor = new MediaStreamTrackProcessor({ track: videoTrack });
+  const generator = new MediaStreamTrackGenerator({ kind: 'video' });
+
+  const source = processor.readable;
+  const sink = generator.writable;
+  const transformer = new TransformStream({ transform: segmentSemantic() });
+  abortController = new AbortController();
+  const signal = abortController.signal;
+
+  const popeThroughPromise = source.pipeThrough(transformer, { signal }).pipeTo(sink);
+
+  popeThroughPromise.catch((e) => {
+    if (signal.aborted) {
+      console.log('Shutting down streams after abort.');
+    } else {
+      console.error('Error from stream transform:', e);
+    }
+    source.cancel(e);
+    sink.abort(e);
+  });
+
+  const processedStream = new MediaStream();
+  processedStream.addTrack(generator);
+  inputvideo.srcObject = processedStream;
+  await inputvideo.play();
+
+  if (videotransceiver) {
+    videotransceiver.sender.replaceTrack(generator);
+  }
+ 
 }
 
 async function drawOutput(outputBuffer, srcElement) {
@@ -61,8 +106,8 @@ async function drawOutput(outputBuffer, srcElement) {
     });
   }
   console.log('output: ', outputBuffer);
-  outputcanvas.width = srcElement.naturalWidth | srcElement.width;
-  outputcanvas.height = srcElement.naturalHeight | srcElement.height;
+  outputcanvas.width = srcElement.naturalWidth | srcElement.displayWidthh;
+  outputcanvas.height = srcElement.naturalHeight | srcElement.displayHeight;
   const pipeline = buildWebGL2Pipeline(
     srcElement,
     backgroundImageSource,
