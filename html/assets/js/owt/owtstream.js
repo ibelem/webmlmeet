@@ -23,24 +23,24 @@ const pipeline2 = buildWebGL2Pipeline(
   null
 );
 
+const postProcessingConfig2 = {
+  smoothSegmentationMask: true,
+  jointBilateralFilter: {sigmaSpace: 1, sigmaColor: 0.1},
+  coverage: [0.5, 0.75],
+  lightWrapping: 0.3,
+  blendMode: 'screen',
+}
+pipeline2.updatePostProcessingConfig(postProcessingConfig2);
+
 const videoCanvasOnFrame = async () => {
   if(continueinputvideo) {
-    window.requestAnimationFrame(videoCanvasOnFrame);
+    requestAnimationFrame(videoCanvasOnFrame);
     // ctx2d.drawImage(inputvideo, 0, 0, cW, cH);
     if(stream) {
-      const postProcessingConfig2 = {
-        smoothSegmentationMask: true,
-        jointBilateralFilter: {sigmaSpace: 1, sigmaColor: 0.1},
-        coverage: [0.5, 0.75],
-        lightWrapping: 0.3,
-        blendMode: 'screen',
-      }
-      pipeline2.updatePostProcessingConfig(postProcessingConfig2);
       await pipeline2.render();
     }
   }
 }
-
 
 const oneWebMeetOWT = async () => {
   await createOWTStream()
