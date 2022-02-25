@@ -39,7 +39,7 @@ function accordion() {
         innerHTML: `<p>${uc[i]}<sub></sub></p>`,
         width:'100%',
         height:'100%',
-        borderLeft:(i>0)?'solid 1px rgba(255, 255, 255, 0.1)':'',
+        borderLeft:(i>0)?'solid 1px rgba(255, 255, 255, 0.05)':'',
         backgroundColor:'rgba(250,250,250,0)',
         left:i*closedWidth,
         transformOrigin:'100% 100%',

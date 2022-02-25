@@ -72,6 +72,12 @@
   height: 320px;
 }
 
+#login:hover {
+  backdrop-filter: blur(0px);
+  box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
 #login h2 {
   font-weight: 200;
 }
