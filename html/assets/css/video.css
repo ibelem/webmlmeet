@@ -1,4 +1,7 @@
- 
+#ic {
+  background-color: var(--bg-vc-color);
+}
+
 .cleft a {
   color: rgba(204, 255, 144, 1);
   text-decoration: none;
@@ -36,7 +39,7 @@
   display: none;
   position: absolute;
   width: 100%;
-  background: #2a394f;
+  background: var(--bg-main-color);
   color: white;
   font-size: 0.7rem;
   z-index: 10000;
@@ -69,7 +72,7 @@
 }
 
 .mega-menu .col:hover {
-  background: #212e41;
+  background: var(--bg-vc-color);
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 

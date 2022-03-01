@@ -1,7 +1,8 @@
 :root {
   --bg-color: #ffffff;
   --bg-lb-color: rgba(21.5, 23.8, 41.9, 1.0);
-  --bg-main-color: rgba(16.8, 19.1, 31.8, 1);
+  --bg-main-color: rgba(39, 40, 60, 1);
+  --bg-vc-color: rgba(27, 28, 48, 1);
   --bg-textbg-color: rgba(6.5, 10.8, 20.3, 1.0);
   --m-color: #ccff90;
   --mc-color: #ba2831;

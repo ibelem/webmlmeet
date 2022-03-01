@@ -1,4 +1,4 @@
-import AudioMotionAnalyzer from 'https://cdn.skypack.dev/audiomotion-analyzer?min';
+import AudioMotionAnalyzer from './audiomotion-analyzer/audioMotion-analyzer.js';
 
 const audioMotion = new AudioMotionAnalyzer(
 document.querySelector('#originalwave'),
