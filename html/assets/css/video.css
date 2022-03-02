@@ -2,6 +2,10 @@
   background-color: var(--bg-vc-color);
 }
 
+.fullscreen #ic {
+  background-color: transparent;
+}
+
 .cleft a {
   color: rgba(204, 255, 144, 1);
   text-decoration: none;
