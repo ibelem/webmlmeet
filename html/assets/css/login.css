@@ -198,12 +198,12 @@
 
   a.selected {
       background: rgba(255, 255, 255, 0.8);
-      color: rgba(0, 0, 0, 0.8);
+      color: rgba(0, 0, 0, 0.6);
   }
 
   a:hover.selected {
     background: rgba(255, 255, 255, 1.0);
-    color: rgba(0, 0, 0, 1.0);
+    color: rgba(0, 0, 0, 0.8);
 }
 
 .join input {

@@ -14,6 +14,8 @@
   --text2-color: rgba(255, 255, 255, 1.0);
   --text3-color: rgba(255, 255, 255, 0.5);
   --border-color: rgba(227, 231, 247, 0.1);
+  --lb-color: rgba(0, 199, 254, 0.8);
+  --lbactive-color: rgba(0, 199, 254, 1.0);
 }
 
 * {
@@ -40,6 +42,7 @@ body {
   background-size:100% 100%; */
   background-blend-mode: overlay, multiply, color, normal;
   color: var(--text-color);
+  text-shadow: rgb(0 0 0 / 50%) 0px 1px 2px;
 }
 
 .dnone {
