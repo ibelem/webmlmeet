@@ -114,6 +114,10 @@ button {
   background-color: var(--bg-main-color);
 }
 
+.main:hover {
+
+}
+
 /* .left-bar:before {
   background-image: url("../assets/img/03.jpg");
   height: 100%;
