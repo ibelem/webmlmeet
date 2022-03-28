@@ -649,7 +649,19 @@
         </div>
       </div>
     </div>
+    <script>
+      // This workaround is to fix jquery loading issue in electron.
+      // Refer to https://stackoverflow.com/questions/32621988/electron-jquery-is-not-defined.
+      if (typeof module === "object") {
+        window.tempModule = module;
+        module = undefined;
+      }
+    </script>
     <script src="../assets/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+    <script>
+      // To restore module after loading 3rd-party libraries.
+      if (window.tempModule) module = window.tempModule;
+    </script>
     <script src="../assets/js/base.js" type="text/javascript"></script>
     <script src="../assets/js/owt/socket.io.js" type="text/javascript"></script>
     <script src="../assets/js/owt/adapter-7.0.0.js" type="text/javascript"></script>
