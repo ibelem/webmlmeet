@@ -21,10 +21,10 @@ class DeepLabV3MNV2ONNX {
 
     // override path of wasm files - for each file
     ort.env.wasm.wasmPaths = {
-      'ort-wasm.wasm': '../../js/onnx/ort-wasm.wasm',
-      'ort-wasm-simd.wasm': '../../js/onnx/ort-wasm-simd.wasm',
-      'ort-wasm-threaded.wasm': '../../js/onnx/ort-wasm-threaded.wasm',
-      'ort-wasm-simd-threaded.wasm': '../../js/onnx/ort-wasm-simd-threaded.wasm'
+      'ort-wasm.wasm': '../../assets/js/onnx/ort-wasm.wasm',
+      'ort-wasm-simd.wasm': '../../assets/js/onnx/ort-wasm-simd.wasm',
+      'ort-wasm-threaded.wasm': '../../assets/js/onnx/ort-wasm-threaded.wasm',
+      'ort-wasm-simd-threaded.wasm': '../../assets/js/onnx/ort-wasm-simd-threaded.wasm'
     };
 
     if(backend === "webnn") {
