@@ -36,7 +36,7 @@ class RNNoiseONNX {
       'ort-wasm-simd-threaded.wasm': '../../../js/onnx/ort-wasm-simd-threaded.wasm'
     };
     ort.env.wasm.numThreads = 0; // Number of thread(s) will be determined by system.
-    ort.env.wasm.simd = true; // Enable SIMD.
+    ort.env.wasm.simd = false; // Enable SIMD.
 
     if(backend === "webnn") {
       ort.env.wasm.numThreads = 1;
