@@ -131,6 +131,7 @@ $(document).ready(function () {
   }, 1)
 
   $('#mega-menu').html(megamenu())
+  $('#cp-bkn-logo').html(backendlogo())
   $('footer').html(control())
 
 })

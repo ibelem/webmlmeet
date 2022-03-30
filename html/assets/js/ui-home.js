@@ -53,7 +53,14 @@ $(document).ready(function () {
     $("#btnssl").hide()
     $("#btndl321").show()
     $("#btndl513").show()
+    $("#btndl321").addClass("selected")
     path = "ort"
+    model = "dl"
+    mi = "3"
+
+    $("#btnwebnn").show()
+    $("#btnwebnngpu").show()
+    $("#btnwasm").parent().removeClass("vfull").removeClass("vo").removeClass("vm").addClass("vr")
   })
 
   $("#btntflite").click(function () {
@@ -70,6 +77,14 @@ $(document).ready(function () {
   $("#wi-mp").click(function () {
     $("#wo-mp").removeClass("selected")
     $("#wi-mp").addClass("selected")
+
+    $("#btnwebnn").hide()
+    $("#btnwebnngpu").hide()
+    $("#btnwasm").removeClass("selected").addClass("selected")
+    $('#btnwebnn').removeClass("selected")
+    $('#btnwebnngpu').removeClass("selected")
+    $("#btnwasm").parent().removeClass("vr").removeClass("vo").removeClass("vm").addClass("vfull")
+
     path = "tflite-mp"
     $("#btnort").removeClass("selected")
     $("#btntflite").addClass("selected")
@@ -90,6 +105,12 @@ $(document).ready(function () {
   $("#wo-mp").click(function () {
     $("#wo-mp").addClass("selected")
     $("#wi-mp").removeClass("selected")
+
+    $("#btnwebnn").show()
+    $("#btnwebnngpu").show()
+    $("#btnwasm").removeClass("selected").addClass("selected")
+    $("#btnwasm").parent().removeClass("vfull").removeClass("vo").removeClass("vm").addClass("vr")
+
     path = "tflite"
     $("#btnssl").removeClass("selected")
     $("#btnss").removeClass("selected")
