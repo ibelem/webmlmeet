@@ -3,16 +3,14 @@ function accordion() {
     '../assets/img/login/1.jpg',
     '../assets/img/login/2.jpg',
     '../assets/img/login/3.jpg',
-    '../assets/img/login/4.jpg',
-    '../assets/img/login/0.jpg'
+    '../assets/img/login/4.jpg'
     ],
     n = imgs.length,
     current = n-1,
     closedWidth = Math.floor(window.innerWidth/6)
 
     const uc = [
-      "Background Blur",
-      "Background Replacement",
+      "Background Blur/Replacement",
       "Noise Suppression",
       "Intel XPU, VNNI",
       "Video Conference"
