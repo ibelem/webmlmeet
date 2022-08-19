@@ -96,8 +96,8 @@ prepareSampleRoom
   // Start HTTPS server
   try {
     https.createServer({
-      cert: fs.readFileSync('cert/webmlmeet.crt'),
-      key: fs.readFileSync('cert/webmlmeet.key'),
+      cert: fs.readFileSync('cert/yourdomain.com.pem'),
+      key: fs.readFileSync('cert/yourdomain.com-key.pem'),
     }, app).listen(config.httpsPort);
   } catch (e) {
     console.log(e);

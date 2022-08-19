@@ -47,6 +47,18 @@ The WebNN Meeting requires WebRTC server support, please read [Server Setup](doc
 
 Go to project main dir like `/home/belem/github/webnnmeeting` and create private and public key, the certificate path need to be filled in `certificate`.`key` and `certificate`.`cert` of `config.js`.
 
+#### Recommend 
+
+Visit https://github.com/FiloSottile/mkcert, install mkcert
+
+```
+$ mkcert -install
+$ mkcert yourdomain.com xxx.xxx.xxx.xxx localhost 127.0.0.1 ::1
+```
+Generate .key and .crt files from .pem files above.
+
+#### Alternative
+
 ```
 $ openssl genrsa 2048 > webnnmeeting.key
 $ chmod 400 webnnmeeting.key
