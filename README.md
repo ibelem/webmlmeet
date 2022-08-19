@@ -55,7 +55,7 @@ Visit https://github.com/FiloSottile/mkcert, install mkcert
 $ mkcert -install
 $ mkcert yourdomain.com xxx.xxx.xxx.xxx localhost 127.0.0.1 ::1
 ```
-Generate .key and .crt files from .pem files above.
+Use the .pem and key.pem files directly or generate .key and .crt files from these .pem files.
 
 #### Alternative
 
