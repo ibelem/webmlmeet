@@ -96,7 +96,7 @@ module.exports = {
 
 Go to project main dir like `D:\projects\webmlmeet` and create private and public key, the certificate path need to be filled in `Line 99` and `Line 100` in `meetingserver.js`.
 
-We may need to install OpenSSL on Windows to generate the certificate files, to save your efforts, please just get the .crt and .key files in http://<INTRANET>/project/webnn/demo/demoday2022/Web-based%20Intelligent%20Collaboration/Windows/cert directly.
+We may need to install OpenSSL on Windows to generate the certificate files, to save your efforts, please just get the .crt and .key files in http://INTRANET/project/webnn/demo/demoday2022/Web-based%20Intelligent%20Collaboration/Windows/cert directly.
 
 
 ```
@@ -127,9 +127,9 @@ If you are running the code locally, the browser will show "Your connection is n
 
 ## Prerequisites Steps
 
-1. Download OpenVINO toolkit (w_openvino_toolkit_p_2021.4.582.exe) from http://<INTRANET>/project/webnn/demo/demoday2022/w_openvino_toolkit_p_2021.4.582.exe
+1. Download OpenVINO toolkit (w_openvino_toolkit_p_2021.4.582.exe) from http://INTRANET/project/webnn/demo/demoday2022/w_openvino_toolkit_p_2021.4.582.exe
 2. Install and configure OpenVINO toolkit (You could refer to https://docs.openvino.ai/latest/openvino_docs_install_guides_installing_openvino_windows.html for more details)
-3. Download Web-based Intelligent Collaboration app from http://<INTRANET>/project/webnn/demo/demoday2022/Web-based%20Intelligent%20Collaboration/web_ic_demo-win32-x64-0.0.1.zip
+3. Download Web-based Intelligent Collaboration app from http://INTRANET/project/webnn/demo/demoday2022/Web-based%20Intelligent%20Collaboration/web_ic_demo-win32-x64-0.0.1.zip
 3. Extract Demo zip file to folder "web_ic_demo-win32-x64-0.0.1"
 
 ### Launch Web-based Intelligent Collaboration App
