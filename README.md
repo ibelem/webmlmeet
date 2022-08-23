@@ -45,7 +45,7 @@ The WebNN Meeting requires WebRTC server support, please read [Server Setup](doc
 
 ### HTTPS Configuration
 
-Go to project main dir like `/home/belem/github/webnnmeeting` and create private and public key, the certificate path need to be filled in `meetingserver.js`.
+Go to project main dir like `/home/belem/github/webmlmeet` and create private and public key, the certificate path need to be filled in `Line 99` and `Line 100` in `meetingserver.js`.
 
 #### Recommend 
 
@@ -60,29 +60,25 @@ Use the .pem and key.pem files directly or generate .key and .crt files from the
 #### Alternative
 
 ```
-$ openssl genrsa 2048 > webnnmeeting.key
-$ chmod 400 webnnmeeting.key
-$ openssl req -new -x509 -nodes -sha256 -days 365 -key webnnmeeting.key -out webnnmeeting.crt
+$ openssl genrsa 2048 > webmlmeet.key
+$ chmod 400 webmlmeet.key
+$ openssl req -new -x509 -nodes -sha256 -days 365 -key webmlmeet.key -out webmlmeet.crt
 ```
 
 ### Environment Configuration
 
 Please update configurations in `config.js` under main folder.
 
-In 'Launch the OWT Server as Single Node' section of [Open WebRTC Toolkit (OWT) Server Setup](doc/Server.md), you could get values of `webrtcserver`.`id`, `webrtcserver`.`key` and `webrtcserver`.`url` like `xxx.xxx.xxx.xxx` or `https://<webrtcserver.com>`.
-
-you could get the sampleRoom id like `5df9d3661b3282c0ef1a5ee3` in command line log for `restapiserver`.`sampleroomparticipantspath`.
-
-Update `config.js` with correct info:
+Paste `sampleServiceId` and `sampleServiceKey` values in step 6 of "[Intel Open WebRTC Toolkit (OWT) Server Setup in Docker](doc/Docker.md)", or in 'Launch the OWT Server as Single Node' section of [Open WebRTC Toolkit (OWT) Server Setup](doc/Server.md), update them as the values of `id` and `key` in [config.js](config.js) like below:
 
 
 ```
 module.exports = {
   id: '5df9ca6f7415937c7a91d774',
   key: 'rGtTQokQM/OeG/9oDzK9TtFjd+OOeUmFN2dZl52mvaI4cSj1waduIJB8x21Wa9MaGqtZzV1KTWBvr7heBIgSjQjQyeBWI0RFzCTSyhFtd9jmZ994xE50Gkmb2zxkQYALef8oj8do3gT/cWfOfgq1zPooCkRtbMK1xm44Avduyj4=',
-  url: 'https://xxx.xxx.xxx.xxx:3000/',
-  httpPort: 8008,
-  httpsPort: 8080,
+  url: 'https://10.239.115.53:3000/',
+  httpPort: 8001,
+  httpsPort: 8002,
 };
 
 ```
