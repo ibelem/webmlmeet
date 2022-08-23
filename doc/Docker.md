@@ -120,7 +120,7 @@ $ node meetingserver.js
 If error happens related to port conflict, you could change ports in `config.js`.
 
 
-### How to Run
+### Test the Server in Browser
 
 If you are running the code locally, the browser will show "Your connection is not private" when accessing Intel OWT server and WebNN Meeting web pages.
 
@@ -129,7 +129,7 @@ If you are running the code locally, the browser will show "Your connection is n
 - Visit WebNN Meeting URL set in config.js, e.g: https://127.0.0.1:8002/
 - Click "Advanced" button -> Click "Proceed to 127.0.0.1 (unsafe)"
 
-## Run Wasm and WebNN in Electron.js App - TGL Laptop / Linux
+## Run Wasm and WebNN in Web-based Intelligent Collaboration Electron.js App - Linux
 
 ### Prerequisites of OpenVINO on Linux
 
@@ -155,4 +155,5 @@ You will see:
 
 - Select TensorFlowLite + DL321 + Wasm + MediaPipe (No), type any name and Join the meeting, the Wasm performance is about 2-3 FPS
 - Exit the demo, re-launch `$ web_ic_demo url=https://127.0.0.1:8002/`
+- `$ source /opt/intel/openvino_2021/bin/setupvars.sh` Run this command for WebNN/OV
 - Select TensorFlowLite + DL321 + WebNN CPU + MediaPipe (No), type any name and Join the meeting, the WebNN performance should reach much faster FPS
