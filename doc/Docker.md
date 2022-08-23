@@ -139,7 +139,7 @@ If you are running the code locally, the browser will show "Your connection is n
 2. Install and configure OpenVINO toolkit (Please refer to https://docs.openvino.ai/2021.4/openvino_docs_install_guides_installing_openvino_linux.html for more details)
 3. Set OpenVINO environment `$ source /opt/intel/openvino_2021/bin/setupvars.sh`
 
-### Launch Demo
+### Launch Web-based Intelligent Collaboration App
 
 Download web_ic_demo-linux-x64-0.0.1.zip
 
@@ -153,9 +153,10 @@ You will see:
 
 > A standalone web_ic_demo launched
 
-### WebMLMeet Demo
+### Web-based Intelligent Collaboration
 
 - Select TensorFlowLite + DL321 + Wasm + MediaPipe (No), type any name and Join the meeting, click the Background Blur button, the Wasm performance is about 2-3 FPS
 - Exit the demo, re-launch `$ ./web_ic_demo url=https://127.0.0.1:8002/`
-- Run command for OpenVINO environment: `$ source /opt/intel/openvino_2021/bin/setupvars.sh`
 - Select TensorFlowLite + DL321 + WebNN CPU + MediaPipe (No), type any name and Join the meeting, click the Background Blur button, the FPS of WebNN performance should be much faster
+
+If you exited the terminal, please make sure to set `$ source /opt/intel/openvino_2021/bin/setupvars.sh` to Initialize the OpenVINO environment beforing using WebNN OpenVINO backend.

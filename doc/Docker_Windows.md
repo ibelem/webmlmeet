@@ -129,26 +129,27 @@ If you are running the code locally, the browser will show "Your connection is n
 
 1. Download OpenVINO toolkit (w_openvino_toolkit_p_2021.4.582.exe) from http://<INTRANET>/project/webnn/demo/demoday2022/w_openvino_toolkit_p_2021.4.582.exe
 2. Install and configure OpenVINO toolkit (You could refer to https://docs.openvino.ai/latest/openvino_docs_install_guides_installing_openvino_windows.html for more details)
-3. Download WIC demo from http://<INTRANET>/project/webnn/demo/demoday2022/Web-based%20Intelligent%20Collaboration/web_ic_demo-win32-x64-0.0.1.zip
+3. Download Web-based Intelligent Collaboration app from http://<INTRANET>/project/webnn/demo/demoday2022/Web-based%20Intelligent%20Collaboration/web_ic_demo-win32-x64-0.0.1.zip
 3. Extract Demo zip file to folder "web_ic_demo-win32-x64-0.0.1"
 
-### Launch Demo
+### Launch Web-based Intelligent Collaboration App
 
 Launch Powershell or Windows Command Prompt (Terminal)
 
 ```
 > "C:\Program Files (x86)\Intel\openvino_2021\bin\setupvars.bat"
 > cd D:\projects\web_ic_demo-win32-x64-0.0.1 
-> web_ic_demo.exe url=https://<IP_ADDRESS>:8002/ (The port number was updated by you in config.js)
+> web_ic_demo.exe url=https://127.0.0.1:8002/ (The port number was updated by you in config.js)
 ```
 
 You will see:
 
 > A standalone web_ic_demo launched
 
-### WebMLMeet Demo
+### Web-based Intelligent Collaboration
 
 - Select TensorFlowLite + DL321 + Wasm + MediaPipe (No), type any name and Join the meeting, click the Background Blur button, the Wasm performance is about 2-3 FPS
 - Exit the demo, re-launch `>web_ic_demo.exe url=https://127.0.0.1:8002/`
-- Run command for OpenVINO environment: `> "C:\Program Files (x86)\Intel\openvino_2021\bin\setupvars.bat"`
 - Select TensorFlowLite + DL321 + WebNN CPU + MediaPipe (No), type any name and Join the meeting, click the Background Blur button, the FPS of WebNN performance should be much faster
+
+If you exited the terminal, please make sure to set `> "C:\Program Files (x86)\Intel\openvino_2021\bin\setupvars.bat"` to initialize the OpenVINO environment beforing using WebNN OpenVINO backend.
