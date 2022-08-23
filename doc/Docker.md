@@ -79,7 +79,7 @@ Install `Node.js v14.18.2`
 
 #### config.js
 
-Please update configurations in `config.js` under main folder.
+Please open new terminal and update configurations in `config.js` under main folder via `vim config.js`
 
 Paste `sampleServiceId` and `sampleServiceKey` values in step 6 of "Intel Open WebRTC Toolkit (OWT) Server Setup in Docker", update them as the values of `id` and `key` in [config.js](../config.js) like below:
 
