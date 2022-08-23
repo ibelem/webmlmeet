@@ -137,7 +137,7 @@ If you are running the code locally, the browser will show "Your connection is n
 2. Install and configure OpenVINO toolkit (Please refer to https://docs.openvino.ai/2021.4/openvino_docs_install_guides_installing_openvino_linux.html for more details)
 3. Set OpenVINO environment `$ source /opt/intel/openvino_2021/bin/setupvars.sh`
 
-### Demo Steps
+### Launch Demo
 
 Download web_ic_demo-linux-x64-0.0.1.zip
 
