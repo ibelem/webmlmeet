@@ -2,10 +2,10 @@
 
 ## Docker Installation
 
-Please follow the following instructions to install Docker Engine:
+Please follow the [instructions to install Docker Desktop](https://docs.docker.com/desktop/install/linux-install/).
 
-- [Install Docker Engine on Fedora](https://docs.docker.com/engine/install/fedora/)
-- [Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+- [Install Docker Desktop on Fedora](https://docs.docker.com/desktop/install/fedora/)
+- [Install Docker Desktop on Ubuntu](https://docs.docker.com/desktop/install/ubuntu/)
 
 If you are undering the proxy environment, please [Configure Docker to use a proxy server](https://docs.docker.com/network/proxy/)
 
