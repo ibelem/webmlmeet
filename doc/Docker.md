@@ -11,34 +11,34 @@ If you are undering the proxy environment, please [Configure Docker to use a pro
 
 1. Download OWT images
 
-`docker pull openvisualcloud/xeon-ubuntu1804-service-owt`
+`$ docker pull openvisualcloud/xeon-ubuntu1804-service-owt`
 
-2. Run `docker images` to get the [Image ID]
+2. Run `$ docker images` to get the [Image ID]
 3. Start OWT Server in Docker 
    
-`docker run -itd -p 8080:8080 -p 3000:3000 -p 3004:3004 -p 10000-11000:10000-11000 --name=owt1 [your image ID]`
+`$ docker run -itd -p 8080:8080 -p 3000:3000 -p 3004:3004 -p 10000-11000:10000-11000 --name=owt1 [your image ID]`
 
 4. Go to bash environment in Docker
 
-`docker exec -it owt1 bash`
+`$ docker exec -it owt1 bash`
 
 5. Update some config files
 
 ```
-cd owt
-sed -i "s/localhost/127\.0\.0\.1/" */*.toml
-apt update && apt install vim
+$ cd owt
+$ sed -i "s/localhost/127\.0\.0\.1/" */*.toml
+$ apt update && apt install vim
 ```
 
-`vim portal/portal.toml` and update `hostname` value to `127.0.0.1`
+`$ vim portal/portal.toml` and update `hostname` value to `127.0.0.1`
 
-`vim webrtc_agent/agent.toml`, update `maxport`, `minport` to `11000` and `10000`
+`$ vim webrtc_agent/agent.toml`, update `maxport`, `minport` to `11000` and `10000`
 
 6. Init OWT Service 
 
 ```
-cd ..
-./launch.sh
+$ cd ..
+$ ./launch.sh
 ```
 
 You will get logs like:
@@ -61,8 +61,8 @@ Check if the server running well by accessing `https://127.0.0.1:3004` in web br
 ### Stop or Restart the OWT Service
    
 ```
-./bin/start-all.sh
-./bin/stop-all.sh
+$ ./bin/start-all.sh
+$ ./bin/stop-all.sh
 ```
 
 ## Start the Web-based Intelligent Collaboration Server
