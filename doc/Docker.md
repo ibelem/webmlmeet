@@ -155,5 +155,5 @@ You will see:
 
 - Select TensorFlowLite + DL321 + Wasm + MediaPipe (No), type any name and Join the meeting, click the Background Blur button, the Wasm performance is about 2-3 FPS
 - Exit the demo, re-launch `$ ./web_ic_demo url=https://127.0.0.1:8002/`
-- `$ source /opt/intel/openvino_2021/bin/setupvars.sh` Run this command for WebNN/OV
+- Run command for OpenVINO environment: `$ source /opt/intel/openvino_2021/bin/setupvars.sh`
 - Select TensorFlowLite + DL321 + WebNN CPU + MediaPipe (No), type any name and Join the meeting, click the Background Blur button, the FPS of WebNN performance should be much faster
