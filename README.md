@@ -41,7 +41,7 @@ Mordern browsers including Google Chrome doesn't support WebNN API now, you can 
 
 ### Intel Open WebRTC Toolkit (OWT) Server Setup
 
-The WebNN Meeting requires WebRTC server support, please read [Server Setup](doc/Server.md) for setting up Intel Open WebRTC Toolkit (OWT) Server on CentOS* 7.6 or Ubuntu 18.04 LTS.
+The WebNN Meeting requires WebRTC server support, please read [Server Setup](doc/Server.md) for setting up Intel Open WebRTC Toolkit (OWT) Server on CentOS* 7.6 or Ubuntu 18.04 LTS. The recommend way is setting the [WebRTC server via Docker](doc/Docker.md).
 
 ### HTTPS Configuration
 
