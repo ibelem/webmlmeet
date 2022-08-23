@@ -135,6 +135,8 @@ If you are running the code locally, the browser will show "Your connection is n
 
 ### Prerequisites of OpenVINO on Linux
 
+Please open new terminal.
+
 1. Download OpenVINO toolkit from https://registrationcenter-download.intel.com/akdlm/irc_nas/18319/l_openvino_toolkit_p_2021.4.752.tgz
 2. Install and configure OpenVINO toolkit (Please refer to https://docs.openvino.ai/2021.4/openvino_docs_install_guides_installing_openvino_linux.html for more details)
 3. Set OpenVINO environment `$ source /opt/intel/openvino_2021/bin/setupvars.sh`

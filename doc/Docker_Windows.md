@@ -125,6 +125,8 @@ If you are running the code locally, the browser will show "Your connection is n
 
 ## Run Wasm and WebNN in Web-based Intelligent Collaboration Electron.js App - Windows
 
+Please open new terminal/Powershell.
+
 ## Prerequisites Steps
 
 1. Download OpenVINO toolkit (w_openvino_toolkit_p_2021.4.582.exe) from http://INTRANET/project/webnn/demo/demoday2022/w_openvino_toolkit_p_2021.4.582.exe
