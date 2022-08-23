@@ -118,8 +118,8 @@ If error happens related to port conflict, you could change ports in `config.js`
 
 If you are running the code locally, the browser will show "Your connection is not private" when accessing Intel OWT server and WIC web pages.
 
-- Visit https://xxx.xxx.xxx.xxx:8002/socket.io/?EIO=3&transport=polling
-- Click "Advanced" button -> Click "Proceed to xxx.xxx.xxx.xxx (unsafe)"
+- Visit https://127.0.0.1:8002/socket.io/?EIO=3&transport=polling
+- Click "Advanced" button -> Click "Proceed to 127.0.0.1 (unsafe)"
 - Visit WIC URL set in config.js, e.g: https://127.0.0.1:8002/
 - Click "Advanced" button -> Click "Proceed to 127.0.0.1 (unsafe)"
 
