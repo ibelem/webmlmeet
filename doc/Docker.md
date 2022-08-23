@@ -154,6 +154,6 @@ You will see:
 ### WebMLMeet Demo
 
 - Select TensorFlowLite + DL321 + Wasm + MediaPipe (No), type any name and Join the meeting, the Wasm performance is about 2-3 FPS
-- Exit the demo, re-launch `$ web_ic_demo url=https://127.0.0.1:8002/`
+- Exit the demo, re-launch `$ ./web_ic_demo url=https://127.0.0.1:8002/`
 - `$ source /opt/intel/openvino_2021/bin/setupvars.sh` Run this command for WebNN/OV
 - Select TensorFlowLite + DL321 + WebNN CPU + MediaPipe (No), type any name and Join the meeting, the WebNN performance should reach much faster FPS
