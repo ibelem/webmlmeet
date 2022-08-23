@@ -144,7 +144,7 @@ Download web_ic_demo-linux-x64-0.0.1.zip
 ```
 $ unzip web_ic_demo-linux-x64-0.0.1.zip
 $ cd web_ic_demo-linux-x64-0.0.1
-$ web_ic_demo url=https://127.0.0.1:8002/ (The port number was updated in config.js)
+$ ./web_ic_demo url=https://127.0.0.1:8002/ (The port number was updated in config.js)
 ```
 
 You will see:
