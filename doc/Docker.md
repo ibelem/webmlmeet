@@ -71,16 +71,6 @@ $ ./bin/stop-all.sh
 
 Download and upzip https://github.com/ibelem/webmlmeet/archive/refs/heads/main.zip
 
-### HTTPS Configuration
-
-Go to project main dir like `/home/belem/github/webmlmeet` and create private and public key, the certificate path need to be filled in `Line 99` and `Line 100` in `meetingserver.js`.
-
-```
-$ openssl genrsa 2048 > webmlmeet.key
-$ chmod 400 webmlmeet.key
-$ openssl req -new -x509 -nodes -sha256 -days 365 -key webmlmeet.key -out webmlmeet.crt
-```
-
 ### Environment Configuration
 
 ### Node.js
@@ -104,6 +94,16 @@ module.exports = {
 ```
 
 ### meetingserver.js
+
+Go to project main dir like `/home/belem/github/webmlmeet` and create private and public key, the certificate path need to be filled in `Line 99` and `Line 100` in `meetingserver.js`.
+
+To save your efforts, please just get the .crt and .key files in http://<INTRANET>/project/webnn/demo/demoday2022/Web-based%20Intelligent%20Collaboration/Linux/cert directly.
+
+```
+$ openssl genrsa 2048 > webmlmeet.key
+$ chmod 400 webmlmeet.key
+$ openssl req -new -x509 -nodes -sha256 -days 365 -key webmlmeet.key -out webmlmeet.crt
+```
 
 Update `meetingserver.js`:
 
