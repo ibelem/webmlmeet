@@ -1,9 +1,17 @@
-# oneWebmeet (Intelligent Collaboration)
-A Web-based Intelligent Collaboration (Video Conference) demo with AI features based on up to date W3C Web Neural Network API and powered by Intel Open WebRTC Toolkit (OWT).
+# Web-based Intelligent Collaboration
+
+A Web-based Intelligent Collaboration (WIC) demo, which integrated emerging Web APIs including Wasm, WebGL, and up to date W3C Web Neural Network API (WebNN), running on the on-device hardware such as CPU, GPU or purpose-built AI accelerators like Intel VPU.
 
 > [Web Neural Network (WebNN) API](https://webmachinelearning.github.io/webnn/) is a dedicated low-level API for neural network inference hardware acceleration. It is published by the [W3C Machine Learning for the Web Community Group](https://www.w3.org/community/webmachinelearning/).
 
-## Features 
+## Features
+
+### Video Conference Features
+
+- Video and audio
+- Screen sharing
+- Conversation / Text message
+- ...
 
 ### Web Machine Learning Features
 
@@ -12,26 +20,11 @@ A Web-based Intelligent Collaboration (Video Conference) demo with AI features b
 - Noise suppression
 - More to come
 
-### Normal Video Conference Features
-
-- Video and audio
-- Screen sharing
-- Conversation / Text message
-- ...
-
-### Screenshot
-
-<img src="doc/screenshot1.png" alt="WebNN Meeting" width="60%">
-<img src="doc/screenshot2.png" alt="WebNN Meeting" width="60%">
-
-### Supported Backends for Web Machine Learning Features
-
+#### Supported Backends
 - Slowest: WebAssembly (Wasm) + SIMD
 - Fastest: Web Neural Network (WebNN) API
 
-Mordern browsers including Google Chrome doesn't support WebNN API now, you can try Wasm backend automatically with your browser. 
-
-### Web Machine Learning JavaScript Frameworks
+#### Machine Learning JavaScript Frameworks Integration
 
 - [TensorFlow Lite Web](https://github.com/tensorflow/tfjs/tree/master/tfjs-tflite) +/- [MediaPipe in JavaScript](https://google.github.io/mediapipe/getting_started/javascript)
 - [TensorFlow.js](https://www.tensorflow.org/js)
@@ -41,11 +34,11 @@ Mordern browsers including Google Chrome doesn't support WebNN API now, you can 
 
 ### Intel Open WebRTC Toolkit (OWT) Server Setup
 
-The WebNN Meeting requires WebRTC server support, please read [Server Setup](doc/Server.md) for setting up Intel Open WebRTC Toolkit (OWT) Server on CentOS* 7.6 or Ubuntu 18.04 LTS. The recommend way is setting the [WebRTC server via Docker](doc/Docker.md).
+The WIC demo requires WebRTC server support, please [set up Intel Open WebRTC Toolkit (OWT) Server](doc/Server.md) on Linux. The recommend way is setting the WebRTC server via Docker on [Linux](doc/Docker_Linux.md) or [Windows](doc/Docker_Windows.md).
 
 ### HTTPS Configuration
 
-Go to project main dir like `/home/belem/github/webmlmeet` and create private and public key, the certificate path need to be filled in `Line 99` and `Line 100` in `meetingserver.js`.
+Go to project main dir like `/home/belem/github/wic` and create private and public key, the certificate path need to be filled in `Line 99` and `Line 100` in `meetingserver.js`.
 
 #### Recommend 
 
@@ -60,16 +53,14 @@ Use the .pem and key.pem files directly or generate .key and .crt files from the
 #### Alternative
 
 ```
-$ openssl genrsa 2048 > webmlmeet.key
-$ chmod 400 webmlmeet.key
-$ openssl req -new -x509 -nodes -sha256 -days 365 -key webmlmeet.key -out webmlmeet.crt
+$ openssl genrsa 2048 > wic.key
+$ chmod 400 wic.key
+$ openssl req -new -x509 -nodes -sha256 -days 365 -key wic.key -out wic.crt
 ```
 
 ### Environment Configuration
 
-Please update configurations in `config.js` under main folder.
-
-Paste `sampleServiceId` and `sampleServiceKey` values in step 6 of "[Intel Open WebRTC Toolkit (OWT) Server Setup in Docker](doc/Docker.md)", or in 'Launch the OWT Server as Single Node' section of [Open WebRTC Toolkit (OWT) Server Setup](doc/Server.md), update them as the values of `id` and `key` in [config.js](config.js) like below:
+Update configurations in `config.js` under main folder, paste `sampleServiceId` and `sampleServiceKey` values from WebRTC server via Docker on [Linux](doc/Docker_Linux.md) or [Windows](doc/Docker_Windows.md), or in 'Launch the OWT Server as Single Node' section of [Open WebRTC Toolkit (OWT) Server Setup](doc/Server.md), update them as the values of `id` and `key` in [config.js](config.js) like below:
 
 
 ```
@@ -86,8 +77,8 @@ module.exports = {
 Update `meetingserver.js`:
 
 ```
-cert: fs.readFileSync('cert/webmlmeet.crt'),
-key: fs.readFileSync('cert/webmlmeet.key'),
+cert: fs.readFileSync('cert/wic.crt'),
+key: fs.readFileSync('cert/wic.key'),
 ```
 
 ### Build
@@ -101,31 +92,15 @@ If error happens related to port conflict, you could change ports in `config.js`
 
 ### How to Run
 
-If you are running the code locally, the browser will show "Your connection is not private" when accessing Intel OWT server and WebNN Meeting web pages.
+If you are running the code locally, the browser will show "Your connection is not private" when accessing Intel OWT server and WIC demo:
 
 - Visit https://xxx.xxx.xxx.xxx:8080/socket.io/?EIO=3&transport=polling
 - Click "Advanced" button -> Click "Proceed to xxx.xxx.xxx.xxx (unsafe)"
-- Visit WebNN Meeting URL set in config.js, e.g: https://127.0.0.1:8888/
+- Visit WIC demo URL set in config.js, e.g: https://127.0.0.1:8001/
 - Click "Advanced" button -> Click "Proceed to 127.0.0.1 (unsafe)"
 
-### macOS
-
-Once you are using macOS and it says "Your connection is not private", click somewhere on the page and then blindly type `thisisunsafe` which will instantly bypass the warning.
+> On macOS if it says "Your connection is not private", click somewhere on the page and then blindly type `thisisunsafe` which will instantly bypass the warning.
 
 ## License
 
 The License of oneWebMeet is Apache 2.0.
-
-## Code and Errors
-
-### Code Hacks
-
-There are some code hacks in Intel Open WebRTC Toolkit (OWT), please refer to [code hacks](doc/CodeHacks.md).
-
-### Error Handling
-
-If you encounter the error `ENOSPC: System limit for number of file watchers reached, watch`  when build the project on Ubuntu, please try: 
-
-```
-echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-```

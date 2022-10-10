@@ -1,4 +1,4 @@
-# Run OWT Server, WIC Server and WIC demo client on the same Linux device
+# Run OWT Server, WIC Server and WIC demo on the same Linux device
 
 ## Docker Installation
 
@@ -96,8 +96,6 @@ module.exports = {
 ### meetingserver.js
 
 Go to project main dir like `/home/belem/github/webmlmeet` and create private and public key, the certificate path need to be filled in `Line 99` and `Line 100` in `meetingserver.js`.
-
-To save your efforts, please just get the .crt and .key files in http://INTRANET/project/webnn/demo/demoday2022/Web-based%20Intelligent%20Collaboration/Linux/cert directly.
 
 ```
 $ openssl genrsa 2048 > webmlmeet.key

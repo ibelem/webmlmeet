@@ -1,4 +1,4 @@
-# Run OWT Server, WIC Server and WIC demo client on the same Windows device
+# Run OWT Server, WIC Server and WIC demo on the same Windows device
 
 ## Install Docker Desktop on Windows
 
@@ -96,8 +96,7 @@ module.exports = {
 
 Go to project main dir like `D:\projects\webmlmeet` and create private and public key, the certificate path need to be filled in `Line 99` and `Line 100` in `meetingserver.js`.
 
-We may need to install OpenSSL on Windows to generate the certificate files, to save your efforts, please just get the .crt and .key files in http://INTRANET/project/webnn/demo/demoday2022/Web-based%20Intelligent%20Collaboration/Windows/cert directly.
-
+We need to install OpenSSL on Windows to generate the certificate files.
 
 ```
 cert: fs.readFileSync('cert/webmlmeet.crt'),

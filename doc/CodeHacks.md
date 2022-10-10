@@ -1,8 +1,14 @@
-There are some code hacks for running the app better.
+## Error Handling
+
+If you encounter the error `ENOSPC: System limit for number of file watchers reached, watch`  when build the project on Ubuntu, please try: 
+
+```
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```
 
 ## Intel Open WebRTC Toolkit (OWT)
 
-### Update `js/owt/conference/channel.js` code
+### Update `js/owt/conference/channel.js` code: part A
 
 ```
   if (options.audio === undefined) {
@@ -20,6 +26,8 @@ to following for fixing a screen sharing mode issue caused by audio option:
     }
   }
 ```
+
+### Update `js/owt/conference/channel.js` code: part B
 
 ```
   const publicationId =
@@ -67,26 +75,26 @@ to
 
 This project is using several latest W3C Web APIs implemented in morden browsers.
 
-[Open WebRTC Toolkit JavaScript SDK 5.1+](https://github.com/open-webrtc-toolkit/owt-client-javascript)
+- [Open WebRTC Toolkit JavaScript SDK 5.1+](https://github.com/open-webrtc-toolkit/owt-client-javascript)
 
-[W3C WebRTC 1.0: Real-Time Communication Between Browsers](https://w3c.github.io/webrtc-pc/)
+- [W3C WebRTC 1.0: Real-Time Communication Between Browsers](https://w3c.github.io/webrtc-pc/)
 
-| API  | Chrome |
-| ------------- | ------------- |
-| `RTCPeerConnection`  | 97  |
-| `RTCRtpTransceiver` | 97 |
+  | API  | Chrome |
+  | ------------- | ------------- |
+  | `RTCPeerConnection`  | 97  |
+  | `RTCRtpTransceiver` | 97 |
 
-[W3C MediaStreamTrack Insertable Media Processing using Streams](https://w3c.github.io/mediacapture-transform/)
+- [W3C MediaStreamTrack Insertable Media Processing using Streams](https://w3c.github.io/mediacapture-transform/)
 
-| API  | Chrome |
-| ------------- | ------------- |
-| `MediaStreamTrackProcessor`  | 97 |
-| `MediaStreamTrackGenerator`  | The version that the WebRTC WG is [currently iterating](https://github.com/webmachinelearning/webnn/issues/226) on for MediaStreamTrackGenerator is slightly different from what Chrome 87 implements |
+  | API  | Chrome |
+  | ------------- | ------------- |
+  | `MediaStreamTrackProcessor`  | 97 |
+  | `MediaStreamTrackGenerator`  | The version that the WebRTC WG is [currently iterating](https://github.com/webmachinelearning/webnn/issues/226) on for MediaStreamTrackGenerator is slightly different from what Chrome 87 implements |
 
-[W3C Web Neural Network API](https://webmachinelearning.github.io/webnn/)
+- [W3C Web Neural Network API](https://webmachinelearning.github.io/webnn/)
 
-| API  | Chrome |
-| ------------- | ------------- |
-| `navigator.ml`  | Not supported in 2022 |
-| `MLGraphBuilder`  | Not supported in 2022 |
+  | API  | Chrome |
+  | ------------- | ------------- |
+  | `navigator.ml`  | 2022 |
+  | `MLGraphBuilder`  | 2023 |
 
