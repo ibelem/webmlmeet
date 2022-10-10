@@ -100,7 +100,3 @@ If you are running the code locally, the browser will show "Your connection is n
 - Click "Advanced" button -> Click "Proceed to 127.0.0.1 (unsafe)"
 
 > On macOS if it says "Your connection is not private", click somewhere on the page and then blindly type `thisisunsafe` which will instantly bypass the warning.
-
-## License
-
-The License of oneWebMeet is Apache 2.0.
