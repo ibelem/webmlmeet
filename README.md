@@ -30,15 +30,16 @@ A Web-based Intelligent Collaboration (WIC) demo, which integrated emerging Web 
 - [TensorFlow.js](https://www.tensorflow.org/js)
 - [ONNX Runtime Web](https://github.com/microsoft/onnxruntime/tree/master/js/web#readme)
 
-## Precondition and Setup
+## Precondition
 
-### Intel Open WebRTC Toolkit (OWT) Server Setup
+- The WIC demo requires WebRTC server support, you can [set up Intel Open WebRTC Toolkit (OWT) Server](doc/Server.md) on Linux host.
+- The recommend way is setting the OWT server via Docker on [Linux](doc/Docker_Linux.md) or [Windows](doc/Docker_Windows.md).
 
-The WIC demo requires WebRTC server support, please [set up Intel Open WebRTC Toolkit (OWT) Server](doc/Server.md) on Linux. The recommend way is setting the WebRTC server via Docker on [Linux](doc/Docker_Linux.md) or [Windows](doc/Docker_Windows.md).
+## Setup
 
 ### HTTPS Configuration
 
-Go to project main dir like `/home/belem/github/wic` and create private and public key, the certificate path need to be filled in `Line 99` and `Line 100` in `meetingserver.js`.
+Go to this project main dir, and create private and public key.
 
 #### Recommend 
 
@@ -48,7 +49,7 @@ Visit https://github.com/FiloSottile/mkcert, install mkcert
 $ mkcert -install
 $ mkcert yourdomain.com xxx.xxx.xxx.xxx localhost 127.0.0.1 ::1
 ```
-Use the .pem and key.pem files directly or generate .key and .crt files from these .pem files.
+Use the .pem and key.pem files directly or generate .key and .crt files from these .pem files. Fill the certificate path in `Line 99` and `Line 100` in `meetingserver.js`
 
 #### Alternative
 
