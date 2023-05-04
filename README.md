@@ -1,3 +1,7 @@
+# Deprecated
+
+Please visit https://github.com/ibelem/gathering-with-others for up to date version.
+
 # Web-based Intelligent Collaboration
 
 A Web-based Intelligent Collaboration (WIC) demo, which integrated emerging Web APIs including Wasm, WebGL, and up to date W3C Web Neural Network API (WebNN), running on the on-device hardware such as CPU, GPU or purpose-built AI accelerators like Intel VPU.
@@ -21,6 +25,7 @@ A Web-based Intelligent Collaboration (WIC) demo, which integrated emerging Web 
 - More to come
 
 #### Supported Backends
+
 - Slowest: WebAssembly (Wasm) + SIMD
 - Fastest: Web Neural Network (WebNN) API
 
@@ -41,7 +46,7 @@ A Web-based Intelligent Collaboration (WIC) demo, which integrated emerging Web 
 
 Go to this project main dir, and create private and public key.
 
-#### Recommend 
+#### Recommend
 
 Visit https://github.com/FiloSottile/mkcert, install mkcert
 
@@ -49,6 +54,7 @@ Visit https://github.com/FiloSottile/mkcert, install mkcert
 $ mkcert -install
 $ mkcert yourdomain.com xxx.xxx.xxx.xxx localhost 127.0.0.1 ::1
 ```
+
 Use the .pem and key.pem files directly or generate .key and .crt files from these .pem files. Fill the certificate path in `Line 99` and `Line 100` in `meetingserver.js`
 
 #### Alternative
@@ -62,7 +68,6 @@ $ openssl req -new -x509 -nodes -sha256 -days 365 -key wic.key -out wic.crt
 ### Environment Configuration
 
 Update configurations in `config.js` under main folder, paste `sampleServiceId` and `sampleServiceKey` values from WebRTC server via Docker on [Linux](doc/Docker_Linux.md) or [Windows](doc/Docker_Windows.md), or in 'Launch the OWT Server as Single Node' section of [Open WebRTC Toolkit (OWT) Server Setup](doc/Server.md), update them as the values of `id` and `key` in [config.js](config.js) like below:
-
 
 ```
 module.exports = {
@@ -84,9 +89,9 @@ key: fs.readFileSync('cert/wic.key'),
 
 ### Build
 
-``` bash
+```bash
 $ npm install
-$ node meetingserver.js 
+$ node meetingserver.js
 ```
 
 If error happens related to port conflict, you could change ports in `config.js`.
